@@ -2,7 +2,33 @@
 Cisco Open SDN Controller Learning Labs code.
 Learning Lab for Cisco Open Software-Defined-Network Controller (COSC).
 
-The licence that applies to this Learning Lab is in file LICENCE.txt
+The licence that applies to this Learning Lab is in file [LICENCE](LICENSE)
+
+##Pre-requisites
+* Python 2.7 or 3.4 (including pip or pip3)
+* SDN Controller (such as ODL or COSC)
+* Network Devices
+
+##Add this project to your Python Path
+Follow these [instructions](docs/python_path.md)
+
+##Configure the settings
+* SDN Controller
+* Network Devices
+Follow these [instructions](docs/settings.md)
+```
+cd <git>/cosc-learning-labs/src/settings
+```
+
+##Go to the src/learning_lab directory
+```
+cd <git>/cosc-learning-labs/src/learning_lab
+```
+
+##Run the sample scripts
+```
+./01_inventory_connected.py
+```
 
 The instructions are in file:
 
