@@ -1,10 +1,10 @@
 #Integration of this project into the Python environment
-All required packages will also be downloaded and installed.
+The Python packages of this project will be appended to the Python *path*.
+All required packages will be downloaded and appended to the Python *path*.
 
 Suggested techniques for achieving the required integration:
 * Modify the current Python environment of your computer
 * Create and modify a virtual, temporary Python environment
-
 
 ##Modify the current Python environment of your computer
 This technique is recommended when your computer is a virtual computer, such as Ubuntu running on VMWare.
