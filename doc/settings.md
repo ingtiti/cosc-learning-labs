@@ -12,7 +12,7 @@ To display the settings:
 ```bash
 cat ~/git/cosc-learning-labs/src/settings/${NETWORK_PROFILE}.py
 ```
-Output:
+Sample output:
 ```python
 config = {
  'network_device': {'xrvr-1':{
