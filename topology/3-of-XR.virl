@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.8" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.8/virl.xsd">
+    <extensions>
+        <entry key="management_network" type="String">flat</entry>
+        <entry key="AutoNetkit.IGP" type="String">isis</entry>
+        <entry key="AutoNetkit.address_family" type="String">v4</entry>
+    </extensions>
+    <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="316,159" vmImage="IOS XRv-5.1.1.53U [7947167e-d86b-4902-8821-3f0cccb95174]" vmFlavor="IOS XRv [d364cdf1-0419-46bf-b142-c304d87ab19f]" ipv4="192.168.0.2">
+        <extensions>
+            <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
+            <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
+ssh server netconf port 830
+ssh timeout 120
+netconf agent ssh</entry>
+            <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
+            <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
+            <entry key="AutoNetkit.RR_cluster" type="String">64496</entry>
+            <entry key="config" type="String">!  IOS-XR Config generated on 2014-11-18 09:24
+! by VIRL Configuration Engine 0.9.9
+!
+hostname iosxrv-2
+service timestamps log datetime msec
+service timestamps debug datetime msec
+telnet vrf default ipv4 server max-servers 10
+domain lookup disable
+line template vty
+timestamp
+exec-timeout 720 0
+!
+line console
+exec-timeout 0 0
+!
+line default
+exec-timeout 720 0
+!
+vty-pool default 0 50
+control-plane
+ management-plane
+  inband
+   interface all
+    allow all
+   !
+  !
+ !
+!
+!
+ssh server v2
+ssh server netconf port 830
+ssh timeout 120
+netconf agent ssh
+!
+!
+interface Loopback0
+  description Loopback
+  ipv4 address 192.168.0.2 255.255.255.255
+!
+interface GigabitEthernet0/0/0/0
+  description to iosxrv-1
+  ipv4 address 10.0.0.5 255.255.255.252
+  no shutdown
+!
+interface GigabitEthernet0/0/0/1
+  description to iosxrv-3
+  ipv4 address 10.0.128.6 255.255.255.252
+  no shutdown
+!
+interface GigabitEthernet0/0/0/2
+  description to ODL
+  ipv4 address 10.0.0.1 255.255.255.252
+  no shutdown
+!
+interface mgmteth0/0/CPU0/0
+  description OOB Management
+  ! Configured on launch
+  no ipv4 address
+  no shutdown
+!
+!
+!
+router isis 64496
+  net 49.1921.6800.0002.00
+  address-family ipv4 unicast
+    metric-style wide
+  !
+  interface Loopback0
+    passive
+    circuit-type level-2-only
+    address-family ipv4 unicast
+  !
+  interface GigabitEthernet0/0/0/0
+    circuit-type level-2-only
+    point-to-point
+    address-family ipv4 unicast
+        metric 1
+    !
+  !
+  interface GigabitEthernet0/0/0/1
+    circuit-type level-2-only
+    point-to-point
+    address-family ipv4 unicast
+        metric 1
+    !
+  !
+  interface GigabitEthernet0/0/0/2
+    circuit-type level-2-only
+    point-to-point
+    address-family ipv4 unicast
+        metric 1
+    !
+  !
+!
+route-policy bgp_in
+  pass
+end-policy
+!
+route-policy bgp_out
+  pass
+end-policy
+!
+router bgp 64496
+  bgp router-id 192.168.0.2
+  address-family ipv4 unicast
+    network 192.168.0.2/32
+  !
+! iBGP
+!
+! iBGP peers
+  !
+  neighbor 192.168.0.1
+    description iBGP peer iosxrv-1
+    remote-as 64496
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+  !
+  neighbor 192.168.0.3
+    description iBGP peer iosxrv-3
+    remote-as 64496
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+!
+</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0" ipv4="10.0.0.5" netPrefixLenV4="30"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.128.6" netPrefixLenV4="30"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2" ipv4="10.0.0.1" netPrefixLenV4="30"/>
+    </node>
+    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="143,77" vmImage="IOS XRv-5.1.1.53U [7947167e-d86b-4902-8821-3f0cccb95174]" vmFlavor="IOS XRv [d364cdf1-0419-46bf-b142-c304d87ab19f]" ipv4="192.168.0.1">
+        <extensions>
+            <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
+ssh server netconf port 830
+ssh timeout 120
+netconf agent ssh
+</entry>
+            <entry key="config" type="String">!  IOS-XR Config generated on 2014-11-18 09:24
+! by VIRL Configuration Engine 0.9.9
+!
+hostname iosxrv-1
+service timestamps log datetime msec
+service timestamps debug datetime msec
+telnet vrf default ipv4 server max-servers 10
+domain lookup disable
+line template vty
+timestamp
+exec-timeout 720 0
+!
+line console
+exec-timeout 0 0
+!
+line default
+exec-timeout 720 0
+!
+vty-pool default 0 50
+control-plane
+ management-plane
+  inband
+   interface all
+    allow all
+   !
+  !
+ !
+!
+!
+ssh server v2
+ssh server netconf port 830
+ssh timeout 120
+netconf agent ssh
+
+!
+!
+interface Loopback0
+  description Loopback
+  ipv4 address 192.168.0.1 255.255.255.255
+!
+interface GigabitEthernet0/0/0/0
+  description to iosxrv-2
+  ipv4 address 10.0.0.6 255.255.255.252
+  no shutdown
+!
+interface GigabitEthernet0/0/0/1
+  description to iosxrv-3
+  ipv4 address 10.0.128.1 255.255.255.252
+  no shutdown
+!
+interface mgmteth0/0/CPU0/0
+  description OOB Management
+  ! Configured on launch
+  no ipv4 address
+  no shutdown
+!
+!
+!
+router isis 64496
+  net 49.1921.6800.0001.00
+  address-family ipv4 unicast
+    metric-style wide
+  !
+  interface Loopback0
+    passive
+    circuit-type level-2-only
+    address-family ipv4 unicast
+  !
+  interface GigabitEthernet0/0/0/0
+    circuit-type level-2-only
+    point-to-point
+    address-family ipv4 unicast
+        metric 1
+    !
+  !
+  interface GigabitEthernet0/0/0/1
+    circuit-type level-2-only
+    point-to-point
+    address-family ipv4 unicast
+        metric 1
+    !
+  !
+!
+route-policy bgp_in
+  pass
+end-policy
+!
+route-policy bgp_out
+  pass
+end-policy
+!
+router bgp 64496
+  bgp router-id 192.168.0.1
+  address-family ipv4 unicast
+    network 192.168.0.1/32
+  !
+! iBGP
+!
+! iBGP peers
+  !
+  neighbor 192.168.0.2
+    description iBGP peer iosxrv-2
+    remote-as 64496
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+  !
+  neighbor 192.168.0.3
+    description iBGP peer iosxrv-3
+    remote-as 64496
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+!
+</entry>
+            <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
+            <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
+            <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
+            <entry key="AutoNetkit.RR_cluster" type="String">64496</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0" ipv4="10.0.0.6" netPrefixLenV4="30"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.128.1" netPrefixLenV4="30"/>
+    </node>
+    <node name="ODL" type="SIMPLE" subtype="server" location="390,43" ipv4="172.16.1.1" excludeFromLaunch="true">
+        <extensions>
+            <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
+            <entry key="AutoNetkit.RR_cluster" type="String">64496</entry>
+            <entry key="config" type="string">#cloud-config
+hostname: ODL
+runcmd:
+- start ttyS0
+- systemctl start getty@ttyS0.service
+- ifconfig eth1 up 10.0.0.2 netmask 255.255.255.252
+- route add -host 192.168.0.1 gw 10.0.0.1 dev eth1
+- route add -net 10.0.0.0/30 gw 10.0.0.1 dev eth1
+- route add -net 10.0.0.4/30 gw 10.0.0.1 dev eth1
+- route add -net 10.0.128.0/29 gw 10.0.0.1 dev eth1
+- route add -net 192.168.0.2/31 gw 10.0.0.1 dev eth1
+- sed -i '1 i 127.0.0.1 ODL' /etc/hosts
+- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config
+- service ssh restart
+- service sshd restart
+users:
+- default
+- gecos: User configured by VIRL Configuration Engine 0.9.9
+  lock-passwd: false
+  name: cisco
+  plain-text-passwd: cisco
+  shell: /bin/bash
+  ssh-authorized-keys:
+  - VIRL-USER-SSH-PUBLIC-KEY
+  sudo: ALL=(ALL) ALL
+write_files:
+- path: /etc/init/ttyS0.conf
+  owner: root:root
+  content: |
+    # ttyS0 - getty
+    # This service maintains a getty on ttyS0 from the point the system is
+    # started until it is shut down again.
+    start on stopped rc or RUNLEVEL=[12345]
+    stop on runlevel [!12345]
+    respawn
+    exec /sbin/getty -L 115200 ttyS0 vt102
+  permissions: '0644'
+- path: /etc/systemd/system/dhclient@.service
+  content: |
+    [Unit]
+    Description=Run dhclient on %i interface
+    After=network.target
+    [Service]
+    Type=oneshot
+    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease
+    RemainAfterExit=yes
+  owner: root:root
+  permissions: '0644'
+</entry>
+        </extensions>
+        <interface id="0" name="eth1" ipv4="10.0.0.2" netPrefixLenV4="30"/>
+    </node>
+    <node name="iosxrv-3" type="SIMPLE" subtype="IOS XRv" location="165,210" vmImage="IOS XRv-5.1.1.53U [7947167e-d86b-4902-8821-3f0cccb95174]" vmFlavor="IOS XRv [d364cdf1-0419-46bf-b142-c304d87ab19f]" ipv4="192.168.0.3">
+        <extensions>
+            <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
+            <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
+ssh server netconf port 830
+ssh timeout 120
+netconf agent ssh</entry>
+            <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
+            <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
+            <entry key="AutoNetkit.RR_cluster" type="String">64496</entry>
+            <entry key="config" type="String">!  IOS-XR Config generated on 2014-11-18 09:24
+! by VIRL Configuration Engine 0.9.9
+!
+hostname iosxrv-3
+service timestamps log datetime msec
+service timestamps debug datetime msec
+telnet vrf default ipv4 server max-servers 10
+domain lookup disable
+line template vty
+timestamp
+exec-timeout 720 0
+!
+line console
+exec-timeout 0 0
+!
+line default
+exec-timeout 720 0
+!
+vty-pool default 0 50
+control-plane
+ management-plane
+  inband
+   interface all
+    allow all
+   !
+  !
+ !
+!
+!
+ssh server v2
+ssh server netconf port 830
+ssh timeout 120
+netconf agent ssh
+!
+!
+interface Loopback0
+  description Loopback
+  ipv4 address 192.168.0.3 255.255.255.255
+!
+interface GigabitEthernet0/0/0/0
+  description to iosxrv-2
+  ipv4 address 10.0.128.5 255.255.255.252
+  no shutdown
+!
+interface GigabitEthernet0/0/0/1
+  description to iosxrv-1
+  ipv4 address 10.0.128.2 255.255.255.252
+  no shutdown
+!
+interface mgmteth0/0/CPU0/0
+  description OOB Management
+  ! Configured on launch
+  no ipv4 address
+  no shutdown
+!
+!
+!
+router isis 64496
+  net 49.1921.6800.0003.00
+  address-family ipv4 unicast
+    metric-style wide
+  !
+  interface Loopback0
+    passive
+    circuit-type level-2-only
+    address-family ipv4 unicast
+  !
+  interface GigabitEthernet0/0/0/0
+    circuit-type level-2-only
+    point-to-point
+    address-family ipv4 unicast
+        metric 1
+    !
+  !
+  interface GigabitEthernet0/0/0/1
+    circuit-type level-2-only
+    point-to-point
+    address-family ipv4 unicast
+        metric 1
+    !
+  !
+!
+route-policy bgp_in
+  pass
+end-policy
+!
+route-policy bgp_out
+  pass
+end-policy
+!
+router bgp 64496
+  bgp router-id 192.168.0.3
+  address-family ipv4 unicast
+    network 192.168.0.3/32
+  !
+! iBGP
+!
+! iBGP peers
+  !
+  neighbor 192.168.0.1
+    description iBGP peer iosxrv-1
+    remote-as 64496
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+  !
+  neighbor 192.168.0.2
+    description iBGP peer iosxrv-2
+    remote-as 64496
+    update-source Loopback0
+    address-family ipv4 unicast
+    !
+    !
+!
+</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0" ipv4="10.0.128.5" netPrefixLenV4="30"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.128.2" netPrefixLenV4="30"/>
+    </node>
+    <connection dst="/virl:topology/virl:node[1]/virl:interface[1]" src="/virl:topology/virl:node[2]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[1]/virl:interface[2]" src="/virl:topology/virl:node[4]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[2]" src="/virl:topology/virl:node[4]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[1]/virl:interface[3]" src="/virl:topology/virl:node[3]/virl:interface[1]"/>
+</topology>
