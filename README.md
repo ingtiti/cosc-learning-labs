@@ -7,7 +7,7 @@ The licence that applies to this Learning Lab is in file [LICENCE](LICENSE)
 ##Pre-requisites
 * Python 2.7 or 3.4 (including pip or pip3)
 * SDN Controller (such as ODL or COSC)
-* Network Devices
+* Network Devices (Netconf enabled)
 
 ##Add this project to your Python Path
 Follow these [instructions](doc/python_path.md)
