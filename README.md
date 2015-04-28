@@ -9,10 +9,10 @@ The licence that applies to this Learning Lab is in file [LICENCE](LICENSE)
 * SDN Controller (such as ODL or COSC)
 * Network Devices (Netconf enabled)
 
-##Add this project to your Python Path
+##Add project cosc-learning-labs to your Python Path
 Follow these [instructions](doc/python_path.md)
 
-##Configure the settings
+##Configure your settings
 * SDN Controller
 * Network Devices
 Follow these [instructions](doc/settings.md)
