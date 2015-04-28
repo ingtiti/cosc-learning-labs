@@ -34,7 +34,7 @@ setup(
     version='1.0',
     packages=['basics', 'learning_lab', 'settings', ],
     license='Apache License, Version 2.0',
-    long_description=read('../README.txt'),
+    long_description=read('../README.md'),
     install_requires=[
         "requests",
         "ipaddress",
