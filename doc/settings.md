@@ -24,11 +24,6 @@ config = {
                      'address': '172.16.1.52',
                      'port': 830,
                      'password': 'cisco',
-                     'username': 'cisco'},
-                    'xrvr-999':{
-                     'address': '172.16.1.999',
-                     'port': 830,
-                     'password': 'cisco',
                      'username': 'cisco'}},
  'odl_server': {'address': '172.16.1.1',
                 'port': 8181,
