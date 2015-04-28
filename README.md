@@ -2,7 +2,7 @@
 Cisco Open SDN Controller Learning Labs code.
 Learning Lab for Cisco Open Software-Defined-Network Controller (COSC).
 
-The licence that applies to this Learning Lab is in file LICENCE.txt
+The licence that applies to this Learning Lab is in file LICENCE
 
 The instructions are in file:
 
