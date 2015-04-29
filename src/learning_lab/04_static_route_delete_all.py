@@ -35,11 +35,14 @@ def demonstrate(device_name):
     print()
     print('static_route_list(%s)' % device_name)
     route_list = static_route_list(device_name)
-    print('\t', [str(route) for route in route_list])
-    for destination_network in route_list:
-        print()
-        print('static_route_delete(' + device_name, destination_network, sep=', ', end=')\n')
-        static_route_delete(device_name, destination_network)
+    if not route_list:
+        print('\t', None)
+    else:
+        print('\t', [str(route) for route in route_list])
+        for destination_network in route_list:
+            print()
+            print('static_route_delete(' + device_name, destination_network, sep=', ', end=')\n')
+            static_route_delete(device_name, destination_network)
     return bool(route_list)
 
 def main():
