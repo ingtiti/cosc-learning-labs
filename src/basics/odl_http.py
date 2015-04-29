@@ -90,6 +90,7 @@ def odl_http_request(
         else  response.status_code == expected_status_code
     if not status_code_ok:
         msg = 'Expected HTTP status code %s, got %d, response: %s' % (expected_status_code, response.status_code, response.text)
+        #print(response.url)
         raise Exception(msg)
     else:
         return response
