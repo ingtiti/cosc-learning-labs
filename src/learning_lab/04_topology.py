@@ -21,6 +21,8 @@
 from __future__ import print_function as _print_function
 from basics.interpreter import sys_exit
 from basics.topology import topology
+from pydoc import plain
+from pydoc import render_doc as doc
 import os
 
 def main():
@@ -33,6 +35,7 @@ def main():
     The request for the Yang container *does* succeed:
     http://127.0.0.1:8181/restconf/operational/network-topology:network-topology
     '''
+    print(plain(doc(topology)))
     try:
         print(topology("operational"))
         return os.EX_OK
