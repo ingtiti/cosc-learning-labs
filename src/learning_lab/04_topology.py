@@ -21,6 +21,7 @@
 from __future__ import print_function as _print_function
 from basics.interpreter import sys_exit
 from basics.topology import topology
+import os
 
 def main():
     '''
@@ -34,8 +35,10 @@ def main():
     '''
     try:
         print(topology("operational"))
+        return os.EX_OK
     except Exception as e:
         print(e)
+        return os.EX_SOFTWARE
 
 if __name__ == "__main__":
     sys_exit(main())
