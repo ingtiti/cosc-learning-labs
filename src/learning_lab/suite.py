@@ -33,6 +33,11 @@ def run_script(script):
         # Don't actually exit, though.              
         return e.code
 
+# Run settings scripts.
+run_script('00_settings')
+run_script('00_devices')
+run_script('00_controller')
+
 # Run device scripts. Context: all devices mounted.
 run_script('01_inventory_dismount_atomic')
 while EX_OK == run_script('01_device_connect'):
@@ -53,7 +58,7 @@ run_script('01_device_mount')
 
 # Run device scripts. Context: one device connected.
 run_script('01_inventory_dismount_atomic')
-assert EX_OK == run_script('01_device_connect')
+assert EX_OK == run_script('01_device_connect'), "Expected (at least) one connected device, got zero."
 run_script('01_device_mounted')
 run_script('01_device_connected')
 run_script('01_device_dismount')
@@ -142,6 +147,8 @@ finally:
     while run_script('03_interface_startup') == EX_OK:
         continue
 
+run_script('04_routes')
+run_script('04_topology')
 run_script('04_story')
 run_script('05_story')
       
