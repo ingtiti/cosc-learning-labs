@@ -44,6 +44,9 @@ if __name__ == "__main__":
     print('settings.config:')
     print('    odl_server:')
     [print('        ',k,'=',v) for (k,v) in settings.config['odl_server'].items()]
+    if 'cosc_server' in settings.config: 
+        print('    cosc_server:')
+        [print('        ',k,'=',v) for (k,v) in settings.config['cosc_server'].items()]
     
     # Network device co-ordinates.     
     print('    network_device:')

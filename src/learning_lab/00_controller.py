@@ -38,3 +38,21 @@ if __name__ == "__main__":
     finally:
         s.close()
         del s
+
+    # Authentication server end-point
+    if 'cosc_server' in settings.config:
+        controller = settings.config['cosc_server']
+        controller_port = controller['auth_port']
+    
+        # Socket
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        
+        # Connect
+        try:
+            s.connect((controller_address, controller_port))
+            print('client', s.getsockname(), '-->', 'authenticate', s.getpeername())
+        except Exception as e:
+            print('client -->', controller_address, controller_port, e)
+        finally:
+            s.close()
+            del s
