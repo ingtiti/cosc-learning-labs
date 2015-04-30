@@ -1,6 +1,6 @@
 config = {
- 'network_device': {},
- 'odl_server': {'address': 'localhost',
-                'port': 8181,
-                'password': 'admin',
-                'username': 'admin'}}
+    'network_device': {},
+    'odl_server' : {
+        'url_prefix' : 'http://localhost:8181/restconf/',
+        'username' : 'admin',
+        'password' : 'admin'}}

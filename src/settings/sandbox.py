@@ -14,7 +14,7 @@ config = {
                      'port': 830,
                      'password': 'cisco',
                      'username': 'cisco'}},
- 'odl_server': {'address': '172.16.1.64',
-                'port': 8181,
-                'password': 'admin',
-                'username': 'admin'}}
+    'odl_server' : {
+        'url_prefix' : 'http://172.16.1.64:8181/restconf/',
+        'username' : 'admin',
+        'password' : 'admin'}}

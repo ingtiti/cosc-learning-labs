@@ -26,7 +26,6 @@ except ImportError:
 import ipaddress
 from basics.inventory import device_control
 
-_odl_server_address = config['odl_server']['address']
 _network_device_config = config['network_device']
 
 _interface_namespaces = {

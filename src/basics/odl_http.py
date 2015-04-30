@@ -1,4 +1,4 @@
-# Copyright 2014 Cisco Systems, Inc.
+# Copyright 2015 Cisco Systems, Inc.
 # 
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
 # the License. You may obtain a copy of the License at
@@ -9,14 +9,18 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+''' HTTP API of ODL
+    
+    @author: Ken Jarrad (kjarrad@cisco.com)
+'''
+
 from __future__ import print_function as _print_function
 try:
     import Queue as queue
 except ImportError:
     import queue
 from requests import request
-
-from settings import config
+from requests.auth import HTTPBasicAuth
 from threading import Lock
 
 
@@ -24,6 +28,10 @@ _url_template = 'http://%s:%d/restconf/%s'
 
 _http_history = queue.Queue(20)
 _http_history_lock = Lock()
+
+import settings
+
+odl_server = settings.config['odl_server']
 
 def http_history_append(http):
     '''Append one HTTP request to the historical record.
@@ -74,8 +82,7 @@ def odl_http_request(
     expected_status_code
 ):
     'Request a response from the ODL server.'
-    odl_server = config['odl_server']
-    url = _url_template % (odl_server['address'], odl_server['port'], url_suffix)
+    url = odl_server['url_prefix'] + url_suffix
     headers = {}
     if accept != None:
         headers['Accept'] = accept
@@ -83,14 +90,16 @@ def odl_http_request(
         headers['Content-Type'] = contentType
     if content != None:
         headers['Content-Length'] = len(content)
-    response = request(method, url, headers=headers, data=content, auth=(odl_server['username'], odl_server['password']))
+    username=odl_server['username']
+    password=odl_server['password']
+    response = request(method, url, headers=headers, data=content, auth=HTTPBasicAuth(username, password))
     http_history_append(response)
     status_code_ok = response.status_code in expected_status_code \
         if isinstance(expected_status_code, (list, tuple)) \
         else  response.status_code == expected_status_code
     if not status_code_ok:
-        msg = 'Expected HTTP status code %s, got %d, response: %s' % (expected_status_code, response.status_code, response.text)
         #print(response.url)
+        msg = 'Expected HTTP status code %s, got %d, response: %s' % (expected_status_code, response.status_code, response.text)
         raise Exception(msg)
     else:
         return response
