@@ -29,6 +29,10 @@
     The output of the scripts is not meaningful and should be ignored because it is
     non-deterministic due to the uncertain network state prior to restoration.
     
+    While this script is running there should not be any other interaction 
+    with the network devices or SDN Controller. The outcome is undefined if the
+    network is modified by anything other than this script.
+    
     Out of scope:
     * Any cached state of the SDN Controller, such as Yang models of capabilities
     * Properties and configuration of interfaces except for the up/down state.
