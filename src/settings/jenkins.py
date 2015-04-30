@@ -19,7 +19,7 @@ config = {
                      'port': 830,
                      'password': 'test',
                      'username': 'test'}},
- 'odl_server': {'address': 'localhost',
-                'port': 8181,
-                'password': 'admin',
-                'username': 'admin'}}
+    'odl_server' : {
+        'url_prefix' : 'http://localhost:8181/restconf/',
+        'username' : 'admin',
+        'password' : 'admin'}}
