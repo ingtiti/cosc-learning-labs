@@ -19,40 +19,27 @@
 from __future__ import print_function as _print_function
 import settings
 import socket
+from basics.odl_http import odl_url_prefix, odl_username, odl_password, odl_http_head
+from sys import stderr
 
 if __name__ == "__main__":
     # Controller end-point
-    controller = settings.config['odl_server']
-    controller_address = controller['address']
-    controller_port = controller['port']
-
-    # Socket
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    print('odl_url_prefix:', odl_url_prefix)
+    print('odl_username:', odl_username)
+    print('odl_password:', odl_password)
     
-    # Connect
     try:
-        s.connect((controller_address, controller_port))
-        print('client', s.getsockname(), '-->', 'controller', s.getpeername())
+        response = odl_http_head(
+            url_suffix='operational/opendaylight-inventory:nodes',
+            accept='application/json',
+            expected_status_code=[200, 404, 503])
+        print('status code:', response.status_code)
+        if response.status_code == 404:
+            print('status: not found (either the URL is incorrect or the controller is starting).')
+            print('url:', response.url)
+        elif response.status_code == 503:
+            print('status: service unavailable (allow 5 or 10 minutes for controller to become ready)')
+        else:
+            print('status: OK')
     except Exception as e:
-        print('client -->', controller_address, controller_port, e)
-    finally:
-        s.close()
-        del s
-
-    # Authentication server end-point
-    if 'cosc_server' in settings.config:
-        controller = settings.config['cosc_server']
-        controller_port = controller['auth_port']
-    
-        # Socket
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        
-        # Connect
-        try:
-            s.connect((controller_address, controller_port))
-            print('client', s.getsockname(), '-->', 'authenticate', s.getpeername())
-        except Exception as e:
-            print('client -->', controller_address, controller_port, e)
-        finally:
-            s.close()
-            del s
+        print(e.message, file=stderr)
