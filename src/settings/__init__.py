@@ -30,9 +30,6 @@
 from __future__ import print_function as _print_function
 from importlib import import_module
 from os import getenv
-from __future__ import print_function as _print_function
-from importlib import import_module
-from os import getenv
 
 _network_profile = getenv('NETWORK_PROFILE', 'learning_lab')
 
