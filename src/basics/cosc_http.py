@@ -25,13 +25,23 @@ def cosc_authentication_token(hostname='localhost', port=8181, username='admin',
     global _cosc_authentication_token
     if not '_cosc_authentication_token' in globals():
         url = "http://%s:%d/oauth2/token" % (hostname, port)
+        print('cosc authentication url:', url)
         form_data = {'grant_type': 'password', 'username': username, 'password':password, 'scope':'sdn'}
-        response = post(url, data=form_data)
-        expected_status_code = 201
-        if response.status_code == expected_status_code:
-            _cosc_authentication_token = response.json()['access_token']
-        else:
-            msg = 'Expected HTTP status code %s, got %d, response: %s' % (expected_status_code, response.status_code, response.text)
-            raise Exception(msg)
+        print('cosc authentication parameters:')
+        [print('  ',k,'=',v) for (k,v) in form_data.items()]
+        try:
+            response = post(url, data=form_data)
+            print('cosc authentication status code:', response.status_code)
+            expected_status_code = 201
+            if response.status_code == expected_status_code:
+                _cosc_authentication_token = response.json()['access_token']
+            else:
+                msg = 'Expected HTTP status code %s, got %d' % (expected_status_code, response.status_code)
+                if response.text:
+                    raise ValueError(msg, response.text)
+                else:
+                    raise ValueError(msg)
+        except Exception as e:
+            raise ValueError('Unable to obtain COSC authentication token.', url, e)
     return _cosc_authentication_token
 
