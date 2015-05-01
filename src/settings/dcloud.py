@@ -12,7 +12,7 @@
 from __future__ import print_function as _print_function
 from basics.cosc_http import cosc_authentication_token
 
-odl_server_hostname = '10.194.104.54'
+odl_server_hostname = '198.18.1.25'
 
 odl_server_url_prefix = "http://%s/controller/restconf/" % odl_server_hostname
 
