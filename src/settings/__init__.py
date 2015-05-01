@@ -35,10 +35,7 @@ _network_profile = getenv('NETWORK_PROFILE', 'learning_lab')
 
 try:
     network_settings_module = import_module('settings.' + _network_profile)
-except ImportError:
-#     print('Failed to import module:', 'settings.' + _network_profile)
-#     network_settings_module = empty
-    raise
+    config = network_settings_module.config 
 except Exception as e:
     raise ImportError('Unable to import settings.'+ _network_profile, e)
 
