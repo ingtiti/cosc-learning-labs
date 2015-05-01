@@ -30,20 +30,19 @@
 from __future__ import print_function as _print_function
 from importlib import import_module
 from os import getenv
-from settings import empty
+from __future__ import print_function as _print_function
+from importlib import import_module
+from os import getenv
 
 _network_profile = getenv('NETWORK_PROFILE', 'learning_lab')
 
 try:
     network_settings_module = import_module('settings.' + _network_profile)
 except ImportError:
-    print('Failed to import module:', 'settings.' + _network_profile)
-    network_settings_module = empty
-finally:
-    try:
-        config = network_settings_module.config
-    except Exception:
-        print('Failed to load config from:', network_settings_module)
-        config = {}
+#     print('Failed to import module:', 'settings.' + _network_profile)
+#     network_settings_module = empty
+    raise
+except Exception as e:
+    raise ImportError('Unable to import settings.'+ _network_profile, e)
 
 # TODO fill in missing fields with default values, such as Netconf port 830.
