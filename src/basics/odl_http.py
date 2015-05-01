@@ -30,8 +30,16 @@ _http_history = queue.Queue(20)
 _http_history_lock = Lock()
 
 import settings
+assert settings.config, "Expected settings to be configured."
 
+assert 'odl_server' in settings.config, "Expected 'odl_server' to be configured in settings."
 odl_server = settings.config['odl_server']
+assert 'url_prefix' in odl_server, "Expected 'url_prefix' to be configured in settings.config['odl_server']."
+odl_url_prefix = odl_server['url_prefix']
+assert 'username' in odl_server, "Expected 'username' to be configured in settings.config['odl_server']."
+odl_username = odl_server['username']
+assert 'password' in odl_server, "Expected 'password' to be configured in settings.config['odl_server']."
+odl_password = odl_server['password']
 
 def http_history_append(http):
     '''Append one HTTP request to the historical record.
@@ -82,7 +90,7 @@ def odl_http_request(
     expected_status_code
 ):
     'Request a response from the ODL server.'
-    url = odl_server['url_prefix'] + url_suffix
+    url = odl_url_prefix + url_suffix
     headers = {}
     if accept != None:
         headers['Accept'] = accept
@@ -90,16 +98,16 @@ def odl_http_request(
         headers['Content-Type'] = contentType
     if content != None:
         headers['Content-Length'] = len(content)
-    username=odl_server['username']
-    password=odl_server['password']
-    response = request(method, url, headers=headers, data=content, auth=HTTPBasicAuth(username, password))
+    response = request(method, url, headers=headers, data=content, auth=HTTPBasicAuth(odl_username, odl_password))
     http_history_append(response)
     status_code_ok = response.status_code in expected_status_code \
         if isinstance(expected_status_code, (list, tuple)) \
         else  response.status_code == expected_status_code
     if not status_code_ok:
         #print(response.url)
-        msg = 'Expected HTTP status code %s, got %d, response: %s' % (expected_status_code, response.status_code, response.text)
+        msg = 'Expected HTTP status code %s, got %d' % (expected_status_code, response.status_code)
+        if response.text:
+            msg += ', "%s"' % response.text
         raise Exception(msg)
     else:
         return response
@@ -109,6 +117,16 @@ def odl_http_request(
 #         return json.loads(response.text)
 #     else:
 #         return response.text
+
+def odl_http_head(
+    url_suffix,
+    accept='text/plain',
+    expected_status_code=200,
+    contentType=None,
+    content=None
+):
+    'Get a response from the ODL server.'
+    return odl_http_request('head', url_suffix, contentType, content, accept, expected_status_code)
 
 def odl_http_get(
     url_suffix,
