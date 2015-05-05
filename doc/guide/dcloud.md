@@ -129,7 +129,7 @@ You will then be able to run scripts in the lab, as below:
 
 * 01_inventory_mount.py – Causes the server to use Netconf to mount the XRv instances in the ../settings/dcloud.py configuration file.
 
-`
+```
 $ ./01_inventory_mount.py 
 Python Library Documentation: function device_mount in module basics.inventory\n
 device_mount(device_name, device_address, device_port, device_username, device_password)\n
@@ -143,13 +143,13 @@ device_mount(xrvr-999, cisco, cisco, 830, 198.18.1.999)\n
 device_mount(sjc, cisco, cisco, 830, 198.18.1.57)\n
 device_mount(kcy, cisco, cisco, 830, 198.18.1.50)\n
 device_mount(sfc, cisco, cisco, 830, 198.18.1.56)\n
-`
+```
 
 Note that the xrvr-999 device is there for test purposes, to show that non-existent devices will not be connected.
 
 *	01_inventory_connected.py – Displays the connected devices:
 
-`
+```
 $ ./01_inventory_connected.py 
 Python Library Documentation: function inventory_connected in module basics.inventory
 inventory_connected()
@@ -157,14 +157,14 @@ inventory_connected()
     Output a list of names.
     Connected devices are a subset of the inventory.
 ['sea', 'por', 'san', 'lax', 'sjc', 'sfc', 'kcy', 'min']
-`
+```
 
 The output above indicates that the controller has mounted the XRv devices, and that all devices connected properly. If you do not see that they connected properly, try again. It can take a several minutes for all of the network elements to mount and connect.
 After that, there are additional sets of scripts to examine certain components and set properties on those components, as appropriate. 
 
 To see which scripts there are, use the “ls” command as shown below (note that this is a just an elided example of what you will see, as the contents will change over time): 
 
-`
+```
 $ ls
 00_controller.py 01_inventory_unreachable.py 04_static_route_json_all.py
 00_devices.py	 02_capability.py 04_static_route_list.py
@@ -173,7 +173,7 @@ $ ls
 01_device_connected.py 02_capability_matrix.py	05_acl_apply_packet_filter.py
 01_device_control.py 03_interface_configuration.py 05_acl_capability.py
 …
-`
+```
 
 Some of what these scripts cover includes:  
 
