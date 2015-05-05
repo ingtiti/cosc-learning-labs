@@ -70,7 +70,7 @@ NOTE: If you are running RDP, it is highly recommended that you use HTML5 as the
 TIP: If using the dCloud webRDP, you can make your RDP session screen larger. To resize, select the corners of the remote desktop window and drag to the desired size.  Right-click anywhere within the grey space of the remote desktop window and select Reload. 
 6.	If necessary, log into the workstation with the credentials Administrator / C1sco12345 
 
-# Scenario 1: Accesing the OSC
+# Scenario 1: Accessing the OSC
 Demonstration Steps
 1.	Access the Open SDN Controller in one of two ways:
 * If you are connected to the demo via web RDP, on the workstation, use the chrome browser to access the OSC GUI interface at 198.18.1.25
@@ -87,43 +87,48 @@ Caveats:
 *	Please disregard any geographical issues you may find.
 
 # POSTMAN
-Many applications and servers today have Representational State Transfer (REST) APIs enabled. REST APIs allow users to access, monitor, and control devices from remote locations. There are many tools available that allow you to exploit the REST API, such as CURL and POSTMAN. This sandbox environment uses POSTMAN to exploit the REST APIs of the OSC. 
+Many applications and servers today have Representational State Transfer (REST) APIs enabled. REST APIs allow users to access, monitor, and control devices from remote locations. There are many tools available that allow you to exploit the REST API, such as CURL and [POSTMAN](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en). This section of the learning lab uses POSTMAN to exploit the REST APIs of the OSC. 
 
-This section walks you through the process of using POSTMAN to interact with the Open SDN Controller.
+This section walks you through the process of using POSTMAN to interact with the Open SDN Controller. See below for instructions on using Python also.
 
-Cisco Open SDN Controller has a security shield enabled. All rest access must be done using tokens.
+Note that the Cisco Open SDN Controller REST APIs require authentication, so all REST access must be done using tokens as shown below.
 
-1. Connect to POSTMAN in one of three ways as described below. Fot learning labs at a Cisco Live event, use the Chrome browser on the desktop. Other options are:
-•	If you connected to the demo via AnyConnect and pointed your local Chrome Browser window directly to the OSC (and did NOT RDP to the workstation), do one of the following:
-2)	Remotely connect to the dCloud workstation @ 198.18.133.252, via the dCloud web RDP client or your local RDP client, and then proceed as you would with option 1.
-* If you are remotely connected to the workstation, via the dCloud web RDP session, or via AnyConnect and a local remote desktop client:
-1)	On the workstation, in the Chrome browser, click the Postman tab, as shown in the figure below.
-3)	(For users familiar with POSTMAN) Use your own, local POSTMAN application. Import the following **collections:
-•	OSC-25-Tokenized: https://www.getpostman.com/collections/e6f05baf5a3848bf5796
-•	VIRL_Client: https://www.getpostman.com/collections/2bf2256ec14f5d40d314
+Connect to POSTMAN in one of three ways as described below. For the learning labs at a Cisco Live event, use the Chrome browser on the desktop. Other options are to use an RDP connection to a windows workstation, or your own Postman or REST API client.
 
-5.	In POSTMAN, click the Collections link, then click the OSC-25-Tokenized subheading.
-6.	Click POST Get token. Then, in the middle panel, click Send. 
-7.	Copy the token string from the reply - without quote characters, as highlighted in the figure below.
-Figure 4.  	Get Token
- 
-8.	Next, click the GET Get all topos 
-9.	In the middle pane, select the Basic Auth tab. For the username, enter token. Paste the copied token string as a password.
-Figure 5.  	Authentication
- 
-10.	Click Refresh headers.
-11.	On the new screen, click Send.
-Figure 6.  	Send with Authentication
- 
+In the Cisco Live learning labs, you connect to the demo via AnyConnect and point your local Chrome Browser window directly to the OSC GUI. You can then, in the Chrome browser click the Postman tab, as shown in the figure below.
 
-Python DevNet Learning Lab
-In the labs section above, you used Postman, which is a browser plugin that allows you to send HTTP requests to REST (Representational State Transfer) APIs on the controller. In the case of the Cisco Open SDN Controller, those APIs are generated from Yang models and exposed via “RESTCONF” . 
+Under other circumstances, if you are familiar with POSTMAN already, you can use your own, local POSTMAN application by importing the following collections:
+
+* [OSC-25-Tokenized](https://www.getpostman.com/collections/e6f05baf5a3848bf5796)
+* [VIRL_Client](https://www.getpostman.com/collections/2bf2256ec14f5d40d314)
+
+Having loaded those collections, or if you are using a Cisco Live learning lab machine, then, in POSTMAN, click the Collections link, then click the OSC-25-Tokenized subheading.
+
+Then click POST Get token. Then, in the middle panel, click Send. You will see the token string in the reply as shown below. You need to copy that, without the quote characters.
+
+![Get Token](dcloud_images/osc_rest_token.png)
+
+You will need to add that authentication token to the headers for the other request. To do that, click GET for Get all topos.
+
+Then, in the middle pane, select the Basic Auth tab. For the username, enter token. Paste the copied token string as a password and click "Refresh headers", then you can click on "Send". Having set the token for one request, you can do the same for other requests in the collection also.
+
+![Setting the Auth Token](dcloud_images/setting_auth_token.png) 
+
+# Python DevNet Learning Lab
+In the labs section above, you used Postman, which is a browser plugin that allows you to send HTTP requests to REST (Representational State Transfer) APIs on the controller. In the case of the Cisco Open SDN Controller, those APIs are generated from Yang models and exposed via [“RESTCONF”](https://tools.ietf.org/html/draft-ietf-netconf-restconf-04) . 
+
 Another way to call the same APIs is via Python, which is the focus of this section of the lab. The Python code here is presented as a series of scripts that you can run on an Ubuntu VM, available via “ssh cisco@198.18.134.28”. The password is C1sco12345. When you log in, a script will be run to update the VM for this exercise, and so you will need to provide the password so that the script can run with sudo permissions. You can look at the end of the ~/.bashrc file to see what is happening if you are curious.
-The scripts come from this project in GitHub: 
+
+The scripts (and this document) come from this project in GitHub: 
+
 https://github.com/CiscoDevNet/cosc-learning-labs
+
 On the VM those scripts have been “cloned” into in the ~/git/cosc-learning-labs/src/learning_lab directory. The setup script will put you into that directory automatically and set the appropriate environment variables. If anything below does not work as expected, see the “Troubleshooting” section below.
+
 You will then be able to run scripts in the lab, as below:
-•	01_inventory_mount.py – Causes the server to use Netconf to mount the XRv instances in the ../settings/dcloud.py configuration file.
+
+* 01_inventory_mount.py – Causes the server to use Netconf to mount the XRv instances in the ../settings/dcloud.py configuration file.
+'
 $ ./01_inventory_mount.py 
 Python Library Documentation: function device_mount in module basics.inventory
 device_mount(device_name, device_address, device_port, device_username, device_password)
@@ -137,8 +142,10 @@ device_mount(xrvr-999, cisco, cisco, 830, 198.18.1.999)
 device_mount(sjc, cisco, cisco, 830, 198.18.1.57)
 device_mount(kcy, cisco, cisco, 830, 198.18.1.50)
 device_mount(sfc, cisco, cisco, 830, 198.18.1.56)
+'
 Note that the xrvr-999 device is there for test purposes, to show that non-existent devices will not be connected.
-•	01_inventory_connected.py – Displays the connected devices:
+*	01_inventory_connected.py – Displays the connected devices:
+'
 $ ./01_inventory_connected.py 
 Python Library Documentation: function inventory_connected in module basics.inventory
 inventory_connected()
@@ -146,8 +153,10 @@ inventory_connected()
     Output a list of names.
     Connected devices are a subset of the inventory.
 ['sea', 'por', 'san', 'lax', 'sjc', 'sfc', 'kcy', 'min']
+'
 The output above indicates that the controller has mounted the XRv devices, and that all devices connected properly. If you do not see that they connected properly, try again. It can take a several minutes for all of the network elements to mount and connect.
 After that, there are additional sets of scripts to examine certain components and set properties on those components, as appropriate. To see which scripts there are, use the “ls” command as shown below (note that this is a just an elided example of what you will see, as the contents will change over time): 
+'
 $ ls
 00_controller.py 01_inventory_unreachable.py 04_static_route_json_all.py
 00_devices.py	 02_capability.py 04_static_route_list.py
@@ -156,23 +165,32 @@ $ ls
 01_device_connected.py 02_capability_matrix.py	05_acl_apply_packet_filter.py
 01_device_control.py 03_interface_configuration.py 05_acl_capability.py
 …
-
+'
 Some of what these scripts cover includes:  
-•	Inventory
-•	Netconf/Yang capabilities
-•	Interfaces
-•	Routes and Topology
-•	ACLs
+
+* Inventory
+* Netconf/Yang capabilities
+* Interfaces
+* Routes and Topology
+* ACLs
+
 This is a living body of code, and so can vary each time you use this lab.
+
 If you want to modify the list of devices being mounted, edit the ../settings/dcloud.py file. That file is Python code as well.
 You can also use the inbuilt Python interpreter to call the functions in the basics library, in the same way that the code in the learning_lab directory does, and you can adapt and modify any of the scripts that you as you like. You will not break anything.
-Have at it! 
-The Cisco DevNet team – developer.cisco.com.
-Troubleshooting
-There are two main problems that can typically arise when working with the Open SDN Controller:
-•	The controller becomes un-responsive, or responds with 50X errors. This can happen for a variety of reasons, and the simple remedy is to reboot the controller VM as shown below.
-•	The network is in some state, with routes, ACLs, interfaces shutdown, or similar, probably because of a previous series of exercises with the same lab instance, that leads to unexpected results. In this case there is a restore_network_state.py script that should reset everything and leave the controller with no mounted devices. If this script does not work, reboot the controller server and try again after five minutes.
-The controller “ocs” server can be rebooted from the “Servers” section of your dCloud Dashboard as shown below. Click on the “+” symbol next to the “ocs” server entry, and then select the bottom right “Reboot Guest” button, which has a symbol of circled arrows. This reboot will take approximately five minutes.
- 
-***THIS CONCLUDES THIS SANDBOX GETTING STARTED GUIDE ***
 
+Have at it! 
+
+The Cisco DevNet team – developer.cisco.com.
+
+# Troubleshooting
+
+There are two main problems that can typically arise when working with the Open SDN Controller:
+* The controller becomes un-responsive, or responds with 50X errors. This can happen for a variety of reasons, and the simple remedy is to reboot the controller VM as shown below.
+*	The network is in some state, with routes, ACLs, interfaces shutdown, or similar, probably because of a previous series of exercises with the same lab instance, that leads to unexpected results. In this case there is a restore_network_state.py script that should reset everything and leave the controller with no mounted devices. If this script does not work, reboot the controller server and try again after five minutes.
+
+The controller “ocs” server can be rebooted from the “Servers” section of your dCloud Dashboard as shown below. Click on the “+” symbol next to the “ocs” server entry, and then select the bottom right “Reboot Guest” button, which has a symbol of circled arrows. 
+
+![Server Reboot](dcloud_images/server_reset.png)
+
+This reboot will take approximately five minutes.
