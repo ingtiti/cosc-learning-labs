@@ -70,7 +70,7 @@ NOTE: If you are running RDP, it is highly recommended that you use HTML5 as the
 TIP: If using the dCloud webRDP, you can make your RDP session screen larger. To resize, select the corners of the remote desktop window and drag to the desired size.  Right-click anywhere within the grey space of the remote desktop window and select Reload. 
 6.	If necessary, log into the workstation with the credentials Administrator / C1sco12345 
 
-# Scenario 1: Accessing the OSC
+# Accessing the OSC
 Demonstration Steps
 1.	Access the Open SDN Controller in one of two ways:
 * If you are connected to the demo via web RDP, on the workstation, use the chrome browser to access the OSC GUI interface at 198.18.1.25
