@@ -44,55 +44,60 @@ When accessing the demo, the topology is a simplified one, as shown in the figur
 
 ![OSC Topology](dcloud_images/osc_topology.png)
  
-This demonstration uses Virtual Internet Routing Lab (VIRL). VIRL is a multi-purpose network virtualization platform that provides an easy way to build, configure, and test new or existing network topologies with an intuitive user interface. 
-The VIRL topology used for this demonstration, depicted as a single server above, actually consists of:  
-•	Eight routers interconnected within the topology.
-Each router has a management interface connected to the OSC server. Both VIRL and OSC run as Virtual Machines (VMs) on ESXi.
-Figure 2.  	VIRL Topology
- 
-For additional information on VIRL, watch VIRL (Virtual Internet Routing Lab).
-Demonstration Preparation
-Follow the steps below to schedule your demonstration and configure your demonstration environment.
-1.	Browse to dcloud.cisco.com and login with your Cisco.com credentials.
-2.	Schedule a demonstration [Show Me How].
-3.	Test your connection from the demonstration location before performing any demonstration scenario.  [Show Me How] 
-4.	Verify your demonstration has a status of Active under My Demonstrations on the My Dashboard page in the dCloud UI.
-•	It may take up to 30 minutes for your demonstration to become active.
-5.	Connect to the Demonstration, using one of the following two options:
-•	Using Cisco AnyConnect [Show Me How] ********RECOMMENDED METHOD********
-o	After connecting to the demonstration via AnyConnect, use your local RDP client to connect to workstation located at 198.18.133.252. 
-o	Alternatively, use your own local Chrome client to access the Open SDN controller at 198.18.1.25 
+This demonstration uses Virtual Internet Routing Lab [(VIRL)](http://virl.cisco.com). VIRL is a multi-purpose network virtualization platform that provides an easy way to build, configure, and test new or existing network topologies with an intuitive user interface. 
+
+The VIRL topology used for this demonstration, depicted as a single server above, actually consists of eight routers interconnected within the topology. Each router has a management interface connected to the OSC server. Both VIRL and OSC run as Virtual Machines (VMs) on ESXi.
+
+![VIRL Topology](dcloud_images/virl_topology.png)
+
+For additional information on VIRL, see this [VIRL video at YouTube.](http://www.youtube.com/watch?v=nsbzHmwUz6I)
+
+# Demonstration Preparation
+If you are accessing this learning lab on your own viw dCloud, then follow the steps below to schedule your demonstration and configure your demonstration environment. If you are accessing this learning lab at a Cisco Live event, the learning lab will have been scheduled for you, so you just need to check your AnyConnect connection.
+
+1. Browse to dcloud.cisco.com and login with your Cisco.com credentials.
+2. Schedule a demonstration [Show Me How.](http://dcloud-rtp-web-1.cisco.com/dCloud/help/sched_demo.html)
+3. Test your connection from the demonstration location before performing any demonstration scenario. [Show Me How](http://dcloud-rtp-web-1.cisco.com/dCloud/help/connect_test.html) 
+4. Verify your demonstration has a status of Active under My Demonstrations on the My Dashboard page in the dCloud UI.
+* It may take up to 30 minutes for your demonstration to become active. This will not affect you at a Cisco Live event as the learning lab will have been set up for you already.
+5.	Connect to the Demonstration, using eith AnyConnect, which is recommended, or Chrome, which will limit your experience. Note that, if you are accessing this learning lab at a Cisco Live event, you will be using AnyConnect:
+* Using Cisco AnyConnect [Show Me How](http://dcloud-rtp-web-1.cisco.com/dCloud/help/install_anyconnect_pc_mac.html) 
+** After connecting to the demonstration via AnyConnect, use your local RDP client to connect to workstation located at 198.18.133.252. 
+** Alternatively, use your own local Chrome client to access the Open SDN controller at 198.18.1.25 
 NOTE: You may need to accept a security certificate warning.
-•	Using Cisco dCloud Remote Desktop client [Show Me How] 
-NOTE: If you are running RDP, it is highly recommended that you use HTML5 as the default client. [Show Me How].   
+•	Using Cisco dCloud Remote Desktop client [Show Me How](http://dcloud-rtp-web-1.cisco.com/dCloud/help/access_demo_wkstn.html) 
+NOTE: If you are running RDP, it is highly recommended that you use HTML5 as the default client. [Show Me How](https://dcloud-rtp-web-1.cisco.com/dCloud/help/access_demo_wkstn.html).   
 TIP: If using the dCloud webRDP, you can make your RDP session screen larger. To resize, select the corners of the remote desktop window and drag to the desired size.  Right-click anywhere within the grey space of the remote desktop window and select Reload. 
 6.	If necessary, log into the workstation with the credentials Administrator / C1sco12345 
 
- 
-Scenario 1: Accesing the OSC
+# Scenario 1: Accesing the OSC
 Demonstration Steps
 1.	Access the Open SDN Controller in one of two ways:
-•	If you are connected to the demo via web RDP, on the workstation, use the chrome browser to access the OSC GUI interface at 198.18.1.25
-•	If you are connected to the demo via Anyconnect:
-o	Open your own, local browser window and access the OSC GUI interface at 198.18.1.25
-o	Use a local RDP client to connect to the workstation (at 198.18.133.252 – user credentials Administrator / C1sco12345), and use the workstation chrome browser to access the OSC GUI interface at 198.18.1.25.
+* If you are connected to the demo via web RDP, on the workstation, use the chrome browser to access the OSC GUI interface at 198.18.1.25
+* If you are connected to the demo via Anyconnect:
+** Open your own, local browser window and access the OSC GUI interface at 198.18.1.25
+** Use a local RDP client to connect to the workstation (at 198.18.133.252 – user credentials Administrator / C1sco12345), and use the workstation chrome browser to access the OSC GUI interface at 198.18.1.25.
 2.	For the SDN Controller, use the login credentials admin / cisco123 and click Login.
 3.	Welcome to the new Open SDN Controller --- Explore!
-Figure 3.  	OSC GUI
+
+![OSC GUI](dcloud_images/osc_gui.png)
  
 Caveats: 
-•	At this time, you are not be able to use the GUI interface to access router configurations; however, you can telnet into the routers using an ssh client.
-•	Please disregard any geographical issues you may find ☺
+*	At this time, you are not be able to use the GUI interface to access router configurations; however, you can telnet into the routers using an ssh client.
+*	Please disregard any geographical issues you may find.
 
-POSTMAN
+# POSTMAN
 Many applications and servers today have Representational State Transfer (REST) APIs enabled. REST APIs allow users to access, monitor, and control devices from remote locations. There are many tools available that allow you to exploit the REST API, such as CURL and POSTMAN. This sandbox environment uses POSTMAN to exploit the REST APIs of the OSC. 
+
 This section walks you through the process of using POSTMAN to interact with the Open SDN Controller.
+
 Cisco Open SDN Controller has a security shield enabled. All rest access must be done using tokens.
-4.	Connect to POSTMAN in one of three ways:
-•	If you are remotely connected to the workstation, via the dCloud web RDP session, or via AnyConnect and a local remote desktop client:
-1)	On the workstation, in the Chrome browser, click the Postman tab, as shown in the figure below.
+
+1. Connect to POSTMAN in one of three ways as described below. Fot learning labs at a Cisco Live event, use the Chrome browser on the desktop. Other options are:
 •	If you connected to the demo via AnyConnect and pointed your local Chrome Browser window directly to the OSC (and did NOT RDP to the workstation), do one of the following:
 2)	Remotely connect to the dCloud workstation @ 198.18.133.252, via the dCloud web RDP client or your local RDP client, and then proceed as you would with option 1.
+* If you are remotely connected to the workstation, via the dCloud web RDP session, or via AnyConnect and a local remote desktop client:
+1)	On the workstation, in the Chrome browser, click the Postman tab, as shown in the figure below.
 3)	(For users familiar with POSTMAN) Use your own, local POSTMAN application. Import the following **collections:
 •	OSC-25-Tokenized: https://www.getpostman.com/collections/e6f05baf5a3848bf5796
 •	VIRL_Client: https://www.getpostman.com/collections/2bf2256ec14f5d40d314
