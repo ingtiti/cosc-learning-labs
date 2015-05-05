@@ -131,18 +131,18 @@ You will then be able to run scripts in the lab, as below:
 
 `
 $ ./01_inventory_mount.py 
-Python Library Documentation: function device_mount in module basics.inventory
-device_mount(device_name, device_address, device_port, device_username, device_password)
-Add the specified network device to the inventory of the Controller.
-device_mount(lax, cisco, cisco, 830, 198.18.1.51)
-device_mount(san, cisco, cisco, 830, 198.18.1.54)
-device_mount(sea, cisco, cisco, 830, 198.18.1.55)
-device_mount(min, cisco, cisco, 830, 198.18.1.52)
-device_mount(por, cisco, cisco, 830, 198.18.1.53)
-device_mount(xrvr-999, cisco, cisco, 830, 198.18.1.999)
-device_mount(sjc, cisco, cisco, 830, 198.18.1.57)
-device_mount(kcy, cisco, cisco, 830, 198.18.1.50)
-device_mount(sfc, cisco, cisco, 830, 198.18.1.56)
+Python Library Documentation: function device_mount in module basics.inventory\n
+device_mount(device_name, device_address, device_port, device_username, device_password)\n
+Add the specified network device to the inventory of the Controller.\n
+device_mount(lax, cisco, cisco, 830, 198.18.1.51)\n
+device_mount(san, cisco, cisco, 830, 198.18.1.54)\n
+device_mount(sea, cisco, cisco, 830, 198.18.1.55)\n
+device_mount(min, cisco, cisco, 830, 198.18.1.52)\n
+device_mount(por, cisco, cisco, 830, 198.18.1.53)\n
+device_mount(xrvr-999, cisco, cisco, 830, 198.18.1.999)\n
+device_mount(sjc, cisco, cisco, 830, 198.18.1.57)\n
+device_mount(kcy, cisco, cisco, 830, 198.18.1.50)\n
+device_mount(sfc, cisco, cisco, 830, 198.18.1.56)\n
 `
 
 Note that the xrvr-999 device is there for test purposes, to show that non-existent devices will not be connected.
