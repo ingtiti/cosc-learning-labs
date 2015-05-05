@@ -1,26 +1,48 @@
-Cisco Open SDN Controller 1.0 Sandbox v2
-Last Updated: 4 May 2015
-About This Cisco Solution
-The Cisco Open SDN Controller is a commercial distribution of OpenDaylight that delivers business agility through automation of standards-based network infrastructure.
+Welcome to the DevNet learning lab for the Cisco Open SDN Controller 1.0 Sandbox v2, with Python!
+
+# About This Cisco Solution
+The Cisco Open SDN Controller (COSC) is a commercial distribution of [OpenDaylight](http://http://www.opendaylight.org) that delivers business agility through automation of standards-based network infrastructure.
+
 Built as a highly scalable software-defined networking (SDN) platform, the Open SDN Controller abstracts away the complexity of managing heterogeneous networks to improve service delivery and reduce operating costs.
-With the Cisco Open SDN Controller, you can integrate business applications with the underlying network devices using Northbound Rest APIs.   The Rest APIs provide a list of supported base network functions, which are agnostic of the underlying network device manufacturer.
-About This Demonstration
-The purpose of this Sandbox is to give you access to an early view of the Cisco Open SDN controller. This will take your through the steps of accessing the new Open SDN Controller and then allow you to self-discover different aspects of this product. It will also walk you through using Postman to interact with the Open SDN Controller.
-Demonstration Requirements
-The table below outlines the requirements for this preconfigured demonstration. 
-Table 1.	Demonstration Requirements
-Required	Optional
-•	Computer with Internet Connectivity
-•	Cisco.com Login Credentials	•	Cisco AnyConnect
-•	Remote Desktop Client Application
-Demonstration Configuration
-This demonstration contains preconfigured users and components to illustrate the capabilities available to you within the VIRL sandbox. 
+
+With the Cisco Open SDN Controller, you can integrate business applications with the underlying network devices using Northbound Rest APIs.  The Rest APIs provide a list of supported base network functions, which are agnostic of the underlying network device manufacturer.
+
+Developer support for COSC may be found in the [COSC community at DevNet.](https://communities.cisco.com/community/developer/networking/cisco-one/extensible-network-controller)
+
+# About This Learning Lab
+This learning lab is part of a series of such labs offered by Cisco's [DevNet](http://developer.cisco.com). More such labs are to be found at the [Learning Labs section of DevNet](https://developer.cisco.com/site/devnet/learningLabs/overview.gsp). The code for this lab may be found in the [DevNet organisation in GitHub](https://github.com/CiscoDevNet/cosc-learning-labs). 
+
+This specific instance of the learning lab is being hosted on [Cisco's dCloud platform](http://dcloud.cisco.com). If you have a dCloud account, you can access this learning lab at any time as part of the "Cisco Open SDN Controller 1.0 Sandbox". If you do not have a dCloud account yourself, please contact your Cisco account manager or systems engineer and they will be able to arrange access for you.
+
+# About This Demonstration
+The purpose of this Sandbox is to give you access to an early view of the Cisco Open SDN controller. This will take your through the steps of accessing the new Open SDN Controller and then allow you to self-discover different aspects of this product. It will also walk you through using Postman and Python to interact with the Open SDN Controller.
+
+
+# Demonstration Requirements
+The table below outlines the requirements for this preconfigured demonstration. All of this will be provided for you when you are accessing this learning lab during a Cisco Live event. If you are using this learning lab from another location, then you will need to read further
+
+Required are:
+
+*	Computer with Internet Connectivity
+*	Cisco.com Login Credentials	
+
+Optionally, you may also use:
+
+*	Cisco AnyConnect
+*	Remote Desktop Client Application
+
+# Demonstration Configuration
+
+This learning lab contains preconfigured users and components, running on the [Cisco VIRL](http://virl.cisco.com) platform.
+ 
 All information needed to complete the access components is located in the Topology and Servers menus of your active demonstration. 
 Topology Menu. Click on any server in the topology and a popup window will appear with available server options.
-Servers Menu. Click on   or  next to any server name to display the available server options and credentials.
-Demonstration Topology
+Servers Menu. Click on the green trianle in the Topology View, or '+' next to any server name in the Servers view, to display the available server options and credentials.
+
+# Demonstration Topology
 When accessing the demo, the topology is a simplified one, as shown in the figure below: 
-Figure 1.  	Figure: OSC Topology
+
+![OSC Topology](dcloud_images/osc_topology.png)
  
 This demonstration uses Virtual Internet Routing Lab (VIRL). VIRL is a multi-purpose network virtualization platform that provides an easy way to build, configure, and test new or existing network topologies with an intuitive user interface. 
 The VIRL topology used for this demonstration, depicted as a single server above, actually consists of:  
