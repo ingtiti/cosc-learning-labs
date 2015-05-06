@@ -100,11 +100,11 @@ def odl_http_request(
         headers['Content-Length'] = len(content)
     response = request(method, url, headers=headers, data=content, auth=HTTPBasicAuth(odl_username, odl_password), verify=False)
     http_history_append(response)
+    print(response.url)
     status_code_ok = response.status_code in expected_status_code \
         if isinstance(expected_status_code, (list, tuple)) \
         else  response.status_code == expected_status_code
     if not status_code_ok:
-        #print(response.url)
         msg = 'Expected HTTP status code %s, got %d' % (expected_status_code, response.status_code)
         if response.text:
             msg += ', "%s"' % response.text
