@@ -9,7 +9,17 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+from __future__ import print_function as _print_function
+
+odl_server_hostname = '198.18.1.25:8181'
+
+odl_server_url_prefix = "http://%s/restconf/" % odl_server_hostname
+
 config = {
+    'odl_server' : {
+        'url_prefix' : odl_server_url_prefix,
+        'username' : 'admin',
+        'password' : 'admin'},
  'network_device': {'kcy':{
                      'address': '198.18.1.50',
                      'port': 830,
@@ -49,13 +59,4 @@ config = {
                      'address': '198.18.1.57',
                      'port': 830,
                      'password': 'cisco',
-                     'username': 'cisco'},
-                    'xrvr-999':{
-                     'address': '198.18.1.999',
-                     'port': 830,
-                     'password': 'cisco',
-                     'username': 'cisco'}},
- 'odl_server': {'address': '198.18.1.25',
-                'port': 8181,
-                'password': 'admin',
-                'username': 'adminadmin'}}
+                     'username': 'cisco'}}}
