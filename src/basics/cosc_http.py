@@ -30,7 +30,7 @@ def cosc_authentication_token(hostname='localhost', port=8181, username='admin',
         print('cosc authentication parameters:')
         [print('  ',k,'=',v) for (k,v) in form_data.items()]
         try:
-            response = post(url, data=form_data)
+            response = post(url, data=form_data, verify=False)
             print('cosc authentication status code:', response.status_code)
             expected_status_code = 201
             if response.status_code == expected_status_code:

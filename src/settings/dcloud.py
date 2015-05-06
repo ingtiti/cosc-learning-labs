@@ -20,7 +20,7 @@ config = {
     'odl_server' : {
         'url_prefix' : odl_server_url_prefix,
         'username' : 'token',
-        'password' : cosc_authentication_token(odl_server_hostname, 8181, 'admin', 'admin')},
+        'password' : cosc_authentication_token(odl_server_hostname, 8181, 'admin', 'cisco123')},
  'network_device': {'kcy':{
                      'address': '198.18.1.50',
                      'port': 830,
