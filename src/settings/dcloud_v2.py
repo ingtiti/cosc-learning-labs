@@ -14,7 +14,7 @@ from basics.cosc_http import cosc_authentication_token
 
 odl_server_hostname = '198.18.1.25'
 
-odl_server_url_prefix = "http://%s/controller/restconf/" % odl_server_hostname
+odl_server_url_prefix = "https://%s/controller/restconf/" % odl_server_hostname
 
 config = {
     'odl_server' : {
