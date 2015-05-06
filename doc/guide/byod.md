@@ -1,5 +1,5 @@
 To work on this lab on your own machine, you will need to install [Python](https://www.python.org/downloads/) and 
-[Pip](https://pip.pypa.io/en/latest/installing.html).
+[Pip](https://pip.pypa.io/en/latest/installing.html), and clone the project code.
 
 Once you have done that, the project uses standard Python mechanisms, Pip with the `src/setup.py` script, to install all other required components, as explained below.
 
@@ -54,10 +54,18 @@ Pip comes with Python 3.4 Windows. To check to see if Pip is in your python 3 pa
 and expect to see something like:
 `pip 1.5.6 from C:\Python34\lib\site-packages`
 
-# Setting Up the Environment
-Having installed Python and Pip, you can then use `pip3 install -e`, which, in turn, uses the contents of the `src/setup.py` script to install required components in your environment. 
+# Installing Git
+[Git](http://git-scm.com/) is a source code management (SCM) tool. There are many [Git UI tools available](http://git-scm.com/downloads/guis). The Git CLI client is installed as with one of the platform specific [Git downloads](http://git-scm.com/downloads).
 
-On Mac OS X or Linux, like this, where we illustrate this with an example from the COSC Learning Lab project:
+# Cloning the Code
+Assuming you have a Git client installed, you can clone the project code. If you do not have a Git Client, see above. For a project hosted in GitHub, such as the [COSC Learning Loba](https://github.com/CiscoDevNet/cosc-learning-labs) you should [fork a repository](https://help.github.com/articles/fork-a-repo/) using the "Fork" button at the top right of a project page, as illustrated below.
+
+![Forking a GitHub project](byod_images/fork.png) 
+
+# Setting Up the Environment
+Having installed Python and Pip, you can then use `pip3 install -e` in the project `src` directory, which, in turn, uses the contents of the `src/setup.py` script to install required components in your environment. 
+
+On Mac OS X or Linux, that looks like this with an example from the COSC Learning Lab project:
 
 ``` 
 sudo pip3 install -e .
