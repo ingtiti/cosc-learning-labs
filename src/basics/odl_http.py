@@ -98,7 +98,7 @@ def odl_http_request(
         headers['Content-Type'] = contentType
     if content != None:
         headers['Content-Length'] = len(content)
-    response = request(method, url, headers=headers, data=content, auth=HTTPBasicAuth(odl_username, odl_password))
+    response = request(method, url, headers=headers, data=content, auth=HTTPBasicAuth(odl_username, odl_password), verify=False)
     http_history_append(response)
     status_code_ok = response.status_code in expected_status_code \
         if isinstance(expected_status_code, (list, tuple)) \
