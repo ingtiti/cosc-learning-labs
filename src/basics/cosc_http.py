@@ -24,7 +24,7 @@ def cosc_authentication_token(hostname='localhost', port=8181, username='admin',
     """
     global _cosc_authentication_token
     if not '_cosc_authentication_token' in globals():
-        url = "http://%s:%d/oauth2/token" % (hostname, port)
+        url = "https://%s/controller-auth" % (hostname)
         print('cosc authentication url:', url)
         form_data = {'grant_type': 'password', 'username': username, 'password':password, 'scope':'sdn'}
         print('cosc authentication parameters:')
