@@ -25,7 +25,9 @@ On Windows, open a command shell by running the `cmd` command and enter `py –3
 Pip is the [PyPA recommended tool](https://python-packaging-user-guide.readthedocs.org/en/latest/current.html) for installing Python packages. 
 
 To install Pip for Python 3 on Mac OS X or Linux, use these commands at the CLI:
+
 `curl -O https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py`
+
 `sudo python3 get-pip.py`
 
 And expect to see something like this:
@@ -50,8 +52,11 @@ Successfully installed pip-6.1.1
 ```
 
 Pip comes with Python 3.4 Windows. To check to see if Pip is in your python 3 path use these commands at the CLI:
+
 `C:\>pip –V`
+
 and expect to see something like:
+
 `pip 1.5.6 from C:\Python34\lib\site-packages`
 
 # Installing Git
@@ -65,7 +70,7 @@ Assuming you have a Git client installed, you can clone the project code. If you
 # Setting Up the Environment
 Having installed Python and Pip, you can then use `pip3 install -e` in the project `src` directory, which, in turn, uses the contents of the `src/setup.py` script to install required components in your environment. 
 
-On Mac OS X or Linux, that looks like this with an example from the COSC Learning Lab project:
+On Mac OS X or Linux, that looks like this (with an example from the COSC Learning Lab project):
 
 ``` 
 sudo pip3 install -e .
