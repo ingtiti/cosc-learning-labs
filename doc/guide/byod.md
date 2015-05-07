@@ -158,11 +158,6 @@ or
 ```bash
 python setup.py test –a ../test
 ```
-
-Pre-requisitives (Ubuntu):
-```bash
-sudo apt-get install -y python-logilab-common
-```
 #Creating and Setting the Network Profile
 The network profile settings file defines variables and data that the learning lab code needs to identify the controller and network elements that are being used in a given instance of the lab. 
 
@@ -201,7 +196,7 @@ config = {
                      'username': 'cisco'},
 ...
 ```
-What this says is that there is a controller at `198.18.1.25` with the REST API exposed on port `8181`, for which the credentials are "admin/admin", and that there is a network element, with a management IP address of `198.18.1.50`, managed via Netconf, on port 830, with the credentials "cisco/cisco". Note that the management network must be reachable from where the controller is running.
+Which says that there is a controller at `198.18.1.25` with the REST API exposed on port `8181`, for which the credentials are "admin/admin", and that there is a network element, with a management IP address of `198.18.1.50`, managed via Netconf, on port 830, with the credentials "cisco/cisco". Note that the management network must be reachable from where the controller is running.
 
 If you are using the commercial [Cisco Open SDN Controller](http://www.cisco.com/c/en/us/products/cloud-systems-management/open-sdn-controller/index.html), then you would have settings like this:
 
