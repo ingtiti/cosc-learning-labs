@@ -169,9 +169,9 @@ The network profile settings file defines variables and data that the learning l
 The first step us to set an environment variable, `NETWORK_PROFILE`, to the name of a settings fle. We shall use `learning_lab.py` in this example, which is based Mac OS X or Linux.
 
 ```bash
-	export NETWORK_PROFILE=learning_lab
+$ export NETWORK_PROFILE=learning_lab
 ```
-The settings are read from the `settings` Python module, which is is:
+The settings are read from the `settings` Python module, which is in:
 
 ```bash
 ~/git/cosc-learning-labs/src/settings
@@ -179,10 +179,10 @@ The settings are read from the `settings` Python module, which is is:
 
 In this example, then, to display the settings:
 ```bash
-cat ~/git/cosc-learning-labs/src/settings/learning_lab.py
+$ cat ~/git/cosc-learning-labs/src/settings/learning_lab.py
 ```
 
-Which would look like this for the open source [OpenDaylight Controller](http://www.opendaylight.org/) (yours may differ with IP addresses):
+Which would look like this for the open source [OpenDaylight Controller](http://www.opendaylight.org/) (yours may differ for IP addresses):
 
 ```python
 odl_server_hostname = '198.18.1.25:8181'
