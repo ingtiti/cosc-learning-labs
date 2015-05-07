@@ -3,6 +3,8 @@ To work on this lab on your own machine, you will need to install [Python](https
 
 Once you have done that, the project uses standard Python mechanisms, Pip with the `src/setup.py` script, and [virtualenv](https://virtualenv.pypa.io/en/latest/) as required, to install all other required components, as explained below.
 
+When your environment is setup correctly, you should create a network profile, in the `src/settings` directory and set that via the NETWORK-PROFILE environment variable, as described below.
+
 # Install Python
 Whilst the code will work with Python 2.7, we recommend that you install Python 3.x for your operating system.
 Download the installer here: https://www.python.org/downloads/
@@ -77,8 +79,8 @@ There are two suggested techniques for achieving the required integration:
 * Modify the current Python environment of your computer, which is suitable for a Dev VM, say, which would only be used for single project.
 * Create and modify a virtual, temporary Python environment, which is recommended when you have multiple projects being developed in parallel on your own laptop, say. 
 
-##Modify the current Python environment of your computer
-This technique is recommended when your computer is a virtual computer, such as Ubuntu running on VMWare.
+##Modify the Current Python Environment of Your Computer
+This technique is recommended when your computer is a virtual computer, such as Ubuntu running on VMWare, dedicated to this single project.
 
 ####Python 2
 ```bash
@@ -92,7 +94,7 @@ sudo pip3 install -e src
 On Mac OS X or Linux, that looks like this (with an example from the COSC Learning Lab project being run in the `src` directory):
 
 ``` 
-sudo pip3 install -e .
+$ sudo pip3 install -e .
 ...
 Obtaining file:...git/cosc-learning-labs/src
 Collecting requests (from COSC-Learning-Lab==1.0)
@@ -122,7 +124,7 @@ Running setup.py install for ipaddress
 Successfully installed COSC-Learning-Lab ipaddress-1.0.7 lxml-3.4.4 requests-2.7.0
 ```
 
-##Create and modify a virtual, temporary Python environment
+##Create and Modify a Virtual, Temporary, Python Environment
 This technique is recommended when your computer is used to run multiple Python projects or multiple versions of Python.
 
 There are multiple tools that provide a virtual environment. The example below uses [virtualenv](https://virtualenv.pypa.io/en/latest/). See also: [venv](https://docs.python.org/3/library/venv.html), [pyenv](https://github.com/yyuu/pyenv), [pythonz](https://github.com/saghul/pythonz).
@@ -161,4 +163,56 @@ Pre-requisitives (Ubuntu):
 ```bash
 sudo apt-get install -y python-logilab-common
 ```
+#Creating and Setting the Network Profile
+The network profile settings file defines variables and data that the learning lab code needs to identify the controller and network elements that are being used in a given instance of the lab. 
 
+The first step us to set an environment variable, `NETWORK_PROFILE`, to the name of a settings fle. We shall use `learning_lab.py` in this example, which is based Mac OS X or Linux.
+
+```bash
+	export NETWORK_PROFILE=learning_lab
+```
+The settings are read from the `settings` Python module, which is is:
+
+```bash
+~/git/cosc-learning-labs/src/settings
+```
+
+In this example, then, to display the settings:
+```bash
+cat ~/git/cosc-learning-labs/src/settings/learning_lab.py
+```
+
+Which would look like this for the open source [OpenDaylight Controller](http://www.opendaylight.org/) (yours may differ with IP addresses):
+
+```python
+odl_server_hostname = '198.18.1.25:8181'
+
+odl_server_url_prefix = "http://%s/restconf/" % odl_server_hostname
+
+config = {
+    'odl_server' : {
+        'url_prefix' : odl_server_url_prefix,
+        'username' : 'admin',
+        'password' : 'admin'},
+ 'network_device': {'kcy':{
+                     'address': '198.18.1.50',
+                     'port': 830,
+                     'password': 'cisco',
+                     'username': 'cisco'},
+...
+```
+What this says is that there is a controller at `198.18.1.25` with the REST API exposed on port `8181`, for which the credentials are "admin/admin", and that there is a network element, with a management IP address of `198.18.1.50`, managed via Netconf, on port 830, with the credentials "cisco/cisco". Note that the management network must be reachable from where the controller is running.
+
+If you are using the commercial [Cisco Open SDN Controller](http://www.cisco.com/c/en/us/products/cloud-systems-management/open-sdn-controller/index.html), then you would have settings like this:
+
+```python
+odl_server_url_prefix = "https://%s/controller/restconf/" % odl_server_hostname
+
+config = {
+    'odl_server' : {
+        'url_prefix' : odl_server_url_prefix,
+        'username' : 'token',
+        'password' : cosc_authentication_token(odl_server_hostname, 8181, 'admin', 'cisco123')},
+...
+```
+Which uses an OAuth authentication token.
