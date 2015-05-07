@@ -17,7 +17,6 @@ This specific instance of the learning lab is being hosted on [Cisco's dCloud pl
 # About This Demonstration
 The purpose of this Sandbox is to give you access to an early view of the Cisco Open SDN controller. This will take your through the steps of accessing the new Open SDN Controller and then allow you to self-discover different aspects of this product. It will also walk you through using Postman and Python to interact with the Open SDN Controller.
 
-
 # Demonstration Requirements
 The table below outlines the requirements for this preconfigured demonstration. All of this will be provided for you when you are accessing this learning lab during a Cisco Live event. If you are using this learning lab from another location, then you will need to read further
 
@@ -194,7 +193,9 @@ The Cisco DevNet team – developer.cisco.com.
 
 # Troubleshooting
 
-There are two main problems that can typically arise when working with the Open SDN Controller:
+Some problems that can arise when working with the Open SDN Controller are discussed below:
+
+* Chrome caches the progress bar and does not move beyond that when accessing the GUI of the controller. If you have Firefox available, then use that.
 * The controller becomes un-responsive, or responds with 50X errors. This can happen for a variety of reasons, and the simple remedy is to reboot the controller VM as shown below.
 *	The network is in some state, with routes, ACLs, interfaces shutdown, or similar, probably because of a previous series of exercises with the same lab instance, that leads to unexpected results. In this case there is a `restore_network_state.py` script that should reset everything and leave the controller with no mounted devices. If this script does not work, reboot the controller server and try again after five minutes.
 
