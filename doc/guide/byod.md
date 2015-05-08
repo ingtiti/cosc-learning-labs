@@ -161,7 +161,7 @@ On Ubuntu, Mac OS X and other Linux/Unix variants:
 $ pip install virtualenv 
 $ cd ~/git/cosc-learning-labs
 $ virtualenv –p python2.7 env
-$ ource env/bin/activate
+$ source env/bin/activate
 ```
 
 The final command, above, enters a shell or mode. When you are finished with the virtualenv:
