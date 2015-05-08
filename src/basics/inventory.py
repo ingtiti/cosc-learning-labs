@@ -90,6 +90,7 @@ def connected(device_name):
 
 class DeviceControl(namedtuple('DeviceControl',
 [
+    'device_name',
     'address',
     'port',
     'username',
@@ -99,35 +100,28 @@ class DeviceControl(namedtuple('DeviceControl',
     pass
 
 def device_control(device_name):
-    """A DeviceControl if the specified device is mounted, otherwise None"""
+    """A DeviceControl if the specified device is mounted, otherwise None."""
     url_suffix = _url_connector % device_name
     response = odl_http_get(url_suffix, 'application/xml', expected_status_code=[200, 404])
     if response.status_code == 404:
         return None
     tree = etree.parse(BytesIO(response.content))
+    #print(etree.tostring(tree, pretty_print=True, xml_declaration=True))
     module_name = tree.findtext('/m:name', namespaces=_inventory_namespaces)
     assert module_name == device_name
     address = tree.findtext('/c:address', namespaces=_inventory_namespaces)
     port = tree.findtext('/c:port', namespaces=_inventory_namespaces)
     username = tree.findtext('/c:username', namespaces=_inventory_namespaces)
     password = tree.findtext('/c:password', namespaces=_inventory_namespaces)
-    return DeviceControl(address=address, port=port, username=username, password=password)
+    return DeviceControl(device_name, address=address, port=port, username=username, password=password)
 
 def inventory_control():
-    """A list of DeviceControl for all mounted devices"""
-    url_suffix = _url_connector
-    response = odl_http_get(url_suffix, 'application/xml', expected_status_code=[200, 404])
-    if response.status_code == 404:
-        return None
-    tree = etree.parse(BytesIO(response.content))
-    module_name = tree.findtext('/m:name', namespaces=_inventory_namespaces)
+    """ List the DeviceControl for every mounted device.
     
-    assert module_name == device_name
-    address = tree.findtext('/c:address', namespaces=_inventory_namespaces)
-    port = tree.findtext('/c:port', namespaces=_inventory_namespaces)
-    username = tree.findtext('/c:username', namespaces=_inventory_namespaces)
-    password = tree.findtext('/c:password', namespaces=_inventory_namespaces)
-    return DeviceControl(address=address, port=port, username=username, password=password)
+        Return type is 'list of DeviceControl'.
+        If no devices are mounted the list returned is empty.
+    """
+    return [device_control(device_name) for device_name in inventory_mounted()]
 
 def mounted_xml_http():
     'Return a HTTP request/response pair for the mounted items, in XML representation.'
@@ -362,7 +356,7 @@ _url_mounted = 'config/opendaylight-inventory:nodes'
 
 _url_mount = _url_mounted + '/node/controller-config/yang-ext:mount/config:modules'
 
-_url_connector = _url_mount + '/module/odl-sal-netconf-connector-cfg:sal-netconf-connector/%s'
+_url_connector = _url_mount + '/module/odl-sal-netconf-connector-cfg:sal-netconf-connector' + '/%s'
 
 _request_content_mount_template = '''<?xml version="1.0"?>
 <module xmlns="urn:opendaylight:params:xml:ns:yang:controller:config">

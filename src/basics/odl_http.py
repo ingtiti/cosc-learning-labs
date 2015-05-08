@@ -15,13 +15,19 @@
 '''
 
 from __future__ import print_function as _print_function
+
+from threading import Lock
+
+from requests import request
+from requests.auth import HTTPBasicAuth
+
+import settings
+
+
 try:
     import Queue as queue
 except ImportError:
     import queue
-from requests import request
-from requests.auth import HTTPBasicAuth
-from threading import Lock
 
 
 _url_template = 'http://%s:%d/restconf/%s'
@@ -29,7 +35,6 @@ _url_template = 'http://%s:%d/restconf/%s'
 _http_history = queue.Queue(20)
 _http_history_lock = Lock()
 
-import settings
 assert settings.config, "Expected settings to be configured."
 
 assert 'odl_server' in settings.config, "Expected 'odl_server' to be configured in settings."
@@ -100,7 +105,7 @@ def odl_http_request(
         headers['Content-Length'] = len(content)
     response = request(method, url, headers=headers, data=content, auth=HTTPBasicAuth(odl_username, odl_password), verify=False)
     http_history_append(response)
-    print(response.url)
+#     print(response.url)
     status_code_ok = response.status_code in expected_status_code \
         if isinstance(expected_status_code, (list, tuple)) \
         else  response.status_code == expected_status_code
@@ -111,12 +116,6 @@ def odl_http_request(
         raise Exception(msg)
     else:
         return response
-#     if accept == 'xml':
-#         return etree.parse(StringIO(response.text))
-#     elif accept == 'json':
-#         return json.loads(response.text)
-#     else:
-#         return response.text
 
 def odl_http_head(
     url_suffix,

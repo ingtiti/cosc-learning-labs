@@ -17,14 +17,23 @@
 '''
 
 from __future__ import print_function as _print_function
-from basics.inventory import inventory_control
+from basics.inventory import inventory_control, DeviceControl
 from pydoc import render_doc as doc
 from pydoc import plain
 _doc = plain(doc(inventory_control))
 
+def demonstrate():
+    print('inventory_control():')
+    controls = inventory_control()
+    if controls:
+        [print('\t', *control) for control in controls]
+    else:
+        print('\t', None)
+    
 def main():
     print(_doc)
-    print(inventory_control())
+    print('DeviceControl fields:', *DeviceControl._fields, sep='\n\t', end='\n\n')
+    demonstrate()
     
 if __name__ == "__main__":
     main()
