@@ -5,9 +5,17 @@ Once you have done that, the project uses standard Python mechanisms, Pip with t
 
 When your environment is setup correctly, you should create a network profile, in the `src/settings` directory and set that via the NETWORK-PROFILE environment variable, as described below.
 
-# Install Python
+#Windows
+Mac OS X and Linux are quite similar in how one uses them for development. Windows has its own personality when it comes to developer tools though, so we have to treat Windows specially in these instructions. One of the very useful tools, which, if you are a Windows user you should install *now* is [GitBash](https://github.com/msysgit/msysgit/releases/). GitBash usefully provides both a Git client *and* a Bash shell. Also see this guide to [installing GitBash](https://openhatch.org/missions/windows-setup/install-git-bash). The instructions we provide below for Windows work with GitBash.
+
+#Install Python
 Whilst the code will work with Python 2.7, we recommend that you install Python 3.x for your operating system.
-Download the installer here: https://www.python.org/downloads/
+Download the installer here: https://www.python.org/downloads/.
+
+On Windows Python is installed by default in `C:\Python34` (for Python 3). After having installed Python, you will need to add that location, and the location of the Scripts sub-directory (for Pip) to your path, as shown below.
+
+![Windows Python Path](byod_images/windows_python_path.png) 
+![Windows Pip Path](byod_images/windows_pip_path.png) 
 
 #Check Python install:
 If you are using Mac OS X or Linux, enter `python3` to check the version, and expect to see something like:
@@ -21,7 +29,9 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 The `^D` shown above exits from the Python shell.
 
-On Windows, open a command shell by running the `cmd` command and enter `py –3 —version` at the CLI to check the python version. You may use `python —version` if there is only one Python version installed or your PATH is set for Python version 3.
+On Windows, open a Bash shell with GitBash and enter `python` at the CLI to check the Python version. If you have only installed Python3, and you have set the path as illustrated above, you should expect to see something like the example below.
+
+![Windows Python3 in a Git Bash shell](byod_images/windows_python_bash.png) 
 
 # Install Pip
 Pip is the [PyPA recommended tool](https://python-packaging-user-guide.readthedocs.org/en/latest/current.html) for installing Python packages. 
@@ -54,24 +64,41 @@ Installing collected packages: pip
 Successfully installed pip-6.1.1
 ```
 
-Pip comes with Python 3.4 Windows. To check to see if Pip is in your python 3 path use these commands at the CLI:
-
-`C:\>pip –V`
-
-and expect to see something like:
-
-`pip 1.5.6 from C:\Python34\lib\site-packages`
+On Windows, Pip comes with Python 3.4, and is in the `Scripts` sub-directory of the Python install directory. If you added the `C:\Python34\Scripts` directory to your path as shown above, then you should be good.
 
 # Installing Git
 [Git](http://git-scm.com/) is a source code management (SCM) tool. There are many [Git UI tools available](http://git-scm.com/downloads/guis). The Git CLI client is installed as with one of the platform specific [Git downloads](http://git-scm.com/downloads).
 
+On Windows, you can use GitBash as recommended above. 
+
 # Cloning the Code
-Assuming you have a Git client installed, you can clone the project code. If you do not have a Git Client, see above. For a project hosted in GitHub, such as the [COSC Learning Loba](https://github.com/CiscoDevNet/cosc-learning-labs) you should [fork a repository](https://help.github.com/articles/fork-a-repo/) using the "Fork" button at the top right of a project page, as illustrated below.
+Assuming you have a Git client installed, you can clone the project code. If you do not have a Git Client, see above. For a project hosted in GitHub, such as the [COSC Learning Loba](https://github.com/CiscoDevNet/cosc-learning-labs) you can [fork a repository](https://help.github.com/articles/fork-a-repo/) using the "Fork" button at the top right of a project page, as illustrated below.
 
 ![Forking a GitHub project](byod_images/fork.png) 
 
+Or you can just clone the project using the URL copied to the clipboard as shown below:
+
+![Copying the project URL in GitHub](byod_images/git_clone.png)
+
+The command to use the URL is the same for Linux, Max OS X or Windows. By convention, one clones Git projects into the `git` sub-directory of one's `$HOME` directory. These commands will work with a shell on Linux or Mac OS X and a GitBahs shell on windows:
+
+```bash
+$ cd $HOME
+$ mkdir git
+$ cd git
+$ git clone <repository URL>
+```
+
 # Setting Up the Environment
-Having installed Python and Pip, you can then use `pip3 install -e` in the project `src` directory, which, in turn, uses the contents of the `src/setup.py` script to install required components in your environment. 
+Having installed Python and Pip, on Linux and Mac OSX you can then use `pip3 install -e` in the project `src` directory, which, in turn, uses the contents of the `setup.py` script to install required components in your environment. 
+
+On Windows, you will likely need to install the `lxml` library manually, and then run the `pip install -e .` command, as shown below. The pre-packaged binaries can be obtained from [Christoph Gohlke's Unofficial Windows Binaries for Python Extension Packages site](http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml), and then follow the [Installing from Wheels guide](https://pip.pypa.io/en/latest/user_guide.html#installing-from-wheels).
+
+![Windows Installing the lxml Python Package](byod_images/windows_lxml_install.png)
+
+Then, on Windows, you can run the `pip install -e .` command, as shown below:
+
+![Windows Installing the lxml Python Package](byod_images/windows_pip_setup.png)
 
 The outcome is that the Python packages of this project will be appended to the Python *path*, and all required packages will be downloaded and appended to the Python *path*.
 
@@ -80,15 +107,15 @@ There are two suggested techniques for achieving the required integration:
 * Create and modify a virtual, temporary Python environment, which is recommended when you have multiple projects being developed in parallel on your own laptop, say. 
 
 ##Modify the Current Python Environment of Your Computer
-This technique is recommended when your computer is a virtual computer, such as Ubuntu running on VMWare, dedicated to this single project.
+This technique is recommended when your computer is a virtual computer, such as Ubuntu running on VMWare, dedicated to this single project. The commands below should be run from the `cosc-learning-labs/src` directory.
 
 ####Python 2
 ```bash
-sudo pip install -e src
+sudo pip install -e .
 ```
 ####Python 3
 ```bash
-sudo pip3 install -e src
+sudo pip3 install -e .
 ```
 
 On Mac OS X or Linux, that looks like this (with an example from the COSC Learning Lab project being run in the `src` directory):
