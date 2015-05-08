@@ -113,6 +113,22 @@ def device_control(device_name):
     password = tree.findtext('/c:password', namespaces=_inventory_namespaces)
     return DeviceControl(address=address, port=port, username=username, password=password)
 
+def inventory_control():
+    """A list of DeviceControl for all mounted devices"""
+    url_suffix = _url_connector
+    response = odl_http_get(url_suffix, 'application/xml', expected_status_code=[200, 404])
+    if response.status_code == 404:
+        return None
+    tree = etree.parse(BytesIO(response.content))
+    module_name = tree.findtext('/m:name', namespaces=_inventory_namespaces)
+    
+    assert module_name == device_name
+    address = tree.findtext('/c:address', namespaces=_inventory_namespaces)
+    port = tree.findtext('/c:port', namespaces=_inventory_namespaces)
+    username = tree.findtext('/c:username', namespaces=_inventory_namespaces)
+    password = tree.findtext('/c:password', namespaces=_inventory_namespaces)
+    return DeviceControl(address=address, port=port, username=username, password=password)
+
 def mounted_xml_http():
     'Return a HTTP request/response pair for the mounted items, in XML representation.'
     return odl_http_get(_url_mounted, 'application/xml')
