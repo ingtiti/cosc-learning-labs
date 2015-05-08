@@ -39,6 +39,7 @@ setup(
         "requests",
         "ipaddress",
         "lxml",
+        "logilab-common",
     ],
     tests_require=['pytest'],
     cmdclass = {'test': PyTest},
