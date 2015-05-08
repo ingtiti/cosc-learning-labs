@@ -105,6 +105,8 @@ On Linux and Mac OS X, There are two suggested techniques for achieving the requ
 * Modify the current Python environment of your computer, which is suitable for a Dev VM, say, which would only be used for single project.
 * Create and modify a virtual, temporary Python environment, which is recommended when you have multiple projects being developed in parallel on your own laptop, say. 
 
+Note that the first option below, which has to be run as `sudo` will create a `src/COSC_Learning_Lab.egg-info` owned by root. If you choose the vitualenv option below, then you will need to delete the `COSC_Learning_Lab.egg-info` directory owned by root first.
+
 ##Modify the Current Python Environment of Your Computer
 This technique is recommended when your computer is a virtual computer, such as Ubuntu running on VMWare, dedicated to this single project. The commands below should be run from the `cosc-learning-labs/src` directory.
 
@@ -155,7 +157,7 @@ This technique is recommended when your computer is used to run multiple Python 
 
 There are multiple tools that provide a virtual environment. The example below uses [virtualenv](https://virtualenv.pypa.io/en/latest/). See also: [venv](https://docs.python.org/3/library/venv.html), [pyenv](https://github.com/yyuu/pyenv), [pythonz](https://github.com/saghul/pythonz).
 
-On Ubuntu, Mac OS X and other Linux/Unix variants:
+On Ubuntu, Mac OS X and other Linux/Unix variants, the commands below should be run from the `cosc-learning-labs` directory:
 
 ```bash
 $ pip install virtualenv 
@@ -193,19 +195,19 @@ Successfully installed COSC-Learning-Lab ipaddress-1.0.7 logilab-common-0.63.2 l
 
 To run the test suite:
 ```bash
-cd ~/git/cosc-learning-labs/src
-../env/bin/pytest -t ../test
+$ cd ~/git/cosc-learning-labs/src
+$ ../env/bin/pytest -t ../test
 ```
 or
 ```bash
-../env/bin/python3 setup.py test –a ../test
+$ cd ~/git/cosc-learning-labs/src
+$ ../env/bin/python3 setup.py test –a ../test
 ```
 
 The `env/bin/activate` command, above, enters a shell or mode. When you are finished with the virtualenv:
 ```bash
-deactivate 
+$ deactivate 
 ```
-
 
 #Creating and Setting the Network Profile
 The network profile settings file defines variables and data that the learning lab code needs to identify the controller and network elements that are being used in a given instance of the lab. 

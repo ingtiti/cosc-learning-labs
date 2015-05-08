@@ -79,6 +79,7 @@ $ <span class="kw">git</span> clone <span class="kw">&lt;</span>repository URL<s
 </div>
 <p>The outcome is that the Python packages of this project will be appended to the Python <em>path</em>, and all required packages will be downloaded and appended to the Python <em>path</em>.</p>
 <p>On Linux and Mac OS X, There are two suggested techniques for achieving the required integration: * Modify the current Python environment of your computer, which is suitable for a Dev VM, say, which would only be used for single project. * Create and modify a virtual, temporary Python environment, which is recommended when you have multiple projects being developed in parallel on your own laptop, say.</p>
+<p>Note that the first option below, which has to be run as <code>sudo</code> will create a <code>src/COSC_Learning_Lab.egg-info</code> owned by root. If you choose the vitualenv option below, then you will need to delete the <code>COSC_Learning_Lab.egg-info</code> directory owned by root first.</p>
 <h2 id="modify-the-current-python-environment-of-your-computer">Modify the Current Python Environment of Your Computer</h2>
 <p>This technique is recommended when your computer is a virtual computer, such as Ubuntu running on VMWare, dedicated to this single project. The commands below should be run from the <code>cosc-learning-labs/src</code> directory.</p>
 <h4 id="python-2">Python 2</h4>
@@ -117,7 +118,7 @@ Successfully installed COSC-Learning-Lab ipaddress-1.0.7 lxml-3.4.4 requests-2.7
 <h2 id="create-and-modify-a-virtual-temporary-python-environment">Create and Modify a Virtual, Temporary, Python Environment</h2>
 <p>This technique is recommended when your computer is used to run multiple Python projects or multiple versions of Python.</p>
 <p>There are multiple tools that provide a virtual environment. The example below uses <a href="https://virtualenv.pypa.io/en/latest/">virtualenv</a>. See also: <a href="https://docs.python.org/3/library/venv.html">venv</a>, <a href="https://github.com/yyuu/pyenv">pyenv</a>, <a href="https://github.com/saghul/pythonz">pythonz</a>.</p>
-<p>On Ubuntu, Mac OS X and other Linux/Unix variants:</p>
+<p>On Ubuntu, Mac OS X and other Linux/Unix variants, the commands below should be run from the <code>cosc-learning-labs</code> directory:</p>
 <pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">pip</span> install virtualenv 
 $ <span class="kw">cd</span> ~/git/cosc-learning-labs
 $ <span class="kw">virtualenv</span> env
@@ -150,12 +151,13 @@ $ <span class="kw">env/bin/pip3</span> install -e src
 <span class="kw">Successfully</span> installed COSC-Learning-Lab ipaddress-1.0.7 logilab-common-0.63.2 lxml-3.4.4 requests-2.7.0 six-1.9.0
 <span class="kw">(env)</span></code></pre>
 <p>To run the test suite:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cd</span> ~/git/cosc-learning-labs/src
-<span class="kw">../env/bin/pytest</span> -t ../test</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> ~/git/cosc-learning-labs/src
+$ <span class="kw">../env/bin/pytest</span> -t ../test</code></pre>
 <p>or</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">../env/bin/python3</span> setup.py test –a ../test</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> ~/git/cosc-learning-labs/src
+$ <span class="kw">../env/bin/python3</span> setup.py test –a ../test</code></pre>
 <p>The <code>env/bin/activate</code> command, above, enters a shell or mode. When you are finished with the virtualenv:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">deactivate</span> </code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">deactivate</span> </code></pre>
 <h1 id="creating-and-setting-the-network-profile">Creating and Setting the Network Profile</h1>
 <p>The network profile settings file defines variables and data that the learning lab code needs to identify the controller and network elements that are being used in a given instance of the lab.</p>
 <p>The first step us to set an environment variable, <code>NETWORK_PROFILE</code>, to the name of a settings fle. We shall use <code>learning_lab.py</code> in this example, which is based Mac OS X or Linux.</p>
