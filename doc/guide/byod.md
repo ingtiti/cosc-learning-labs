@@ -160,30 +160,53 @@ On Ubuntu, Mac OS X and other Linux/Unix variants:
 ```bash
 $ pip install virtualenv 
 $ cd ~/git/cosc-learning-labs
-$ virtualenv –p python2.7 env
+$ virtualenv env
+
+Using base prefix '/Library/Frameworks/Python.framework/Versions/3.4'
+New python executable in env/bin/python3
+Also creating executable in env/bin/python
+Installing setuptools, pip...done.
+
 $ source env/bin/activate
-```
 
-The final command, above, enters a shell or mode. When you are finished with the virtualenv:
-```bash
-deactivate 
-```
+$ env/bin/pip3 install -e src
 
-Whilst the virtualenv shell is active:
-```
-cd ~/git/cosc-learning-labs
-pip install -e src
+Obtaining file:///.../git/cosc-learning-labs/src
+Collecting requests (from COSC-Learning-Lab==1.0)
+  Using cached requests-2.7.0-py2.py3-none-any.whl
+Collecting ipaddress (from COSC-Learning-Lab==1.0)
+  Using cached ipaddress-1.0.7.tar.gz
+Collecting lxml (from COSC-Learning-Lab==1.0)
+  Using cached lxml-3.4.4.tar.gz
+Collecting logilab-common (from COSC-Learning-Lab==1.0)
+  Using cached logilab-common-0.63.2.tar.gz
+Collecting six>=1.4.0 (from logilab-common->COSC-Learning-Lab==1.0)
+  Using cached six-1.9.0-py2.py3-none-any.whl
+Installing collected packages: requests, ipaddress, lxml, six, logilab-common, COSC-Learning-Lab
+  Running setup.py install for ipaddress
+  Running setup.py install for lxml
+  Running setup.py install for logilab-common
+  Running setup.py develop for COSC-Learning-Lab
+Successfully installed COSC-Learning-Lab ipaddress-1.0.7 logilab-common-0.63.2 lxml-3.4.4 requests-2.7.0 six-1.9.0
+(env)
 ```
 
 To run the test suite:
 ```bash
 cd ~/git/cosc-learning-labs/src
-pytest -t ../test
+../env/bin/pytest -t ../test
 ```
 or
 ```bash
-python setup.py test –a ../test
+../env/bin/python3 setup.py test –a ../test
 ```
+
+The `env/bin/activate` command, above, enters a shell or mode. When you are finished with the virtualenv:
+```bash
+deactivate 
+```
+
+
 #Creating and Setting the Network Profile
 The network profile settings file defines variables and data that the learning lab code needs to identify the controller and network elements that are being used in a given instance of the lab. 
 
