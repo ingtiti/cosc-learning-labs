@@ -153,7 +153,7 @@ Successfully installed COSC-Learning-Lab ipaddress-1.0.7 lxml-3.4.4 requests-2.7
 ```
 
 ##Create and Modify a Virtual, Temporary, Python Environment
-This technique is recommended when your computer is used to run multiple Python projects or multiple versions of Python.
+This technique is recommended when your computer is used to run multiple Python projects or multiple versions of Python. If you have already used the previous option to setup your global environment, then you don't need to do this too.
 
 There are multiple tools that provide a virtual environment. The example below uses [virtualenv](https://virtualenv.pypa.io/en/latest/). See also: [venv](https://docs.python.org/3/library/venv.html), [pyenv](https://github.com/yyuu/pyenv), [pythonz](https://github.com/saghul/pythonz).
 
