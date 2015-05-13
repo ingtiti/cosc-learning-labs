@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.8" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.8/virl.xsd">
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.9" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.9/virl.xsd">
     <extensions>
         <entry key="management_network" type="String">flat</entry>
         <entry key="AutoNetkit.IGP" type="String">isis</entry>
         <entry key="AutoNetkit.address_family" type="String">v4</entry>
     </extensions>
-    <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="316,159" vmImage="IOS XRv-5.1.1.53U [cef09c8c-3f2d-4573-978d-cc0da7e77c4b]" vmFlavor="IOS XRv [d364cdf1-0419-46bf-b142-c304d87ab19f]" ipv4="192.168.0.2">
+    <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="316,159" ipv4="192.168.0.2">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
@@ -15,8 +15,8 @@ netconf agent ssh</entry>
             <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">64496</entry>
-            <entry key="config" type="String">!  IOS-XR Config generated on 2014-10-29 16:02
-! by VIRL Configuration Engine 0.9.9
+            <entry key="config" type="String">!  IOS-XR Config generated on 2015-05-04 13:47
+! by autonetkit_0.15.2
 !
 hostname iosxrv-2
 service timestamps log datetime msec
@@ -121,30 +121,21 @@ router bgp 64496
     address-family ipv4 unicast
     !
     !
-  neighbor 172.16.1.1
-    description iBGP peer ODL
-    remote-as 64496
-    update-source MgmtEth0/0/CPU0/0
-    address-family ipv4 unicast
-    route-reflector-client
-    !
-    !
-
 !
-</entry>
+        </entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/0/0/0" ipv4="10.0.0.1" netPrefixLenV4="16"/>
         <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.128.1" netPrefixLenV4="17"/>
     </node>
-    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="143,77" vmImage="IOS XRv-5.1.1.53U [cef09c8c-3f2d-4573-978d-cc0da7e77c4b]" ipv4="192.168.0.1">
+    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="143,77" ipv4="192.168.0.1">
         <extensions>
             <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
 ssh server netconf port 830
 ssh timeout 120
 netconf agent ssh
 </entry>
-            <entry key="config" type="String">!  IOS-XR Config generated on 2014-10-29 16:02
-! by VIRL Configuration Engine 0.9.9
+            <entry key="config" type="String">!  IOS-XR Config generated on 2015-05-04 13:47
+! by autonetkit_0.15.2
 !
 hostname iosxrv-1
 service timestamps log datetime msec
@@ -251,7 +242,7 @@ router bgp 64496
     !
     !
 !
-</entry>
+        </entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">64496</entry>
