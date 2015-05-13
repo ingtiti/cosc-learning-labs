@@ -19,7 +19,7 @@ You can also use the [Virtual Internet Routing Laboratory(VIRL)](http://virl.cis
 
 Finally, you can also use [Mininet](http://mininet.org/) to emulate OpenFlow devices (or buy such devices from Cisco, of course).
 
-You can run the code [on your own machine](doc/guide/byod.md), or use the [DevNet Development VM](https://communities.cisco.com/community/developer/dev-vm) provided as part of the dCloud demo, on your machine, or running in a VIRL Technology Pack. See ths [guide to using the code](src/learning_lab/README.md) for further details.
+You can run the code [on your own machine](doc/guide/byod.md), or use the [DevNet Development VM](https://communities.cisco.com/community/developer/dev-vm) provided as part of the dCloud demo, on your machine, or running in a VIRL Technology Pack. See ths [guide to using the code](src/README.md) for further details.
 
 You can download the [open source version of ODL](http://www.opendaylight.org/software/downloads) and [run that](https://www.opendaylight.org/sites/opendaylight/files/bk-install-guide-20141002.pdf) on Mac OS X or Linux. If you are using Windows, try the the DevNet Development VM.
 
