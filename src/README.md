@@ -14,17 +14,16 @@ You should `cd` into the learning\_lab directory, where you will be able to run 
 
 * 01_inventory_mount.py – Causes the server to use Netconf to mount the XRv instances in the ../settings/dcloud.py configuration file.
 
-```
+```bash
 $ ./01_inventory_mount.py 
-Python Library Documentation: function device_mount in module basics.inventory\n
-device_mount(device_name, device_address, device_port, device_username, device_password)\n
-Add the specified network device to the inventory of the Controller.\n
+Python Library Documentation: function device_mount in module basics.inventory
+device_mount(device_name, device_address, device_port, device_username, device_password)
+Add the specified network device to the inventory of the Controller.
 device_mount(lax, cisco, cisco, 830, 198.18.1.51)\n
 device_mount(san, cisco, cisco, 830, 198.18.1.54)\n
 device_mount(sea, cisco, cisco, 830, 198.18.1.55)\n
 device_mount(min, cisco, cisco, 830, 198.18.1.52)\n
 device_mount(por, cisco, cisco, 830, 198.18.1.53)\n
-device_mount(xrvr-999, cisco, cisco, 830, 198.18.1.999)\n
 device_mount(sjc, cisco, cisco, 830, 198.18.1.57)\n
 device_mount(kcy, cisco, cisco, 830, 198.18.1.50)\n
 device_mount(sfc, cisco, cisco, 830, 198.18.1.56)\n
@@ -32,7 +31,7 @@ device_mount(sfc, cisco, cisco, 830, 198.18.1.56)\n
 
 *	01_inventory_connected.py – Displays the connected devices:
 
-```
+```bash
 $ ./01_inventory_connected.py 
 Python Library Documentation: function inventory_connected in module basics.inventory
 inventory_connected()
@@ -47,7 +46,7 @@ After that, there are additional sets of scripts to examine certain components a
 
 To see which scripts there are, use the “ls” command as shown below (note that this is a just an elided example of what you will see, as the contents will change over time): 
 
-```
+```bash
 $ ls
 00_controller.py 01_inventory_unreachable.py 04_static_route_json_all.py
 00_devices.py	 02_capability.py 04_static_route_list.py
