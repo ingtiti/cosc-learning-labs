@@ -7,11 +7,11 @@ When something does break, please tell us in the [COSC support community](https:
 # How to Use the Lab
 This lab requires a running instance of ODL or COSC which, in turn, require access to some form of network infrastructure. Cisco provides all of that either in the [DevNet Sandbox](https://devnetsandbox.cisco.com/), or in [dCloud](http://dcloud.cisco.com). 
 
-You can also use the [Virtual Internet Routing Laboratory(VIRL](http://virl.cisco.com) technology to create virtual networks for yourself, and then use [XRv](http://www.cisco.com/en/US/docs/ios_xr_sw/ios_xrv/install_config/b_xrvr_432_chapter_01.html#concept_99CB972CA2594877871B02EAF8D82B80) for [Netconf](http://en.wikipedia.org/wiki/NETCONF)/[Yang](http://en.wikipedia.org/wiki/YANG) based management. 
+You can also use the [Virtual Internet Routing Laboratory(VIRL)](http://virl.cisco.com) technology to create virtual networks for yourself, and then use [XRv](http://www.cisco.com/en/US/docs/ios_xr_sw/ios_xrv/install_config/b_xrvr_432_chapter_01.html#concept_99CB972CA2594877871B02EAF8D82B80) for [Netconf](http://en.wikipedia.org/wiki/NETCONF)/[Yang](http://en.wikipedia.org/wiki/YANG) based management. 
 
-Finally, you can also use [Mininet](http://mininet.org/) to emulate OpenFlow devices.
+Finally, you can also use [Mininet](http://mininet.org/) to emulate OpenFlow devices (or buy such devices from Cisco, of course).
 
-You can run the code [on your own machine](doc/guide/byod.md), or use the [DevNet Development VM](https://communities.cisco.com/community/developer/dev-vm) provided as part of the dCloud demo, on your machine, or running in a VIRL Technology Pack. See ths [guide to using the code](src/larning_lab/README.md) for further details.
+You can run the code [on your own machine](doc/guide/byod.md), or use the [DevNet Development VM](https://communities.cisco.com/community/developer/dev-vm) provided as part of the dCloud demo, on your machine, or running in a VIRL Technology Pack. See ths [guide to using the code](src/learning_lab/README.md) for further details.
 
 You can download the [open source version of ODL](http://www.opendaylight.org/software/downloads) and [run that](https://www.opendaylight.org/sites/opendaylight/files/bk-install-guide-20141002.pdf) on Mac OS X or Linux. If you are using Windows, try the the DevNet Development VM.
 
@@ -21,7 +21,7 @@ You will need to [register an account with Cisco](https://tools.cisco.com/IDREG/
 The DevNet Sandbox contains physical (Nexus and Catalyst switches) and XRv devices that support OpenFlow and Netconf/Yang management scenarios, and is suitable for Interoperability Verification Testing (IVT), of the sort required to certify Cisco solutions.
 
 ## Cisco dCloud
-The dCloud system contains a hosted demonstration deployment with virtual network devices supporting OpenFlow and Netconf/Yang management scenarios. If you do not have access to dCloud, please talk to your Cisco account manger or systems engineer, and they will be able to help you. See these [instructions for dCloud](src/doc/dcloud.md) for further details.
+The dCloud system contains a hosted demonstration deployment with virtual network devices supporting OpenFlow and Netconf/Yang management scenarios. If you do not have access to dCloud, please talk to your Cisco account manger or systems engineer, and they will be able to help you. See these [instructions for dCloud](doc/guide/dcloud.md) for further details.
 
 # Licence
 The licence that applies to this Learning Lab is in file [LICENCE](LICENSE)
