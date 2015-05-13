@@ -1,6 +1,14 @@
-Welcome to the [Cisco DevNet](http://developer.cisco.com) Learning Lab for the [Cisco Open SDN Controller (COSC)](http://www.cisco.com/c/en/us/products/cloud-systems-management/open-sdn-controller/index.html), Cisco's commercial distribution of the [OpenDaylight Controller](http://www.opendaylight.org).
+Welcome to the [Cisco DevNet](http://developer.cisco.com) Learning Lab for the [Cisco Open SDN Controller (COSC)](http://www.cisco.com/c/en/us/products/cloud-systems-management/open-sdn-controller/index.html). The Cisco Open SDN Controller (COSC) is a commercial distribution of [OpenDaylight](http://http://www.opendaylight.org) that delivers business agility through automation of standards-based network infrastructure.
+
+Built as a highly scalable software-defined networking (SDN) platform, the Open SDN Controller abstracts away the complexity of managing heterogeneous networks to improve service delivery and reduce operating costs.
+
+With the Cisco Open SDN Controller, you can integrate business applications with the underlying network devices using Northbound Rest APIs.  The Rest APIs provide a list of supported base network functions, which are agnostic of the underlying network device manufacturer.
+
+Developer support for COSC may be found in the [COSC community at DevNet.](https://communities.cisco.com/community/developer/networking/cisco-one/extensible-network-controller)
 
 This learning lab consists of a growing body of code and [Postman](https://chrome.google.com/webstore/detail/postman-rest-client-packa/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) collections for interacting with the controller. The controller itself, and this learning lab, are constantly evolving, so things break. Sorry about that in advance.
+
+This learning lab is part of a series of such labs offered by Cisco's [DevNet](http://developer.cisco.com). More such labs are to be found at the [Learning Labs section of DevNet](https://developer.cisco.com/site/devnet/learningLabs/overview.gsp). The code for this lab may be found in the [DevNet organisation in GitHub](https://github.com/CiscoDevNet/cosc-learning-labs). 
 
 When something does break, please tell us in the [COSC support community](https://communities.cisco.com/community/developer/networking/cisco-one/extensible-network-controller), or raise an [issue against this project](https://github.com/CiscoDevNet/cosc-learning-labs/issues).
 

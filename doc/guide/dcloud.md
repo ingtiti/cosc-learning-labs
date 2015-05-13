@@ -12,10 +12,10 @@ Developer support for COSC may be found in the [COSC community at DevNet.](https
 # About This Learning Lab
 This learning lab is part of a series of such labs offered by Cisco's [DevNet](http://developer.cisco.com). More such labs are to be found at the [Learning Labs section of DevNet](https://developer.cisco.com/site/devnet/learningLabs/overview.gsp). The code for this lab may be found in the [DevNet organisation in GitHub](https://github.com/CiscoDevNet/cosc-learning-labs). 
 
-This specific instance of the learning lab is being hosted on [Cisco's dCloud platform](http://dcloud.cisco.com). If you have a dCloud account, you can access this learning lab at any time as part of the "Cisco Open SDN Controller 1.0 Sandbox". If you do not have a dCloud account yourself, please contact your Cisco account manager or systems engineer and they will be able to arrange access for you.
+These instructions are for a specific instance of the learning lab hosted on [Cisco's dCloud platform](http://dcloud.cisco.com). If you have a dCloud account, you can access this learning lab at any time as part of the "Cisco Open SDN Controller 1.0 Sandbox". If you do not have a dCloud account yourself, please contact your Cisco account manager or systems engineer and they will be able to arrange access for you.
 
 # About This Demonstration
-The purpose of this Sandbox is to give you access to an early view of the Cisco Open SDN controller. This will take your through the steps of accessing the new Open SDN Controller and then allow you to self-discover different aspects of this product. It will also walk you through using Postman and Python to interact with the Open SDN Controller.
+The purpose of this Sandbox is to give you access to the Cisco Open SDN controller. This will take your through the steps of accessing the new Open SDN Controller and then allow you to self-discover different aspects of this product. It will also walk you through using Postman and Python to interact with the Open SDN Controller.
 
 # Demonstration Requirements
 The table below outlines the requirements for this preconfigured demonstration. All of this will be provided for you when you are accessing this learning lab during a Cisco Live event. If you are using this learning lab from another location, then you will need to read further
@@ -35,11 +35,12 @@ Optionally, you may also use:
 This learning lab contains preconfigured users and components, running on the [Cisco VIRL](http://virl.cisco.com) platform.
  
 All information needed to complete the access components is located in the Topology and Servers menus of your active demonstration. 
-Topology Menu. Click on any server in the topology and a popup window will appear with available server options.
-Servers Menu. Click on the green trianle in the Topology View, or '+' next to any server name in the Servers view, to display the available server options and credentials.
+
+* Topology Menu. Click on any server in the topology and a popup window will appear with available server options.
+* Servers Menu. Click on the green triangle in the Topology View, or '+' next to any server name in the Servers view, to display the available server options and credentials.
 
 # Demonstration Topology
-When accessing the demo, the topology is a simplified one, as shown in the figure below: 
+When accessing the demo, you will see a simplified topology, as shown in the figure below: 
 
 ![OSC Topology](dcloud_images/osc_topology.png)
  
@@ -52,7 +53,7 @@ The VIRL topology used for this demonstration, depicted as a single server above
 For additional information on VIRL, see this [VIRL video at YouTube.](http://www.youtube.com/watch?v=nsbzHmwUz6I)
 
 # Demonstration Preparation
-If you are accessing this learning lab on your own viw dCloud, then follow the steps below to schedule your demonstration and configure your demonstration environment. If you are accessing this learning lab at a Cisco Live event, the learning lab will have been scheduled for you, so you just need to check your AnyConnect connection.
+If you are accessing this learning lab at a Cisco Live event, the learning lab will have been scheduled for you, so you just need to check your AnyConnect connection. If you are accessing this learning lab on your own via dCloud, then follow the steps below to schedule your demonstration and configure your demonstration environment.
 
 1. Browse to dcloud.cisco.com and login with your Cisco.com credentials.
 2. Schedule a demonstration [Show Me How.](http://dcloud-rtp-web-1.cisco.com/dCloud/help/sched_demo.html)
@@ -71,19 +72,16 @@ TIP: If using the dCloud webRDP, you can make your RDP session screen larger. To
 
 # Accessing the OSC
 Demonstration Steps
-1.	Access the Open SDN Controller in one of two ways:
-* If you are connected to the demo via web RDP, on the workstation, use the chrome browser to access the OSC GUI interface at 198.18.1.25
-* If you are connected to the demo via Anyconnect:
-** Open your own, local browser window and access the OSC GUI interface at 198.18.1.25
-** Use a local RDP client to connect to the workstation (at 198.18.133.252 – user credentials Administrator / C1sco12345), and use the workstation chrome browser to access the OSC GUI interface at 198.18.1.25.
-2.	For the SDN Controller, use the login credentials admin / cisco123 and click Login.
-3.	Welcome to the new Open SDN Controller --- Explore!
+1.	Access the Open SDN Controller GUI using the Chrome browser at http://198.18.1.25
+2.	Use the login credentials admin/cisco123 and click Login.
+3.	Welcome to the Open SDN Controller GUI --- Explore!
 
 ![OSC GUI](dcloud_images/osc_gui.png)
  
 Caveats: 
-*	At this time, you are not be able to use the GUI interface to access router configurations; however, you can telnet into the routers using an ssh client.
-*	Please disregard any geographical issues you may find.
+* At this time, you are not be able to use the GUI interface to access router configurations; however, you can telnet into the routers using an ssh client.
+* Please disregard any geographical issues you may find.
+* XRv devices, accessed via Netconf from the controller, do appear in the inventory, but no device details are shown. 
 
 # POSTMAN
 Many applications and servers today have Representational State Transfer (REST) APIs enabled. REST APIs allow users to access, monitor, and control devices from remote locations. There are many tools available that allow you to exploit the REST API, such as CURL and [POSTMAN](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en). This section of the learning lab uses POSTMAN to exploit the REST APIs of the OSC. 
@@ -94,14 +92,14 @@ Note that the Cisco Open SDN Controller REST APIs require authentication, so all
 
 Connect to POSTMAN in one of three ways as described below. For the learning labs at a Cisco Live event, use the Chrome browser on the desktop. Other options are to use an RDP connection to a windows workstation, or your own Postman or REST API client.
 
-In the Cisco Live learning labs, you connect to the demo via AnyConnect and point your local Chrome Browser window directly to the OSC GUI. You can then, in the Chrome browser click the Postman tab, as shown in the figure below.
+In the Cisco Live learning labs, you connect to the demo via AnyConnect and point your local Chrome Browser window directly to the OSC GUI. You can then, in the Chrome browser, click the Postman tab, as shown in the figure below.
 
 Under other circumstances, if you are familiar with POSTMAN already, you can use your own, local POSTMAN application by importing the following collections:
 
 * [OSC-25-Tokenized](https://www.getpostman.com/collections/e6f05baf5a3848bf5796)
 * [VIRL_Client](https://www.getpostman.com/collections/2bf2256ec14f5d40d314)
 
-Having loaded those collections, or if you are using a Cisco Live learning lab machine, then, in POSTMAN, click the Collections link, then click the OSC-25-Tokenized subheading.
+Then, in POSTMAN, click the Collections link, then click the OSC-25-Tokenized subheading.
 
 Then click POST Get token. Then, in the middle panel, click Send. You will see the token string in the reply as shown below. You need to copy that, without the quote characters.
 
@@ -114,7 +112,7 @@ Then, in the middle pane, select the Basic Auth tab. For the username, enter tok
 ![Setting the Auth Token](dcloud_images/setting_auth_token.png) 
 
 # Python DevNet Learning Lab
-In the labs section above, you used Postman, which is a browser plugin that allows you to send HTTP requests to REST (Representational State Transfer) APIs on the controller. In the case of the Cisco Open SDN Controller, those APIs are generated from Yang models and exposed via [“RESTCONF”](https://tools.ietf.org/html/draft-ietf-netconf-restconf-04) . 
+In the section above, you used Postman, which is a browser plugin that allows you to send HTTP requests to REST (Representational State Transfer) APIs on the controller. In the case of the Cisco Open SDN Controller, those APIs are generated from Yang models and exposed via [“RESTCONF”](https://tools.ietf.org/html/draft-ietf-netconf-restconf-04) . 
 
 Another way to call the same APIs is via Python, which is the focus of this section of the lab. The Python code here is presented as a series of scripts that you can run on an Ubuntu VM, available via “ssh cisco@198.18.134.28”. The password is C1sco12345. When you log in, a script will be run to update the VM for this exercise, and so you will need to provide the password so that the script can run with sudo permissions. You can look at the end of the ~/.bashrc file to see what is happening if you are curious.
 
@@ -143,8 +141,6 @@ device_mount(sjc, cisco, cisco, 830, 198.18.1.57)\n
 device_mount(kcy, cisco, cisco, 830, 198.18.1.50)\n
 device_mount(sfc, cisco, cisco, 830, 198.18.1.56)\n
 ```
-
-Note that the xrvr-999 device is there for test purposes, to show that non-existent devices will not be connected.
 
 *	01_inventory_connected.py – Displays the connected devices:
 
@@ -197,7 +193,7 @@ Some problems that can arise when working with the Open SDN Controller are discu
 
 * Chrome caches the progress bar and does not move beyond that when accessing the GUI of the controller. If you have Firefox available, then use that.
 * The controller becomes un-responsive, or responds with 50X errors. This can happen for a variety of reasons, and the simple remedy is to reboot the controller VM as shown below.
-*	The network is in some state, with routes, ACLs, interfaces shutdown, or similar, probably because of a previous series of exercises with the same lab instance, that leads to unexpected results. In this case there is a `restore_network_state.py` script that should reset everything and leave the controller with no mounted devices. If this script does not work, reboot the controller server and try again after five minutes.
+* The network is in some state, with routes, ACLs, interfaces shutdown, or similar, probably because of a previous series of exercises with the same lab instance, that leads to unexpected results. In this case there is a `restore_network_state.py` script that should reset everything and leave the controller with no mounted devices. If this script does not work, reboot the controller server and try again after five minutes.
 
 The controller “ocs” server can be rebooted from the “Servers” section of your dCloud Dashboard as shown below. Click on the “+” symbol next to the “ocs” server entry, and then select the bottom right “Reboot Guest” button, which has a symbol of circled arrows. 
 
