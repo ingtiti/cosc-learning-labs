@@ -10,32 +10,21 @@
 # specific language governing permissions and limitations under the License.
 
 from __future__ import print_function
-from basics.inventory import device_dismount, inventory_mounted, inventory_unmounted, device_mount, mounted, device_control
-from settings import config
-import time
+from basics.inventory import device_dismount, inventory_mounted, inventory_unmounted, mounted
 from unittest.case import TestCase
 from unittest import main
+from helpers import mount_from_settings
 
 class Test(TestCase):
     
-    network_device_config = config['network_device']
-
     def setUp(self):
         """
         Mount every device that is unmounted.
         """
         unmounted_list = inventory_unmounted()
         if unmounted_list:
-            print('setup:')
             for device_name in unmounted_list:
-                device_config = self.network_device_config[device_name]
-                print('\tdevice_mount(' + device_name, *device_config.values(), sep=', ', end=')\n')
-                device_mount(
-                    device_name,
-                    device_config['address'],
-                    device_config['port'],
-                    device_config['username'],
-                    device_config['password'])
+                mount_from_settings(device_name)
                 self.assertTrue(mounted(device_name), 'Expected mounted: ' + device_name)
 
     def test_device_dismount(self):
@@ -44,9 +33,7 @@ class Test(TestCase):
         """
         mounted_list = inventory_mounted()
         self.assertTrue(mounted_list, 'One or more devices must be mounted.')
-        print('test:')
         for device_name in mounted_list:
-            print('\tdevice_dismount(', device_name, end=')\n')
             device_dismount(device_name)
             self.assertFalse(mounted(device_name), 'Expected not mounted: ' + device_name)
 
