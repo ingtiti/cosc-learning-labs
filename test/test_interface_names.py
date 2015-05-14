@@ -14,14 +14,15 @@ from basics.interface_names import interface_names
 from unittest.case import TestCase
 from basics.inventory import inventory_connected
 from unittest import main
-from helpers import inventory_connect
+from helpers import inventory_connect, inventory_purge
 
 class Test(TestCase):
 
     def setUp(self):
         """
-        Mount every device that is unmounted and verify the connection to each device. 
+        Connect every network device configured in the settings.
         """
+        inventory_purge()
         inventory_connect()
         
 

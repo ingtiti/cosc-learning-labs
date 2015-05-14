@@ -16,9 +16,18 @@ Helper functions for testing.
 '''
 
 from __future__ import print_function as _print_function
-from basics.inventory import device_mount, inventory_unmounted, inventory_connected, DeviceControl
+from basics.inventory import device_mount, device_dismount, inventory_unmounted, inventory_connected, DeviceControl, \
+    inventory_mounted
 from settings import config
 import time
+
+def inventory_purge():
+    """
+    Dismount any mounted network device that is unconnected.
+    """
+    device_names = set(inventory_mounted()) - set(inventory_connected())
+    for device in device_names:
+        device_dismount(device)
 
 def inventory_connect(time_out=10.0, time_interval=0.2):
     """
@@ -31,31 +40,30 @@ def inventory_connect(time_out=10.0, time_interval=0.2):
     Raise:
     Exception if any connections are not verified during the time allocated.
     """
-    unmounted_collection = set(inventory_unmounted())
-    if unmounted_collection:
-        for device_name in unmounted_collection:
+    unmounted_device_names = set(inventory_unmounted())
+    if unmounted_device_names:
+        for device_name in unmounted_device_names:
             mount_from_settings(device_name)
         time_accum = 0.0
         num_checks = 0
         while time_accum < time_out:
+            unconnected_device_names = unmounted_device_names - set(inventory_connected())
             num_checks += 1
-            expanding_interval = time_interval * num_checks
-            time_accum += expanding_interval  
-            # Don't hammer the Controller or it will crash.
-            # This not a denial-of-service (DOS) attack ;-)
-            # Print a message explaining why nothing is happening, otherwise user might terminate.
-            print('sleep(%s)' % expanding_interval)
-            time.sleep(expanding_interval)
-            pending_connection = unmounted_collection - set(inventory_connected())
-            if pending_connection:
-                print('%s network device connection(s) pending after %s check(s) and %s seconds.' % (len(pending_connection), num_checks, time_accum))
-            else:
-                print('%s network device connection(s) verified after %s check(s) and %s seconds.' % (len(unmounted_collection), num_checks, time_accum))
-                print()
+            if not unconnected_device_names:
+                print('%s network device connection(s) verified after %s check(s) and %s seconds.' % (len(unmounted_device_names), num_checks, time_accum))
                 return
-        pending_connection = unmounted_collection - set(inventory_connected())
-        if pending_connection:
-            raise Exception('Expected connection to device(s): ' + str(*pending_connection))
+            else:
+                # Don't hammer the Controller or it will crash.
+                # This not a denial-of-service (DOS) attack ;-)
+                # Print a message explaining the pause, otherwise user might terminate.
+                expanding_interval = time_interval * num_checks
+                time_accum += expanding_interval  
+                print('sleep(%s) seconds pending connection to %s network device(s).' % (expanding_interval, len(unconnected_device_names)))
+                time.sleep(expanding_interval)
+        unconnected_device_names = unmounted_device_names - set(inventory_connected())
+        if unconnected_device_names:
+            raise Exception('Expected connection after %s check(s) and %s seconds to network device(s): ' 
+                            % (num_checks, time_accum) + ', '.join(unconnected_device_names))
 
 network_device_dict = config['network_device']
 
