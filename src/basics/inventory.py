@@ -113,7 +113,7 @@ def device_control(device_name):
     port = tree.findtext('/c:port', namespaces=_inventory_namespaces)
     username = tree.findtext('/c:username', namespaces=_inventory_namespaces)
     password = tree.findtext('/c:password', namespaces=_inventory_namespaces)
-    return DeviceControl(device_name, address=address, port=port, username=username, password=password)
+    return DeviceControl(device_name, address=address, port=int(port), username=username, password=password)
 
 def inventory_control():
     """ List the DeviceControl for every mounted device.
