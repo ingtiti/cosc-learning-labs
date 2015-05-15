@@ -48,7 +48,7 @@ def inventory_connect(time_out=10.0, time_interval=0.2):
             time.sleep(expanding_interval)
             pending_connection = unmounted_collection - set(inventory_connected())
             if pending_connection:
-                print('%s network device(s) pending connection after %s check(s) and %s seconds.' % (len(pending_connection), num_checks, time_accum))
+                print('%s network device connection(s) pending after %s check(s) and %s seconds.' % (len(pending_connection), num_checks, time_accum))
             else:
                 print('%s network device connection(s) verified after %s check(s) and %s seconds.' % (len(unmounted_collection), num_checks, time_accum))
                 print()
