@@ -25,7 +25,7 @@ from pydoc import plain
 from pydoc import render_doc as doc
 
 from basics.interface import management_interface
-from basics.interface_names import interface_names
+from basics.interface import interface_names
 from basics.interface_properties import interface_properties
 from basics.inventory import inventory_connected
 from basics.render import print_rich

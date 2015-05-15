@@ -20,7 +20,7 @@
 '''
 from __future__ import print_function as _print_function
 from basics.interface import management_interface
-from basics.interface_names import interface_names
+from basics.interface import interface_names
 from basics.interface import interface_configuration_tuple
 from basics.interface import interface_configuration_update
 from basics.inventory import inventory_connected

@@ -23,7 +23,7 @@ from __future__ import print_function as _print_function
 from pydoc import plain
 from pydoc import render_doc as doc
 from basics.interface import management_interface
-from basics.interface_configuration import interface_configuration
+from basics.interface import interface_configuration_tuple
 from basics.inventory import inventory_mounted
 from basics.render import print_rich
 import os
