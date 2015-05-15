@@ -160,7 +160,7 @@ There are multiple tools that provide a virtual environment. The example below u
 On Ubuntu, Mac OS X and other Linux/Unix variants, the commands below should be run from the `cosc-learning-labs` directory:
 
 ```bash
-$ pip install virtualenv 
+$ sudo pip install virtualenv 
 $ cd ~/git/cosc-learning-labs
 $ virtualenv env
 
