@@ -196,13 +196,9 @@ Successfully installed COSC-Learning-Lab ipaddress-1.0.7 logilab-common-0.63.2 l
 To run the test suite:
 ```bash
 $ cd ~/git/cosc-learning-labs/src
-$ ../env/bin/pytest -t ../test
+$ python3 setup.py test –a ../test
 ```
-or
-```bash
-$ cd ~/git/cosc-learning-labs/src
-$ ../env/bin/python3 setup.py test –a ../test
-```
+See also: [detailed instructions for testing](testing.md)
 
 The `env/bin/activate` command, above, enters a shell or mode. When you are finished with the virtualenv:
 ```bash
