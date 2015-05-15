@@ -140,7 +140,7 @@ def interface_configuration_tuple_from_xml(tree):
         packet_filter_outbound=tree.findtext('{*}ipv4-packet-filter/{*}outbound/{*}name'),
         packet_filter_inbound=tree.findtext('{*}ipv4-packet-filter/{*}inbound/{*}name'),
         active=tree.findtext('{*}active'),
-        shutdown=tree.find('{*}shutdown') != None,
+        shutdown=tree.find('{*}shutdown') is not None,
         address=tree.findtext('.//{*}primary/{*}address'),
         netmask=tree.findtext('.//{*}primary/{*}netmask'))
     return result

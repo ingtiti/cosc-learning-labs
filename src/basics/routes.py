@@ -13,7 +13,6 @@ from ipaddress import ip_network, _BaseNetwork
 from basics.odl_http import odl_http_get, odl_http_post, odl_http_delete
 from basics.inventory import capability_discovery
 from basics.acl import _error_message
-from string import count
 
 _bgp_url_suffix = 'operational/bgp-rib:bgp-rib/rib/example-bgp-rib/loc-rib/tables/bgp-linkstate:linkstate-address-family/bgp-linkstate:linkstate-subsequent-address-family'
 
@@ -75,7 +74,7 @@ def to_ip_network(destination_address, destination_mask=None):
             raise ValueError('Expected IPv4Network or IPv6Network or string, got %s' % type(destination_address))
     else:
         network = ip_network(u'%s/%s' % (destination_address, destination_mask), strict=False)
-        assert count(str(network), '/') == 1
+        assert str(network).count('/') == 1
         return  network
 
 def static_route_json(device_name, destination_network):
