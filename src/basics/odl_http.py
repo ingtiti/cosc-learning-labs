@@ -15,15 +15,10 @@
 '''
 
 from __future__ import print_function as _print_function
-
 from threading import Lock
-
 from requests import request
 from requests.auth import HTTPBasicAuth
-
-# import settings
-
-
+from basics.http import json_loads, json_dumps
 try:
     import Queue as queue
 except ImportError:
@@ -111,6 +106,9 @@ def odl_http_request(
     if contentType is not None:
         headers['Content-Type'] = contentType
     if content is not None:
+        if not isinstance(content, str):
+            if contentType.endswith('json'):
+                content = json_dumps(content) 
         headers['Content-Length'] = len(content)
     response = request(
         method,
