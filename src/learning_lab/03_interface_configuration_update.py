@@ -34,19 +34,21 @@ temp_address = '101.101.101.101'
 temp_netmask = '255.255.0.0'
 temp_description = 'Mutable'
 
-def demonstrate(device_name, interface_config):
+def demonstrate(device_name, interface_name):
     print("Initial configuration:")
-    initial = interface_config
+    print('interface_configuration_tuple(%s, %s):' % (device_name, interface_name))
+    initial = interface_configuration_tuple(device_name, interface_name)
     print(initial)
     
     try:
         print()
         print("Modify configuration:")
-        print('interface_configuration_update(' + device_name, initial.name, temp_description, temp_address, temp_netmask, not initial.shutdown, sep=', ', end=')\n')
+        print('interface_configuration_update(%s, %s, %s, %s, %s, %s)' % (device_name, interface_name, temp_description, temp_address, temp_netmask, not initial.shutdown))
         interface_configuration_update(device_name, initial.name, description=temp_description,
                                address=temp_address, netmask=temp_netmask, shutdown=not initial.shutdown)
         print()
         print("Modified configuration:")
+        print('interface_configuration_tuple(%s, %s):' % (device_name, interface_name))
         modified = interface_configuration_tuple(device_name, initial.name)
         print(modified)
         assert modified.name == initial.name
@@ -58,18 +60,20 @@ def demonstrate(device_name, interface_config):
     finally:
         print()
         print("Restore configuration:")
-        print('interface_configuration_update(' + device_name, initial.name, initial.description, initial.address, initial.netmask, initial.shutdown, sep=', ', end=')\n')
-        interface_configuration_update(device_name, initial.name, description=initial.description, address=initial.address, netmask=initial.netmask, shutdown=initial.shutdown)
+        print('interface_configuration_update(%s, %s, %s, %s, %s, %s)' % (device_name, interface_name, initial.description, initial.address, initial.netmask, initial.shutdown))
+        interface_configuration_update(device_name, interface_name, description=initial.description, address=initial.address, netmask=initial.netmask, shutdown=initial.shutdown)
     
         print()
         print("Restored configuration:")
-        restored = interface_configuration_tuple(device_name, initial.name)
+        print('interface_configuration_tuple(%s, %s):' % (device_name, interface_name))
+        restored = interface_configuration_tuple(device_name, interface_name)
         print(restored)
         assert restored.name == initial.name
         assert restored.description == initial.description, "Expected '%s' %s got '%s' %s" % (initial.description, type(initial.description), restored.description, type(restored.description))
         assert restored.address == initial.address
         assert restored.netmask == initial.netmask
         assert restored.shutdown == initial.shutdown
+        assert restored.active == initial.active
 
 def main():
     print(plain(doc(interface_configuration_update)))
@@ -79,10 +83,7 @@ def main():
             # Avoid modifying the management interface.
             if interface_name == mgmt_name:
                 continue
-            interface_config = interface_configuration_tuple(device_name, interface_name)
-            if not interface_config.address:
-                continue
-            demonstrate(device_name, interface_config)
+            demonstrate(device_name, interface_name)
             return os.EX_OK
     print("There are no suitable network devices. Demonstration cancelled.")
     return os.EX_TEMPFAIL
