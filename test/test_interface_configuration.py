@@ -25,7 +25,7 @@ class Test(TestCase):
         inventory_purge()
         inventory_connect()
 
-    def test_interface_configuration(self):
+    def test_interface_configuration_tuple(self):
         device_names = inventory_connected()
         self.assertTrue(device_names, "Expected one or more connected devices.")
         interface_count = 0
@@ -33,11 +33,10 @@ class Test(TestCase):
             for interface_name in interface_names(device_name):
                 info = interface_configuration_tuple(device_name, interface_name)
                 self.assertEqual(info.name, interface_name)
-                #self.assertIsNotNone(info.description) dcloud for CLUS devices have no description.
-                self.assertTrue(info.description is None or isinstance(info.description, basestring))
-                self.assertTrue(info.address is None or isinstance(info.address, basestring))
-                self.assertTrue(info.address and info.netmask or not (info.address or info.netmask))
-                ++interface_count
+                self.assertTrue(info.description is None or isinstance(info.description, str))
+                self.assertTrue(info.address is None or isinstance(info.address, str))
+                self.assertTrue(info.netmask is None or isinstance(info.netmask, str))
+                interface_count+=1
         self.assertNotEqual(0, interface_count, 'Expected one or more interfaces.')
 
     def test_description_absent(self):
