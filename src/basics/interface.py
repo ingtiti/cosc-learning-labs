@@ -210,32 +210,12 @@ def interface_configuration_to_html(xml):
     'Return a HTML table containing interface configuration, given a XML representation of the configuration.'
     return _configurations_xslt(xml)
 
-interface_configuration_update_content_template = '''
-{
-  "interface-configuration": [
-    {
-      "active": "%s",
-      "Cisco-IOS-XR-ipv4-io-cfg:ipv4-network": {
-        "addresses": {
-          "primary": {
-            "netmask": "%s", 
-            "address": "%s"
-          }
-        }
-      },%s
-      "interface-name": "%s", 
-      "description": "%s"
-    }
-  ]
-}
-'''
-
 def interface_configuration_update(
     device_name,
     interface_name,
-    description,
-    address,
-    netmask,
+    description=None,
+    address=None,
+    netmask=None,
     active='act',
     shutdown=False
 ):
@@ -243,9 +223,26 @@ def interface_configuration_update(
     
     The outcome is undefined if the specified device is not connected. 
     '''
-    shutdownField = '\n"shutdown" : "",' if shutdown else ""
-    content_params = (active, netmask, address, shutdownField, interface_name, description)
-    request_content = interface_configuration_update_content_template % content_params
+    fields = {"interface-name": interface_name}
+    if shutdown:
+        fields["shutdown"] = ""
+    if active:
+        fields["active"] = active
+    if description:
+        fields["description"] = description
+    if address or netmask:
+        primary = {}
+        if address:
+            primary["address"] = address
+        if netmask:
+            primary["netmask"] = netmask
+        #TODO test if address is IPv4 or IPv6
+        fields["Cisco-IOS-XR-ipv4-io-cfg:ipv4-network"] = {
+            "addresses": {
+                "primary": primary
+            }
+        } 
+    request_content = {"interface-configuration": [fields]}
     url_params = {'node-id' : device_name, 'active' : active, 'interface-id' : interface_name}
     odl_http_put(_configuration_uni_url_template, url_params, 'application/json', request_content, expected_status_code=200)
 
