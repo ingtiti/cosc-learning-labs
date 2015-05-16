@@ -10,3 +10,4 @@ venv
 virtualenv
 *.egg-info
 *.egg
+build
