@@ -21,8 +21,8 @@
 from __future__ import print_function as _print_function
 from basics.interface import management_interface
 from basics.interface_names import interface_names
-from basics.interface_configuration import interface_configuration
-from basics.interface_configuration import interface_configuration_update
+from basics.interface import interface_configuration_tuple
+from basics.interface import interface_configuration_update
 from basics.inventory import inventory_connected
 from pydoc import render_doc as doc
 from pydoc import plain
@@ -46,7 +46,7 @@ def demonstrate(device_name, interface_config):
                                address=temp_address, netmask=temp_netmask, shutdown=not initial.shutdown)
         print()
         print("Modified configuration:")
-        modified = interface_configuration(device_name, initial.name)
+        modified = interface_configuration_tuple(device_name, initial.name)
         print(modified)
         assert modified.name == initial.name
         assert modified.description != initial.description
@@ -62,7 +62,7 @@ def demonstrate(device_name, interface_config):
     
         print()
         print("Restored configuration:")
-        restored = interface_configuration(device_name, initial.name)
+        restored = interface_configuration_tuple(device_name, initial.name)
         print(restored)
         assert restored.name == initial.name
         assert restored.description == initial.description, ("got " % initial.description)
@@ -78,7 +78,7 @@ def main():
             # Avoid modifying the management interface.
             if interface_name == mgmt_name:
                 continue
-            interface_config = interface_configuration(device_name, interface_name)
+            interface_config = interface_configuration_tuple(device_name, interface_name)
             if not interface_config.address:
                 continue
             demonstrate(device_name, interface_config)

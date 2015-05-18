@@ -17,7 +17,7 @@ try:
 except ImportError:
     from io import StringIO
 
-from basics.odl_http import odl_http_get
+from basics.odl_http import odl_http_get, odl_http_put
 from collections import namedtuple
 try:
     from urllib import quote_plus
@@ -213,6 +213,44 @@ _configurations_xslt = etree.XSLT(etree.fromstring(_configurations_xsl))
 def interface_configuration_to_html(xml):
     'Return a HTML table containing interface configuration, given a XML representation of the configuration.'
     return _configurations_xslt(xml)
+
+interface_configuration_update_content_template = '''
+{
+  "interface-configuration": [
+    {
+      "active": "%s",
+      "Cisco-IOS-XR-ipv4-io-cfg:ipv4-network": {
+        "addresses": {
+          "primary": {
+            "netmask": "%s", 
+            "address": "%s"
+          }
+        }
+      },%s
+      "interface-name": "%s", 
+      "description": "%s"
+    }
+  ]
+}
+'''
+
+def interface_configuration_update(
+    device_name,
+    interface_name,
+    description,
+    address,
+    netmask,
+    active='act',
+    shutdown=False
+):
+    '''Update the configuration of the specified interface of the specified device.
+    
+    The outcome is undefined if the specified device is not connected. 
+    '''
+    url_suffix = _configuration_multi_url_template % (device_name, active, quote_plus(interface_name))
+    shutdownField = '\n"shutdown" : "",' if shutdown else ""
+    request_content = interface_configuration_update_content_template % (active, netmask, address, shutdownField, interface_name, description)
+    odl_http_put(url_suffix, 'application/json', request_content, expected_status_code=200)
 
 def interface_properties_http(content_type, device_name, interface_name=None):
     '''Return the HTTP request and response, for interface properties, for the specified, mounted device 
