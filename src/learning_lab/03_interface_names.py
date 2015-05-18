@@ -19,7 +19,7 @@
 from __future__ import print_function as _print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-from basics.interface_names import interface_names
+from basics.interface import interface_names
 from basics.inventory import inventory_connected, inventory_mounted
 
 def demonstrate(device_name):
