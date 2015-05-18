@@ -33,8 +33,8 @@ class Test(TestCase):
             for interface_name in interface_name_list:
                 info = interface_configuration_tuple(device_name, interface_name)
                 self.assertEqual(info.name, interface_name)
-                self.assertIsNotNone(info.description)
-                self.assertTrue(info.address and info.netmask or not info.address and not info.netmask)
+                #self.assertIsNotNone(info.description) dcloud for CLUS devices have no description.
+                self.assertTrue(info.address and info.netmask or not (info.address or info.netmask))
 
 if __name__ == '__main__':
     main()
