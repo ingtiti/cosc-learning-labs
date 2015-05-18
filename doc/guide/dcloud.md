@@ -66,6 +66,10 @@ On the VM those scripts have been “cloned” into in the ~/git/cosc-learning-l
 
 You will then be able to run scripts in the lab, with the steps below:
 
+## Step 0 Check That the Controller is There
+
+
+
 ## Step 1 Mounting Netconf Devices
 
 Use the 01_inventory_mount.py script which causes the server to use Netconf to mount the XRv instances in the ../settings/dcloud.py configuration file.
@@ -102,7 +106,85 @@ inventory_connected()
 The output above indicates that the controller has mounted the XRv devices, and that all devices connected properly. If you do not see that they connected properly, try again. It can take a several minutes for all of the network elements to mount and connect.
 After that, there are additional sets of scripts to examine certain components and set properties on those components, as appropriate. 
 
-To see which scripts there are, use the “ls” command as shown below (note that this is a just an elided example of what you will see, as the contents will change over time): 
+## Step 3 Seeing What Else You Can Do
+
+One the key concepts in [Netconf](https://tools.ietf.org/html/rfc6241) is ["capabilities"](https://tools.ietf.org/html/rfc6241#section-1.3). These capabilities are implemented by the network elements that the controller manages, and the controller acts as an agent for the network elements, passing through what it discovers on the network elements. What this means overall, then, is that the main factor determining what you can do next is what the network elements support.
+
+To what the network elements mounted in your controller supports, use the "*capability*" scripts, which will show you what is possible.
+
+* 02_capability.py - Prints the capabilities supported by each device.
+
+```bash
+./02_capability.py 
+cosc authentication url: https://198.18.1.25/controller-auth
+cosc authentication parameters:
+   ...
+por (http://cisco.com/ns/yang/Cisco-IOS-XR-shellutil-cfg?revision=2013-07-22)Cisco-IOS-XR-shellutil-cfg
+por (http://cisco.com/ns/yang/Cisco-IOS-XR-ifmgr-oper?revision=2013-07-22)Cisco-IOS-XR-ifmgr-oper
+por (http://cisco.com/ns/yang/Cisco-IOS-XR-infra-infra-cfg?revision=2013-07-22)Cisco-IOS-XR-infra-infra-cfg
+...
+```
+
+* 02_capability_discovery.py - Checks which devices have specific, advanced, capabilities such as ACLs and static routes.
+
+```bash
+ ./02_capability_discovery.py 
+cosc authentication url: https://198.18.1.25/controller-auth
+cosc authentication parameters:
+  ...
+
+capability_discovery(Cisco-IOS-XR-ipv4-acl-cfg, http://cisco.com/ns/yang/):
+	 None
+
+capability_discovery(Cisco-IOS-XR-ip-static-cfg, http://cisco.com/ns/yang/):
+	 None
+...
+```
+For each section of scripts for a given feature, there is also a script that will test which devices have the required capability to work with the feature, e.g.:
+		
+* 04_static_route_capability.py - Iterate through connected devices looking for the capability to add static routes.
+
+```bash
+./04_static_route_capability.py
+cosc authentication url: https://198.18.1.25/controller-auth
+cosc authentication parameters:
+  ...
+Python Library Documentation: function capability_discovery in module basics.inventory
+
+capability_discovery(capability_name=None, capability_ns=None, capability_revision=None, device_name=None)
+    Discover the revision of the specified capability for a set of devices.
+    
+    The entire inventory will be examined unless a single device is specified.
+    Function output is a list of tuples. 
+    Each tuple consists of (device_name, (capability_name, capability_ns, capability_revision).
+
+capability_discovery(device_name=sjc, capability_name=Cisco-IOS-XR-ip-static-cfg, capability_ns=http://cisco.com/ns/yang/)
+None
+...
+```
+
+* 05_acl_capability.py - Iterate through the connected devices looking for the capability to configure ACLs.
+
+```bash
+./05_acl_capability.py
+cosc authentication url: https://198.18.1.25/controller-auth
+cosc authentication parameters:
+..
+Python Library Documentation: function capability_discovery in module basics.inventory
+
+capability_discovery(capability_name=None, capability_ns=None, capability_revision=None, device_name=None)
+    Discover the revision of the specified capability for a set of devices.
+    
+    The entire inventory will be examined unless a single device is specified.
+    Function output is a list of tuples. 
+    Each tuple consists of (device_name, (capability_name, capability_ns, capability_revision).
+
+capability_discovery(device_name=sjc, capability_name=Cisco-IOS-XR-ipv4-acl-cfg, capability_ns=http://cisco.com/ns/yang/)
+None
+...
+```
+
+As this is a growing body of code, to see which scripts there are, use the “ls” command as shown below (note that this is a just an elided example of what you will see, as the contents will change over time): 
 
 ```bash
 $ ls
@@ -118,7 +200,6 @@ $ ls
 Some of what these scripts cover includes:  
 
 * Inventory
-* Netconf/Yang capabilities
 * Interfaces
 * Routes and Topology
 * ACLs

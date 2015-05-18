@@ -37,7 +37,7 @@ def demonstrate(device_name):
     else:
         print(None)
         return False
-
+    
 def main():
     ''' Document and demonstrate the function until a capable device is found.'''
     print(plain(doc(capability_discovery)))
