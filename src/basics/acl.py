@@ -62,9 +62,9 @@ _request_create_template = '''
 }
 '''
 
-_url_template = 'config/opendaylight-inventory:nodes/node/%s/yang-ext:mount/Cisco-IOS-XR-ipv4-acl-cfg:ipv4-acl-and-prefix-list'
+_url_template = 'config/opendaylight-inventory:nodes/node/{node-id}/yang-ext:mount/Cisco-IOS-XR-ipv4-acl-cfg:ipv4-acl-and-prefix-list'
 
-_url_named_acl = 'config/opendaylight-inventory:nodes/node/%s/yang-ext:mount/Cisco-IOS-XR-ipv4-acl-cfg:ipv4-acl-and-prefix-list/accesses/access/%s/'
+_url_named_acl = 'config/opendaylight-inventory:nodes/node/{node-id}/yang-ext:mount/Cisco-IOS-XR-ipv4-acl-cfg:ipv4-acl-and-prefix-list/accesses/access/{access-id}/'
 
 def _error_message(error_json):
     """A string representation of the error message given a JSON representation of the error."""
@@ -81,8 +81,7 @@ def acl_create_port_grant(
     protocol
 ):
     request_content = _request_content_acl_port_grant_template % (quote_plus(acl_name), port, grant, protocol)
-    url_suffix = _url_template % quote_plus(device_name)
-    response = odl_http_post(url_suffix, 'application/json', request_content, expected_status_code=[204, 409])
+    response = odl_http_post(_url_template, {'node-id' : device_name}, 'application/json', request_content, expected_status_code=[204, 409])
     if response.status_code != 204:
         raise Exception(_error_message(response.json()))
 
@@ -96,12 +95,11 @@ def acl_delete(
         An exception is raised if the ACL does not exist on the device.
         If the ACL is currently 'applied' then it is not deleted.
     """
-    url_suffix = _url_named_acl % (quote_plus(device_name), quote_plus(acl_name))
-    response = odl_http_delete(url_suffix, expected_status_code=[200, 500])
+    response = odl_http_delete(_url_named_acl, {'node-id' : device_name, 'access-id' : acl_name}, expected_status_code=[200, 500])
     if response.status_code != 200:
         raise Exception(_error_message(response.json()))
 
-_url_acl_all_template = 'config/opendaylight-inventory:nodes/node/%s/yang-ext:mount/Cisco-IOS-XR-ipv4-acl-cfg:ipv4-acl-and-prefix-list/accesses'
+_url_acl_all_template = 'config/opendaylight-inventory:nodes/node/{node-id}/yang-ext:mount/Cisco-IOS-XR-ipv4-acl-cfg:ipv4-acl-and-prefix-list/accesses'
 
 def acl_list(device_name):
     """ List the names of all ACLs on one network device."""
@@ -109,8 +107,7 @@ def acl_list(device_name):
 
 def acl_xml_all(device_name):
     'Return xml tree of all ACLs for the specified network device.'
-    url_suffix = _url_acl_all_template % quote_plus(device_name)
-    response = odl_http_get(url_suffix, 'application/xml')
+    response = odl_http_get(_url_acl_all_template, {'node-id' : device_name}, 'application/xml')
     tree = etree.parse(BytesIO(response.content))
     return tree
 
@@ -122,8 +119,8 @@ def acl_json(
     
         Return JSON data structure if exists; otherwise None.
     '''
-    url_suffix = _url_named_acl % (quote_plus(device_name), quote_plus(acl_name))
-    response = odl_http_get(url_suffix, 'application/json', expected_status_code=[200, 404])
+    url_params = {'node-id' : device_name, 'access-id' : acl_name}
+    response = odl_http_get(_url_named_acl, url_params, 'application/json', expected_status_code=[200, 404])
     if response.status_code != 200:
         return None
     else:
@@ -135,8 +132,7 @@ def acl_json_all(device_name):
 
         Return a list where each element is a JSON representation of an ACL.
     """
-    url_suffix = _url_acl_all_template % quote_plus(device_name)
-    response = odl_http_get(url_suffix, 'application/json', [200, 404])
+    response = odl_http_get(_url_acl_all_template, {'node-id' : device_name}, 'application/json', [200, 404])
     if response.status_code == 404:
         return []
     else:
@@ -152,10 +148,10 @@ def inventory_acl(capability_revision=None, device_name=None):
         The discovery process can be scoped to a single device.
         Returns a list of device names. 
     """
-    discovered= capability_discovery(
+    discovered = capability_discovery(
         capability_name=capability_name,
-        capability_ns=capability_ns, 
-        capability_revision=capability_revision, 
+        capability_ns=capability_ns,
+        capability_revision=capability_revision,
         device_name=device_name)
     return [device_capability[0] for device_capability in discovered]
 
@@ -164,6 +160,5 @@ def acl_exists(
     acl_name
 ):
     """ Determine whether the specified ACL exists on the specified device. """
-    url_suffix = _url_named_acl % (quote_plus(device_name), quote_plus(acl_name))
-    response = odl_http_get(url_suffix, 'application/json', expected_status_code=[200, 404])
+    response = odl_http_get(_url_named_acl, {'node-id' : device_name, 'access-id' : acl_name}, 'application/json', expected_status_code=[200, 404])
     return response.status_code == 200

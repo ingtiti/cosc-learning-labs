@@ -22,7 +22,7 @@ except ImportError:
     from urllib.parse import quote_plus
 import re
 
-_url_template = 'operational/opendaylight-inventory:nodes/node/%s'
+_url_template = 'operational/opendaylight-inventory:nodes/node/{node-id}'
 
 _short_name = re.compile(r'\(.*\)(.*)')
 
@@ -31,8 +31,7 @@ ns = {'i':'urn:opendaylight:inventory',
 
 def capability(device_name):
     'Return a list of capability names, given the name of a mounted, connected device.'
-    url_suffix = _url_template % quote_plus(device_name)
-    response = odl_http_get(url_suffix, 'application/xml')
+    response = odl_http_get(_url_template, {'node-id' : device_name}, 'application/xml')
     tree = etree.parse(StringIO(response.text))
     return [
         _short_name.match(long_name).group(1) 

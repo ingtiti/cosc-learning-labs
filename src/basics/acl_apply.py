@@ -20,7 +20,7 @@ except ImportError:
 _request_content_acl_packet_filter_template = '''
 {"Cisco-IOS-XR-ifmgr-cfg:interface-configuration":[{"active":"act","interface-name":"%s","Cisco-IOS-XR-ip-pfilter-cfg:ipv4-packet-filter":{"%s":{"name":"%s"}}}]}'''
 
-_url_apply_template = 'config/opendaylight-inventory:nodes/node/%s/yang-ext:mount/Cisco-IOS-XR-ifmgr-cfg:interface-configurations'
+_url_apply_template = 'config/opendaylight-inventory:nodes/node/{node-id}/yang-ext:mount/Cisco-IOS-XR-ifmgr-cfg:interface-configurations'
 
 def acl_apply_packet_filter(
     device_name,
@@ -28,15 +28,14 @@ def acl_apply_packet_filter(
     bound,
     acl_name
 ):
-    url_suffix = _url_apply_template % quote_plus(device_name)
     request_content = _request_content_acl_packet_filter_template % (interface_name, bound, acl_name)
 #     print url_suffix
 #     print json.dumps(json.loads(request_content),indent=2)
-    response = odl_http_post(url_suffix, 'application/json', request_content)
+    response = odl_http_post(_url_apply_template, {'node-id' : device_name}, 'application/json', request_content)
     if response.status_code != 204:
         raise Exception(response.text)
 
-_url_unapply_template = 'config/opendaylight-inventory:nodes/node/%s/yang-ext:mount/Cisco-IOS-XR-ifmgr-cfg:interface-configurations/interface-configuration/act/%s/ipv4-packet-filter/%s'
+_url_unapply_template = 'config/opendaylight-inventory:nodes/node/{node-id}/yang-ext:mount/Cisco-IOS-XR-ifmgr-cfg:interface-configurations/interface-configuration/act/{interface-id}/ipv4-packet-filter/{bound}'
 
 def acl_unapply_packet_filter(
     device_name,
@@ -44,5 +43,5 @@ def acl_unapply_packet_filter(
     bound,
     acl_name
 ):
-    url_suffix = _url_unapply_template % (quote_plus(device_name), quote_plus(interface_name), bound)
-    odl_http_delete(url_suffix, expected_status_code=200)
+    url_params = {'node-id' : device_name, 'interface-id' : interface_name, 'bound' : bound}
+    odl_http_delete(_url_unapply_template, url_params, expected_status_code=200)

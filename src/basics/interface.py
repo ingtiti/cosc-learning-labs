@@ -34,18 +34,17 @@ _interface_namespaces = {
     'ipv4c':'http://cisco.com/ns/yang/Cisco-IOS-XR-ipv4-io-cfg',
     'nni':'urn:opendaylight:netconf-node-inventory'}
 
-_properties_url_template = 'operational/opendaylight-inventory:nodes/node/%s/yang-ext:mount/Cisco-IOS-XR-ifmgr-oper:interface-properties'
+_properties_url_template = 'operational/opendaylight-inventory:nodes/node/{node-id}/yang-ext:mount/Cisco-IOS-XR-ifmgr-oper:interface-properties'
 
-_properties_uni_url_template = _properties_url_template + '/data-nodes/data-node/0%%2F0%%2FCPU0/system-view/interfaces/interface/%s'
+_properties_uni_url_template = _properties_url_template + '/data-nodes/data-node/{data-node-id}/system-view/interfaces/interface/{interface-id}'
 
-_configuration_multi_url_template = 'config/opendaylight-inventory:nodes/node/%s/yang-ext:mount/Cisco-IOS-XR-ifmgr-cfg:interface-configurations'
+_configuration_multi_url_template = 'config/opendaylight-inventory:nodes/node/{node-id}/yang-ext:mount/Cisco-IOS-XR-ifmgr-cfg:interface-configurations'
 
-_configuration_uni_url_template = _configuration_multi_url_template + '/interface-configuration/%s/%s'
+_configuration_uni_url_template = _configuration_multi_url_template + '/interface-configuration/{active}/{interface-id}'
 
 def interface_names(device_name):
     'Return a list of interface names, given the name of a mounted, connected device.'
-    url_suffix = _properties_url_template % quote_plus(device_name)
-    response = odl_http_get(url_suffix, 'application/xml', expected_status_code=[200, 400])
+    response = odl_http_get(_properties_url_template, {'node-id' : device_name}, 'application/xml', expected_status_code=[200, 400])
     if response.status_code == 400:
         return []  # The inventory item does not have interfaces.
     tree = etree.parse(StringIO(response.text))
@@ -58,8 +57,7 @@ def management_interface(device_name):
     control = device_control(device_name)
     if(not control):
         return None
-    url_suffix = _configuration_multi_url_template % quote_plus(device_name)
-    response = odl_http_get(url_suffix, 'application/xml', expected_status_code=[200, 400])
+    response = odl_http_get(_configuration_multi_url_template, {'node-id' : device_name}, 'application/xml', expected_status_code=[200, 400])
     if response.status_code == 400:
         return None  # The specified device does not have interfaces.
     if device_name in _network_device_config.keys():
@@ -85,16 +83,14 @@ def same_subnet(address1, address2, netmask):
     subnet2 = ipaddress.ip_interface(u'%s/%s' % (address2, netmask))
     return subnet1 == subnet2
 
-# (device_name, 'act', quote_plus(interface_name))
-
 def interface_configuration_http(content_type, device_name, interface_name=None):
     '''Return the HTTP request and response, for interface configuration, for the specified, mounted device 
     and (optionally) the specified interface.'''
     if interface_name is None:
-        url_suffix = _configuration_multi_url_template % (device_name)
+        return odl_http_get(_configuration_multi_url_template, {'node-id' : device_name}, content_type)
     else:
-        url_suffix = _configuration_uni_url_template % (device_name, 'act', quote_plus(interface_name))
-    return odl_http_get(url_suffix, content_type)
+        url_params = {'node-id' : device_name, 'active' : 'act', 'interface-id' : interface_name}
+        return odl_http_get(_configuration_uni_url_template, url_params, content_type)
 
 def interface_configuration_xml_http(device_name, interface_name=None):
     '''Return the HTTP XML request and response, for interface configuration, for the specified, mounted device
@@ -114,7 +110,7 @@ def interface_configuration_xml(device_name, interface_name=None):
     '''Return a XML document containing interface configuration for the specified, mounted device 
     and (optionally) the specified interface.'''
     response = interface_configuration_xml_http(device_name, interface_name)
-#     print response.text
+    #print(response.text)
     return etree.parse(StringIO(response.text))
 
 def interface_configurations_xml(device_name):
@@ -250,16 +246,16 @@ def interface_configuration_update(
     url_suffix = _configuration_multi_url_template % (device_name, active, quote_plus(interface_name))
     shutdownField = '\n"shutdown" : "",' if shutdown else ""
     request_content = interface_configuration_update_content_template % (active, netmask, address, shutdownField, interface_name, description)
-    odl_http_put(url_suffix, 'application/json', request_content, expected_status_code=200)
+    odl_http_put(url_suffix, {}, 'application/json', request_content, expected_status_code=200)
 
 def interface_properties_http(content_type, device_name, interface_name=None):
     '''Return the HTTP request and response, for interface properties, for the specified, mounted device 
     and (optionally) the specified interface.'''
     if interface_name is None:
-        url_suffix = _properties_url_template % (device_name)
+        return odl_http_get(_properties_url_template, {'node-id' : device_name}, content_type)
     else:
-        url_suffix = _properties_uni_url_template % (device_name, quote_plus(interface_name))
-    return odl_http_get(url_suffix, content_type)
+        url_params = {'node-id' : device_name, 'interface-id' : interface_name}
+        return odl_http_get(_properties_uni_url_template, url_params, content_type)
 
 def interface_properties_xml_http(device_name, interface_name=None):
     '''Return the HTTP XML request and response, for interface properties, for the specified, mounted device 

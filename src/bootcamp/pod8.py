@@ -38,6 +38,7 @@ _acl_route_request_content = '''{"Cisco-IOS-XR-ipv4-acl-cfg:accesses" : [{"acces
 
 def demonstrate(device_name):
     url_suffix = _url_template % quote_plus(device_name)
+    url_params = {}
     contentType = 'application/json'
     accept = contentType
     expected_status_code = [204, 409]
@@ -47,7 +48,7 @@ def demonstrate(device_name):
     access_list_name = quote_plus('policy-route-http')
     content = _acl_route_request_content % (access_list_name, source_wild_card_bits, source_address, next_hop)
     print('acl_next_hop(%s)'%device_name)
-    response = odl_http_post(url_suffix, contentType, content, accept, expected_status_code)
+    response = odl_http_post(url_suffix, url_params, contentType, content, accept, expected_status_code)
     if response.status_code != 204:
         print(response)
     else:

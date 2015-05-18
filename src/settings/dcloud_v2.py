@@ -9,10 +9,10 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-from __future__ import print_function as _print_function
+from __future__ import print_function
 from basics.cosc_http import cosc_authentication_token
-import requests.packages
 
+import requests.packages
 requests.packages.urllib3.disable_warnings()
 
 odl_server_hostname = '198.18.1.25'

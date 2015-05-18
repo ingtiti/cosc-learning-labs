@@ -49,43 +49,43 @@ def interfaceRequestJSON(active, netmask, address, interface_name, description, 
     
 def interface_names(node_id):
     """Retrieve the interface names for a particular XRV node."""
-    request_url = _url_interfaces.format(**{'config': 'operational', 
-                                            'topology-id': 'topology-netconf',
-                                            'node-id': node_id,
-                                            })
-    response = odl_http_get(request_url, 'application/json', expected_status_code=[200, 400])
+    url_params = {'config': 'operational', 
+                  'topology-id': 'topology-netconf',
+                  'node-id': node_id,
+                 }
+    response = odl_http_get(_url_interfaces, url_params, 'application/json', expected_status_code=[200, 400])
     all_names = [ interface['interface-name'].encode('utf-8') for interface in response.json()['interfaces']['interface'] if interface['type'].lower().find('ethernet') >= 0 ] 
     management_name= management_interface_name(node_id)
     return sorted( [ name for name in all_names if name != management_name ] )
     
 def interface_properties(node_id, interface_name):
     """Retrieve the interface properties for a particular XRV node."""
-    request_url = _url_interface_properties.format(**{'config': 'operational', 
-                                                      'topology-id': 'topology-netconf',
-                                                      'node-id': node_id,
-                                                      'interface-name': quote_plus(interface_name),
-                                                      })
-    response = odl_http_get(request_url, 'application/json', expected_status_code=[200, 400])
+    url_params = {'config': 'operational', 
+                  'topology-id': 'topology-netconf',
+                  'node-id': node_id,
+                  'interface-name': interface_name,
+                  }
+    response = odl_http_get(_url_interface_properties, url_params, 'application/json', expected_status_code=[200, 400])
     return response.json()
 
 def interface_configuration(node_id, interface_name):
     """Retrieve the interface configuration for a particular XRV node."""
-    request_url = _url_interface_configuration.format(**{'config': 'operational', 
-                                               'topology-id': 'topology-netconf',
-                                               'node-id': node_id,
-                                               'active': 'act',
-                                               'interface-name': quote_plus(interface_name),
-                                               })
-    response = odl_http_get(request_url, 'application/json', expected_status_code=[200, 400])
+    url_params = {'config': 'operational', 
+                  'topology-id': 'topology-netconf',
+                  'node-id': node_id,
+                  'active': 'act',
+                  'interface-name': interface_name,
+                  }
+    response = odl_http_get(_url_interface_configuration, url_params, 'application/json', expected_status_code=[200, 400])
     return response.json()
 
 def management_interface_name(node_id):
     """Retrieve the management interface name for a particular XRV node."""
-    request_url = _url_interface_configurations.format(**{'config': 'config', 
-                                               'topology-id': 'topology-netconf',
-                                               'node-id': node_id,
-                                               })
-    response = odl_http_get(request_url, 'application/json', expected_status_code=[200, 400])
+    url_params = {'config': 'config', 
+                  'topology-id': 'topology-netconf',
+                  'node-id': node_id,
+                 }
+    response = odl_http_get(_url_interface_configurations, url_params, 'application/json', expected_status_code=[200, 400])
     interfaces = response.json()['interface-configurations']['interface-configuration']
     return next(interface['interface-name'] for interface in interfaces if interface['Cisco-IOS-XR-ipv4-io-cfg:ipv4-network']['addresses']['primary']['address'] == settings.config['network_device'][node_id]['address'])    
 
@@ -99,23 +99,23 @@ def interface_configuration_update(
                                    shutdown=False
                                    ):
     """Update the configuration of the specified interface of the specified device."""
-    request_url = _url_interface_configuration.format(**{'config': 'config', 
-                                                         'topology-id': 'topology-netconf',
-                                                         'node-id': node_id,
-                                                         'active': active,
-                                                         'interface-name': quote_plus(interface_name),
-                                                         })
+    url_params = {'config': 'config', 
+                  'topology-id': 'topology-netconf',
+                  'node-id': node_id,
+                  'active': active,
+                  'interface-name': interface_name,
+                  }
     request_content = interfaceRequestJSON(active, netmask, address, interface_name, description, shutdown)
-    odl_http_put(request_url, 'application/json', request_content, expected_status_code=200)
+    odl_http_put(_url_interface_configuration, url_params, 'application/json', request_content, expected_status_code=200)
 
 def interface_toggle(node_id, interface_name, shutdown):
     """Toggle the state of the specified interface of the specified device."""
-    request_url = _url_interface_configuration.format(**{'config': 'config', 
-                                                         'topology-id': 'topology-netconf',
-                                                         'node-id': node_id,
-                                                         'active': 'act',
-                                                         'interface-name': quote_plus(interface_name),
-                                                         })
+    url_params = {'config': 'config', 
+                  'topology-id': 'topology-netconf',
+                  'node-id': node_id,
+                  'active': 'act',
+                  'interface-name': interface_name,
+                  }
     ifcfg = interface_configuration(node_id, interface_name)
     if shutdown:
         ifcfg['interface-configuration'][0]['shutdown'] = ""
@@ -123,7 +123,7 @@ def interface_toggle(node_id, interface_name, shutdown):
         if 'shutdown' in ifcfg['interface-configuration'][0]:
             ifcfg['interface-configuration'][0].pop('shutdown')
     request_content = json.dumps(ifcfg)
-    odl_http_put(request_url, 'application/json', request_content, expected_status_code=200)
+    odl_http_put(_url_interface_configuration, url_params, 'application/json', request_content, expected_status_code=200)
 
 def interface_shutdown(node_id, interface_name):
     interface_toggle(node_id, interface_name, shutdown=True)

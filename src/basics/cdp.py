@@ -20,7 +20,8 @@ _cdp_enable_interface_request_content = '''
 '''
 
 def cdp_neighbors_json(device_name):
-    response = odl_http_get(url_neighbours.format(**{'node-id': quote_plus(device_name), }),
+    response = odl_http_get(url_neighbours,
+                            {'node-id': device_name},
                             'application/json',
                             expected_status_code=(200, 404)
                             )
@@ -34,9 +35,8 @@ def cdp_neighbors_json(device_name):
 
 def cdp_enable_interface(device_name, interface_name):
     print('cdp_enable_interface(%s,%s)' % (device_name, interface_name))
-    url_suffix = _cdp_enable_interface_url_suffix.format(**{'node-id': quote_plus(device_name), })
     request_content = _cdp_enable_interface_request_content % (interface_name)
-    return odl_http_post(url_suffix, 'application/json', request_content)
+    return odl_http_post(_cdp_enable_interface_url_suffix, {'node-id': device_name}, 'application/json', request_content)
 
 from basics.interface import interface_names
 def cdp_enable_device(device_name):
