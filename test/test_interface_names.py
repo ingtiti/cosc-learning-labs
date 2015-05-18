@@ -10,7 +10,7 @@
 # specific language governing permissions and limitations under the License.
 
 from __future__ import print_function
-from basics.interface_names import interface_names
+from basics.interface import interface_names
 from unittest.case import TestCase
 from basics.inventory import inventory_connected
 from unittest import main
