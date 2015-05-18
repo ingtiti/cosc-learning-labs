@@ -25,7 +25,7 @@ class Test(TestCase):
                 self.assertFalse(mounted(device_name), 'Expected dismount: ' + device_name)
         self.assertTrue(inventory_unmounted(), 'One or more devices must be configured.')
 
-    def test_mount_device(self):
+    def test_device_mount(self):
         for device_name in inventory_unmounted():
             expected = mount_from_settings(device_name)
             self.assertTrue(mounted(device_name), 'Expected mounted: ' + device_name)
