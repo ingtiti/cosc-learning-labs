@@ -29,6 +29,7 @@ from pydoc import plain
 from basics.interpreter import sys_exit
 import os
 
+# The network interface will temporarily be configured with these settings.
 temp_address = '101.101.101.101'
 temp_netmask = '255.255.0.0'
 temp_description = 'Mutable'
@@ -65,7 +66,7 @@ def demonstrate(device_name, interface_config):
         restored = interface_configuration_tuple(device_name, initial.name)
         print(restored)
         assert restored.name == initial.name
-        assert restored.description == initial.description, ("got " % initial.description)
+        assert restored.description == initial.description, "Expected '%s' %s got '%s' %s" % (initial.description, type(initial.description), restored.description, type(restored.description))
         assert restored.address == initial.address
         assert restored.netmask == initial.netmask
         assert restored.shutdown == initial.shutdown
