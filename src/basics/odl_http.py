@@ -102,13 +102,15 @@ def odl_http_request(
     url = coordinates.url_prefix + url_suffix
     if url_params:
         assert isinstance(url_params, dict), 'Expect url_params to be %s, got %s' % (dict, type(url_params))
-        url = url.format(**{k:url_encode(v) for k, v in url_params.iteritems()})
+        # Note: in the line below I am using 'items()' because it works for Python 2 and 3.
+        #       In Python 2 it creates a duplicate of the dict which is inefficient.                   
+        url = url.format(**{k:url_encode(v) for k, v in url_params.items()})
     headers = {}
-    if accept != None:
+    if accept is not None:
         headers['Accept'] = accept
-    if contentType != None:
+    if contentType is not None:
         headers['Content-Type'] = contentType
-    if content != None:
+    if content is not None:
         headers['Content-Length'] = len(content)
     response = request(
         method,
