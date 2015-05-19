@@ -243,10 +243,11 @@ def interface_configuration_update(
     
     The outcome is undefined if the specified device is not connected. 
     '''
-    url_suffix = _configuration_multi_url_template % (device_name, active, quote_plus(interface_name))
     shutdownField = '\n"shutdown" : "",' if shutdown else ""
-    request_content = interface_configuration_update_content_template % (active, netmask, address, shutdownField, interface_name, description)
-    odl_http_put(url_suffix, {}, 'application/json', request_content, expected_status_code=200)
+    content_params = (active, netmask, address, shutdownField, interface_name, description)
+    request_content = interface_configuration_update_content_template % content_params
+    url_params = {'node-id' : device_name, 'active' : active, 'interface-id' : interface_name}
+    odl_http_put(_configuration_uni_url_template, url_params, 'application/json', request_content, expected_status_code=200)
 
 def interface_properties_http(content_type, device_name, interface_name=None):
     '''Return the HTTP request and response, for interface properties, for the specified, mounted device 
