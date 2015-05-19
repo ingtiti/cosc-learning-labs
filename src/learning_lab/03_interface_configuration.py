@@ -11,7 +11,7 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'interface_configuration'.
+''' Sample usage of function 'interface_configuration' to print a tuple of the configuration properties of a given interface.
 
     Print the function's documentation then invoke the function and print the output.
     Apply the function to one interface on one device.
@@ -29,7 +29,7 @@ from basics.inventory import inventory_connected
 from basics.render import print_rich
 
 def demonstrate(device_name, interface_name):
-    ''' Apply function 'interface_configuration' to the specified device/interface.'''
+    ''' Apply function 'interface_configuration_tuple' to the specified device/interface.'''
     print('interface_configuration(' + device_name, interface_name, sep=', ', end=')\n')
     print_rich(interface_configuration_tuple(device_name, interface_name))
 
