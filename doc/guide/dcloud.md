@@ -56,7 +56,7 @@ Caveats:
 # Python DevNet Learning Lab
 In the section above, you used Postman, which is a browser plugin that allows you to send HTTP requests to REST (Representational State Transfer) APIs on the controller. In the case of the Cisco Open SDN Controller, those APIs are generated from Yang models and exposed via [“RESTCONF”](https://tools.ietf.org/html/draft-ietf-netconf-restconf-04) . 
 
-Another way to call the same APIs is via Python, which is the focus of this section of the lab. The Python code here is presented as a series of scripts that you can run on an Ubuntu VM, available via “ssh cisco@198.18.134.28”. The password is C1sco12345. When you log in, a script will be run to update the VM for this exercise, and so you will need to provide the password so that the script can run with sudo permissions. You can look at the end of the ~/.bashrc file to see what is happening if you are curious.
+Another way to call the same APIs is via Python, which is the focus of this section of the lab. The Python code here is presented as a series of scripts that you can run on an Ubuntu VM, available via `ssh cisco@198.18.134.28`. The password is C1sco12345. When you log in, a script will be run to update the VM for this exercise, and so you will need to provide the password so that the script can run with sudo permissions. You can look at the end of the ~/.bashrc file to see what is happening if you are curious.
 
 The scripts (and this document) come from this project in GitHub: 
 
@@ -66,9 +66,8 @@ On the VM those scripts have been “cloned” into in the ~/git/cosc-learning-l
 
 You will then be able to run scripts in the lab, with the steps below:
 
-## Step 0 Check That the Controller is There
-
-
+## Step 0 Check Settings, and That the Controller and Devices are Reachable
+{{md ./0.md}}
 
 ## Step 1 Mounting Netconf Devices
 
@@ -184,7 +183,7 @@ None
 ...
 ```
 
-As this is a growing body of code, to see which scripts there are, use the “ls” command as shown below (note that this is a just an elided example of what you will see, as the contents will change over time): 
+As this is a growing body of code, to see which scripts there are, use the `ls` command as shown below (note that this is a just an elided example of what you will see, as the contents will change over time): 
 
 ```bash
 $ ls
@@ -197,17 +196,90 @@ $ ls
 …
 ```
 
-Some of what these scripts cover includes:  
+Some of what these scripts cover includes the topics below. Note that not all of these scripts will be able to work in all deployments. It entorely depends on the capabilities of the network devices in the lab topology.
 
 * Inventory
 * Interfaces
-* Routes and Topology
+* Routes
+* Topology
 * ACLs
 
 This is a living body of code, and so can vary each time you use this lab.
 
+# Interfaces
+
+* 03_interface_configuration - Example of how to print some of the configuration properties for an interface.
+
+```bash
+$ ./03_interface_configuration.py
+
+cosc authentication url: https://198.18.1.25/controller-auth
+...
+cosc authentication status code: 201
+Python Library Documentation: function interface_configuration_tuple in module basics.interface
+
+interface_configuration_tuple(device_name, interface_name=None)
+    Return a named tuple containing the configuration information for the specified interface of the specified, mounted device.
+
+interface_configuration(por, GigabitEthernet0/0/0/2)
+InterfaceConfiguration(name='GigabitEthernet0/0/0/2', description=None, shutdown=False, address='54.0.0.26', netmask='255.255.255.0', packet_filter_outbound=None, packet_filter_inbound=None, active='act')
+```
+
+* 03_interface_properties - Example of how to print some of the properties for an interface.
+
+```bash
+$ ./03_interface_properties
+
+cosc authentication url: https://198.18.1.25/controller-auth
+...cosc authentication status code: 201
+Python Library Documentation: function interface_properties in module basics.interface_properties
+
+interface_properties(device_name, interface_name)
+    Return a named tuple containing the information available for the specified interface of the specified, mounted device.
+
+interface_properties(por, GigabitEthernet0/0/0/2)
+InterfaceProperties(name='GigabitEthernet0/0/0/2', type='IFT_GETHERNET', bandwidth='10000', encapsulation='ether', encapsulationType='ARPA', state='im-state-up', lineState='im-state-up', actualState='im-state-up', actualLineState='im-state-up', l2Transport=False, mtu='1514', subInterfaceMtuOverhead='0')
+
+```
+
+* 03_interface_names - Print the interface names for a given device.
+
+```bash
+$ ./03_interface_names.py
+
+cosc authentication url: https://198.18.1.25/controller-auth
+...
+cosc authentication status code: 201
+Python Library Documentation: function interface_names in module basics.interface
+
+interface_names(device_name)
+    Return a list of interface names, given the name of a mounted, connected device.
+
+interface_names(san)
+['MgmtEth0/0/CPU0/0', 'GigabitEthernet0/0/0/3', 'GigabitEthernet0/0/0/2', 'GigabitEthernet0/0/0/1', 'GigabitEthernet0/0/0/0']
+```
+
+* 03_management_interface - Print the management interface name for a given device.
+
+```bash
+$ ./03_management_interface.py
+
+cosc authentication url: https://198.18.1.25/controller-auth
+...
+cosc authentication status code: 201
+Python Library Documentation: function management_interface in module basics.interface
+
+management_interface(device_name)
+    Return the name of the interface that is used to manage the specified network device.
+
+management_interface(por): MgmtEth0/0/CPU0/0
+```
+
+# Next Steps
+
 If you want to modify the list of devices being mounted, edit the ../settings/dcloud.py file. That file is Python code as well.
-You can also use the inbuilt Python interpreter to call the functions in the basics library, in the same way that the code in the learning_lab directory does, and you can adapt and modify any of the scripts that you as you like. You will not break anything.
+
+You can also use the inbuilt Python interpreter to call the functions in the basics library, in the same way that the code in the learning_lab directory does, and, if you are working on your own copy of the code, i.e. not a shared lab, you can adapt and modify any of the scripts that you as you like. Feel free to experiment with the code. If you break it, you can pull a new copy of the code from the Git repositry. You will not break anything except your own copy of the lab.
 
 Have at it! 
 

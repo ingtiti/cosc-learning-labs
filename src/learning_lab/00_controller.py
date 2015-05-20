@@ -11,9 +11,8 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Connect to the Controller.
-
-    Establish a connection to the Controller and display relevant information.
+''' 
+    Connects to the controller and authenticates, as a basic sanity check that the controller is reachable and responding to requests.
 '''
 
 from __future__ import print_function as _print_function
