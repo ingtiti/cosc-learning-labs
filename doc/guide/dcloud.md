@@ -70,7 +70,7 @@ You will then be able to run scripts in the lab, with the steps below:
 
 ## Step 1 - [Mounting Netconf Devices](1.md)
 
-## Step 2 - [Displaying the Connected Devices](2.md)
+## Step 2 - [Displaying the Connected Devices and Inventory](2.md)
 
 ## Step 3 - [Seeing What Else You Can Do](3.md)
 
