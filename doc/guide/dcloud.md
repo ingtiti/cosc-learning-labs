@@ -66,8 +66,7 @@ On the VM those scripts have been “cloned” into in the ~/git/cosc-learning-l
 
 You will then be able to run scripts in the lab, with the steps below:
 
-## Step 0 Check Settings, and That the Controller and Devices are Reachable
-{{md ./0.md}}
+## Step 0 - [Check Settings, and That the Controller and Devices are Reachable](0.md)
 
 ## Step 1 Mounting Netconf Devices
 
