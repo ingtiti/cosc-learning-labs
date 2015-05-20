@@ -11,7 +11,8 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'inventory_summary'.
+''' Sample usage of function 'inventory_summary' to print a HTML table of the inventory with the connected status and number 
+    of Netconf capabilities.
 
     Invoke the function and convert the output to HTML.
     See also: 01_inventory_summary.py

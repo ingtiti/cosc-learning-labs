@@ -11,7 +11,7 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'inventory_unmounted'.
+''' Sample usage of function 'inventory_unmounted' to show which devices in the configuration are not mounted.
 
     Print the function's documentation then invoke the function and print the output.
 '''

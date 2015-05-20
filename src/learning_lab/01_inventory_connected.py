@@ -11,7 +11,7 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'inventory_connected'.
+''' Sample usage of function 'inventory_connected' to show which mounted devices are connected.
 
     Print the function's documentation then invoke the function and print the output.
 '''
