@@ -11,22 +11,22 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Connect to the Controller.
-
-    Establish a connection to the Controller and display relevant information.
+''' 
+    Connects to the controller and authenticates, as a basic sanity check that the controller is reachable and responding to requests.
 '''
 
 from __future__ import print_function as _print_function
 import settings
-import socket
-from basics.odl_http import odl_url_prefix, odl_username, odl_password, odl_http_head
+from basics.odl_http import coordinates as odl_coordinates, odl_http_head
 from sys import stderr
+from basics.interpreter import sys_exit
+import os
 
 if __name__ == "__main__":
     # Controller end-point
-    print('odl_url_prefix:', odl_url_prefix)
-    print('odl_username:', odl_username)
-    print('odl_password:', odl_password)
+    print('odl_url_prefix:', odl_coordinates.url_prefix)
+    print('odl_username:', odl_coordinates.username)
+    print('odl_password:', odl_coordinates.password)
     
     try:
         response = odl_http_head(
@@ -41,5 +41,10 @@ if __name__ == "__main__":
             print('status: service unavailable (allow 5 or 10 minutes for controller to become ready)')
         else:
             print('status: OK')
+        exit_code = os.EX_OK
     except Exception as e:
-        print(e.message, file=stderr)
+        exit_code = os.EX_CONFIG
+        raise e
+    finally:
+        sys_exit(exit_code)
+

@@ -44,7 +44,7 @@ def http_headers_transform(headers):
     return _http_header_table_template % ''.join([_http_header_table_row_template % (k, v) for (k, v) in headers.items()])
 
 def http_content_transform(headers, content):
-    if content == None or not content:
+    if content is None or not content:
         return ''
     elif 'Content-Type' in headers:
         contentType = headers['Content-Type']

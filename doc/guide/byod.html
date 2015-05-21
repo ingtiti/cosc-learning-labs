@@ -117,7 +117,7 @@ Successfully installed COSC-Learning-Lab ipaddress-1.0.7 lxml-3.4.4 requests-2.7
 <p>This technique is recommended when your computer is used to run multiple Python projects or multiple versions of Python. If you have already used the previous option to setup your global environment, then you don't need to do this too.</p>
 <p>There are multiple tools that provide a virtual environment. The example below uses <a href="https://virtualenv.pypa.io/en/latest/">virtualenv</a>. See also: <a href="https://docs.python.org/3/library/venv.html">venv</a>, <a href="https://github.com/yyuu/pyenv">pyenv</a>, <a href="https://github.com/saghul/pythonz">pythonz</a>.</p>
 <p>On Ubuntu, Mac OS X and other Linux/Unix variants, the commands below should be run from the <code>cosc-learning-labs</code> directory:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">pip</span> install virtualenv 
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">sudo</span> pip install virtualenv 
 $ <span class="kw">cd</span> ~/git/cosc-learning-labs
 $ <span class="kw">virtualenv</span> env
 
@@ -150,10 +150,8 @@ $ <span class="kw">env/bin/pip3</span> install -e src
 <span class="kw">(env)</span></code></pre>
 <p>To run the test suite:</p>
 <pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> ~/git/cosc-learning-labs/src
-$ <span class="kw">../env/bin/pytest</span> -t ../test</code></pre>
-<p>or</p>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> ~/git/cosc-learning-labs/src
-$ <span class="kw">../env/bin/python3</span> setup.py test –a ../test</code></pre>
+$ <span class="kw">python3</span> setup.py test –a ../test</code></pre>
+<p>See also: <a href="testing.md">detailed instructions for testing</a></p>
 <p>The <code>env/bin/activate</code> command, above, enters a shell or mode. When you are finished with the virtualenv:</p>
 <pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">deactivate</span> </code></pre>
 <h1 id="creating-and-setting-the-network-profile">Creating and Setting the Network Profile</h1>

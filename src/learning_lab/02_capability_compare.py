@@ -11,14 +11,19 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+''' 
+    Display a table of capability rows and device columns.
+    This is a WIP as we need a HTML table output to make this work visually. TODO
+'''
+
 from __future__ import print_function as _print_function
 # from basics.capability import capability
 from basics.inventory import  inventory_connected
 from basics.inventory import capability
-from basics.capability import capability as capabilityx
-from basics.inventory import  inventory_mounted
+# from basics.capability import capability as capabilityx
+# from basics.inventory import  inventory_mounted
 import re
-from collections import OrderedDict
+# from collections import OrderedDict
 
 _qualified_name = re.compile(r'\((.*)\)(.*)')
 _revision = re.compile(r'(.*)\?revision=(.*)')
@@ -34,7 +39,7 @@ def capability_matrix(devices):
             capability_name = match.group(2)
             capability_names.add(capability_name)
             match = _revision.match(qualifier)
-            ns = match.group(1)  # namespace ignored at present.
+            # ns = match.group(1)  # namespace ignored at present.
             revision = match.group(2)
             capability_revision_by_name[capability_name] = revision
         capability_by_device[device_name] = capability_revision_by_name

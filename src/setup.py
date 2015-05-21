@@ -30,9 +30,11 @@ class PyTest(TestCommand):
 
 from setuptools import setup
 setup(
-    name='COSC Learning Lab',
+    name='cosc-learning-labs',
+    description='Cisco Open SDN Controller (COSC) Learning Lab',
     version='1.0',
     packages=['basics', 'learning_lab', 'settings', ],
+    url='http://github.com/CiscoDevNet/cosc-learning-labs',
     license='Apache License, Version 2.0',
     long_description=read('../README.md'),
     install_requires=[

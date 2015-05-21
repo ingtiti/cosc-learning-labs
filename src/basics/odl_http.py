@@ -15,15 +15,10 @@
 '''
 
 from __future__ import print_function as _print_function
-
 from threading import Lock
-
 from requests import request
 from requests.auth import HTTPBasicAuth
-
-import settings
-
-
+from basics.http import json_loads, json_dumps
 try:
     import Queue as queue
 except ImportError:
@@ -35,16 +30,13 @@ _url_template = 'http://%s:%d/restconf/%s'
 _http_history = queue.Queue(20)
 _http_history_lock = Lock()
 
-assert settings.config, "Expected settings to be configured."
-
-assert 'odl_server' in settings.config, "Expected 'odl_server' to be configured in settings."
-odl_server = settings.config['odl_server']
-assert 'url_prefix' in odl_server, "Expected 'url_prefix' to be configured in settings.config['odl_server']."
-odl_url_prefix = odl_server['url_prefix']
-assert 'username' in odl_server, "Expected 'username' to be configured in settings.config['odl_server']."
-odl_username = odl_server['username']
-assert 'password' in odl_server, "Expected 'password' to be configured in settings.config['odl_server']."
-odl_password = odl_server['password']
+from collections import namedtuple
+ControllerCoordinates = namedtuple('ControllerCoordinates', ['url_prefix', 'username', 'password'])
+default_coordinates = ControllerCoordinates(
+    url_prefix='http://localhost:8181/restconf/',
+    username='admin',
+    password='admin')
+coordinates = default_coordinates
 
 def http_history_append(http):
     '''Append one HTTP request to the historical record.
@@ -86,24 +78,45 @@ def http_history_clear():
     finally:
         _http_history_lock.release()
 
+try:
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import quote_plus
+url_encode = quote_plus
+
 def odl_http_request(
     method,
     url_suffix,
+    url_params,
     contentType,
     content,
     accept,
     expected_status_code
 ):
     'Request a response from the ODL server.'
-    url = odl_url_prefix + url_suffix
+    url = coordinates.url_prefix + url_suffix
+    if url_params:
+        assert isinstance(url_params, dict), 'Expect url_params to be %s, got %s' % (dict, type(url_params))
+        # Note: in the line below I am using 'items()' because it works for Python 2 and 3.
+        #       In Python 2 it creates a duplicate of the dict which is inefficient.                   
+        url = url.format(**{k:url_encode(v) for k, v in url_params.items()})
     headers = {}
-    if accept != None:
+    if accept is not None:
         headers['Accept'] = accept
-    if contentType != None:
+    if contentType is not None:
         headers['Content-Type'] = contentType
-    if content != None:
+    if content is not None:
+        if not isinstance(content, str):
+            if contentType.endswith('json'):
+                content = json_dumps(content) 
         headers['Content-Length'] = len(content)
-    response = request(method, url, headers=headers, data=content, auth=HTTPBasicAuth(odl_username, odl_password), verify=False)
+    response = request(
+        method,
+        url,
+        headers=headers,
+        data=content,
+        auth=HTTPBasicAuth(coordinates.username, coordinates.password),
+        verify=False)
     http_history_append(response)
 #     print(response.url)
     status_code_ok = response.status_code in expected_status_code \
@@ -119,50 +132,55 @@ def odl_http_request(
 
 def odl_http_head(
     url_suffix,
+    url_params={},
     accept='text/plain',
     expected_status_code=200,
     contentType=None,
     content=None
 ):
     'Get a response from the ODL server.'
-    return odl_http_request('head', url_suffix, contentType, content, accept, expected_status_code)
+    return odl_http_request('head', url_suffix, url_params, contentType, content, accept, expected_status_code)
 
 def odl_http_get(
     url_suffix,
+    url_params={},
     accept='text/plain',
     expected_status_code=200,
     contentType=None,
     content=None
 ):
     'Get a response from the ODL server.'
-    return odl_http_request('get', url_suffix, contentType, content, accept, expected_status_code)
+    return odl_http_request('get', url_suffix, url_params, contentType, content, accept, expected_status_code)
 
 def odl_http_post(
     url_suffix,
+    url_params,
     contentType,
     content,
     accept=None,
     expected_status_code=204
 ):
     'Request a post to the ODL server.'
-    return odl_http_request('post', url_suffix, contentType, content, accept, expected_status_code)
+    return odl_http_request('post', url_suffix, url_params, contentType, content, accept, expected_status_code)
 
 def odl_http_put(
     url_suffix,
+    url_params,
     contentType,
     content,
     accept=None,
     expected_status_code=204
 ):
     'Request a put into the ODL server.'
-    return odl_http_request('put', url_suffix, contentType, content, accept, expected_status_code)
+    return odl_http_request('put', url_suffix, url_params, contentType, content, accept, expected_status_code)
 
 def odl_http_delete(
     url_suffix,
+    url_params={},
     accept=None,
     expected_status_code=204,
     contentType=None,
     content=None
 ):
     'Request a delete on the ODL server.'
-    return odl_http_request('delete', url_suffix, contentType, content, accept, expected_status_code)
+    return odl_http_request('delete', url_suffix, url_params, contentType, content, accept, expected_status_code)

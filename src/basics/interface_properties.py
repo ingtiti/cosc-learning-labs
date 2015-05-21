@@ -25,7 +25,7 @@ from lxml import etree
 from basics.odl_http import odl_http_get
 from basics.html import html_bind
 
-_url_template = 'operational/opendaylight-inventory:nodes/node/%s/yang-ext:mount/Cisco-IOS-XR-ifmgr-oper:interface-properties/data-nodes/data-node/0%%2F0%%2FCPU0/system-view/interfaces/interface/%s'
+_url_template = 'operational/opendaylight-inventory:nodes/node/{node-id}/yang-ext:mount/Cisco-IOS-XR-ifmgr-oper:interface-properties/data-nodes/data-node/{data-node-id}/system-view/interfaces/interface/{interface-id}'
 
 InterfaceProperties = namedtuple('InterfaceProperties', [
     'name',
@@ -110,8 +110,8 @@ def interface_properties(
     interface_name
 ):
     'Return a named tuple containing the information available for the specified interface of the specified, mounted device.'
-    url = _url_template % (device_name, quote_plus(interface_name))
-    response = odl_http_get(url, 'application/xml')
+    url_params = {'node-id' : device_name, 'data-node-id' : '0/0/CPU0', 'interface-id' : interface_name}
+    response = odl_http_get(_url_template, url_params, 'application/xml')
     tree = etree.parse(StringIO(response.text))
     return InterfaceProperties(
         name=tree.findtext('{*}interface-name'),

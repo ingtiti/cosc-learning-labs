@@ -11,7 +11,8 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'inventory_summary'.
+''' Sample usage of function 'inventory_summary' to print a list of the inventory, with the connected status and number 
+    of Netconf capabilities.
 
     Print the function's documentation then invoke the function and print the output.
     

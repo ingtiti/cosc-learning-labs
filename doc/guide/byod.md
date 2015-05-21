@@ -169,7 +169,7 @@ There are multiple tools that provide a virtual environment. The example below u
 On Ubuntu, Mac OS X and other Linux/Unix variants, the commands below should be run from the `cosc-learning-labs` directory:
 
 ```bash
-$ pip install virtualenv 
+$ sudo pip install virtualenv 
 $ cd ~/git/cosc-learning-labs
 $ virtualenv env
 
@@ -205,13 +205,9 @@ Successfully installed COSC-Learning-Lab ipaddress-1.0.7 logilab-common-0.63.2 l
 To run the test suite:
 ```bash
 $ cd ~/git/cosc-learning-labs/src
-$ ../env/bin/pytest -t ../test
+$ python3 setup.py test –a ../test
 ```
-or
-```bash
-$ cd ~/git/cosc-learning-labs/src
-$ ../env/bin/python3 setup.py test –a ../test
-```
+See also: [detailed instructions for testing](testing.md)
 
 The `env/bin/activate` command, above, enters a shell or mode. When you are finished with the virtualenv:
 ```bash

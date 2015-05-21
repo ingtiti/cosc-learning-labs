@@ -9,10 +9,10 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-from settings import config
 from lxml import etree
 from collections import namedtuple
 from basics.odl_http import odl_http_get, odl_http_post, odl_http_delete
+from settings import config
 try:
     from StringIO import StringIO
 except ImportError:
@@ -28,7 +28,7 @@ except ImportError:
     
 def inventory_json_http():
     'Return a HTTP request/response pair for the inventory items in JSON representation.'
-    return odl_http_get(_url_inventory, 'application/json')
+    return odl_http_get(_url_inventory, accept='application/json')
 
 def inventory_json():
     'Return a list of inventory items in JSON representation.'
@@ -37,7 +37,7 @@ def inventory_json():
 
 def inventory_xml_http():
     'Return a HTTP request/response pair for the inventory items in XML representation.'
-    return odl_http_get(_url_inventory, 'application/xml')
+    return odl_http_get(_url_inventory, accept='application/xml')
 
 def inventory_xml():
     'Return a XML tree representation of the inventory items.'
@@ -80,8 +80,7 @@ def connected(device_name):
     
     Return True if connected.
     '''
-    url_suffix = _url_inventory_node % quote_plus(device_name)
-    response = odl_http_get(url_suffix, 'application/xml', expected_status_code=(200, 404))
+    response = odl_http_get(_url_inventory_node, {'node-id' : device_name}, 'application/xml', expected_status_code=(200, 404))
     if response.status_code == 404:
         return False
     tree = etree.parse(StringIO(response.text))
@@ -101,19 +100,18 @@ class DeviceControl(namedtuple('DeviceControl',
 
 def device_control(device_name):
     """A DeviceControl if the specified device is mounted, otherwise None."""
-    url_suffix = _url_connector % device_name
-    response = odl_http_get(url_suffix, 'application/xml', expected_status_code=[200, 404])
+    response = odl_http_get(_url_connector, {'node-id':device_name}, 'application/xml', expected_status_code=[200, 404])
     if response.status_code == 404:
         return None
     tree = etree.parse(BytesIO(response.content))
-    #print(etree.tostring(tree, pretty_print=True, xml_declaration=True))
+    # print(etree.tostring(tree, pretty_print=True, xml_declaration=True))
     module_name = tree.findtext('/m:name', namespaces=_inventory_namespaces)
     assert module_name == device_name
     address = tree.findtext('/c:address', namespaces=_inventory_namespaces)
     port = tree.findtext('/c:port', namespaces=_inventory_namespaces)
     username = tree.findtext('/c:username', namespaces=_inventory_namespaces)
     password = tree.findtext('/c:password', namespaces=_inventory_namespaces)
-    return DeviceControl(device_name, address=address, port=port, username=username, password=password)
+    return DeviceControl(device_name, address=address, port=int(port), username=username, password=password)
 
 def inventory_control():
     """ List the DeviceControl for every mounted device.
@@ -125,7 +123,7 @@ def inventory_control():
 
 def mounted_xml_http():
     'Return a HTTP request/response pair for the mounted items, in XML representation.'
-    return odl_http_get(_url_mounted, 'application/xml')
+    return odl_http_get(_url_mounted, accept='application/xml')
 
 def mounted_xml():
     'Return a XML tree representation of the mounted items.'
@@ -149,8 +147,7 @@ def mounted(device_name):
     
     Return True if mounted.
     '''
-    url_suffix = _url_connector % device_name
-    response = odl_http_get(url_suffix, 'application/xml', expected_status_code=[200, 404])
+    response = odl_http_get(_url_connector, {'node-id' : device_name}, 'application/xml', expected_status_code=[200, 404])
     return response.status_code == 200
 
 def inventory_unmounted():
@@ -188,10 +185,9 @@ def inventory_summary():
     '''
     return inventory_summary_from_xml(inventory_xml())
 
-def capability(item_name):
+def capability(device_name):
     'Return a list of capability names for the specified device.'
-    url_suffix = _url_inventory_node % quote_plus(item_name)
-    response = odl_http_get(url_suffix, 'application/xml')
+    response = odl_http_get(_url_inventory_node, {'node-id' : device_name}, 'application/xml')
     tree = etree.parse(StringIO(response.text))
     initial_capability_list = tree.xpath(".//nni:initial-capability/text()", namespaces=_inventory_namespaces)
     if initial_capability_list:
@@ -286,8 +282,7 @@ def capability_discovery(capability_name=None, capability_ns=None, capability_re
     '''
     parser = etree.XMLParser(target=CapabilityDiscovery(capability_name, capability_ns, capability_revision, device_name))
     if device_name:
-        url_suffix = _url_inventory_node % quote_plus(device_name)
-        response = odl_http_get(url_suffix, 'application/xml', expected_status_code=(200, 404))
+        response = odl_http_get(_url_inventory_node, {'node-id' : device_name}, 'application/xml', expected_status_code=(200, 404))
         if response.status_code == 404:
             return []
     else:
@@ -306,7 +301,7 @@ def device_mount_http(
     device_password
 ):
     request_content = _request_content_mount_template % (device_name, device_address, device_port, device_username, device_password)
-    return odl_http_post(_url_mount, 'application/xml', request_content)
+    return odl_http_post(_url_mount, {}, 'application/xml', request_content)
 
 def device_mount(
     device_name,
@@ -324,13 +319,6 @@ def device_mount(
         device_password
     )
 
-def device_dismount_http(
-    device_name
-):
-    'Remove one network device from the inventory of the Controller.'
-    url_suffix = _url_connector % device_name
-    return odl_http_delete(url_suffix, 'application/xml', expected_status_code=200)
-
 def device_dismount(
     device_name
 ):
@@ -339,7 +327,7 @@ def device_dismount(
     It is not necessary for the device to be connected. 
     The outcome is undefined if the device is not already mounted.
     """
-    device_dismount_http(device_name)
+    odl_http_delete(_url_connector, {'node-id' : device_name}, 'application/xml', expected_status_code=200)
 
 _inventory_namespaces = {
     'fi':'urn:opendaylight:flow:inventory',
@@ -350,13 +338,13 @@ _inventory_namespaces = {
 
 _url_inventory = 'operational/opendaylight-inventory:nodes'
 
-_url_inventory_node = _url_inventory + '/node/%s'
+_url_inventory_node = _url_inventory + '/node/{node-id}'
 
 _url_mounted = 'config/opendaylight-inventory:nodes'
 
 _url_mount = _url_mounted + '/node/controller-config/yang-ext:mount/config:modules'
 
-_url_connector = _url_mount + '/module/odl-sal-netconf-connector-cfg:sal-netconf-connector' + '/%s'
+_url_connector = _url_mount + '/module/odl-sal-netconf-connector-cfg:sal-netconf-connector/{node-id}'
 
 _request_content_mount_template = '''<?xml version="1.0"?>
 <module xmlns="urn:opendaylight:params:xml:ns:yang:controller:config">

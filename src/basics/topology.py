@@ -127,7 +127,7 @@ def mount(node_id, device_address, device_port, device_username, device_password
                                        'topology-id': 'topology-netconf',
                                        })
     request_content = mountRequestJSON(node_id, device_address, device_port, device_username, device_password)
-    return odl_http_post(request_url, 'application/json', request_content)
+    return odl_http_post(request_url, {}, 'application/json', request_content)
 
 def dismount(node_id):
     """Remove node_id from the topology of the Controller.
@@ -139,7 +139,7 @@ def dismount(node_id):
                                           'topology-id': 'topology-netconf',
                                           'node-id': quote_plus(node_id),
                                           })
-    odl_http_delete(request_url, 'application/json', expected_status_code=200)
+    odl_http_delete(request_url, {}, 'application/json', expected_status_code=200)
     
 def connected(node_id):
     """Determine whether a single device is connected to the Controller.

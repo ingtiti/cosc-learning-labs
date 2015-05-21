@@ -26,9 +26,9 @@ from pydoc import render_doc as doc
 import os
 from basics.interpreter import sys_exit
 from basics.interface import management_interface
-from basics.interface_configuration import interface_configuration
-from basics.interface_configuration import interface_configuration_update
-from basics.interface_names import interface_names
+from basics.interface import interface_configuration_tuple
+from basics.interface import interface_configuration_update
+from basics.interface import interface_names
 from basics.inventory import inventory_connected
 
 shutdown = True
@@ -46,7 +46,7 @@ def demonstrate(device_name, interface_config):
                            address=initial.address, netmask=initial.netmask, shutdown=shutdown)
     print()
     print("Modified configuration:")
-    modified = interface_configuration(device_name, initial.name)
+    modified = interface_configuration_tuple(device_name, initial.name)
     print(modified)
     assert modified.shutdown
 
@@ -58,7 +58,7 @@ def main():
             # Choose interface on 'data plane' not 'control plane'.
             if interface_name == mgmt_name:
                 continue
-            interface_config = interface_configuration(device_name, interface_name)
+            interface_config = interface_configuration_tuple(device_name, interface_name)
             if not interface_config.address:
                 continue
             if interface_config.shutdown:

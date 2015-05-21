@@ -18,6 +18,11 @@
 
 from __future__ import print_function as _print_function
 from requests import post
+    
+from basics import odl_http
+single_url_encode = odl_http.url_encode
+double_url_encode = lambda val: single_url_encode(single_url_encode(val))
+odl_http.url_encode = double_url_encode
 
 def cosc_authentication_token(hostname='localhost', port=8181, username='admin', password='admin'):
     """ Obtain authentication token from COSC.
