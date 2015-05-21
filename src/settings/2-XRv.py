@@ -11,7 +11,7 @@
 
 from __future__ import print_function as _print_function
 
-odl_server_hostname = '10.10.10.164:8181'
+odl_server_hostname = '127.0.0.1:8181'
 
 odl_server_url_prefix = "http://%s/restconf/" % odl_server_hostname
 
@@ -21,12 +21,12 @@ config = {
         'username' : 'admin',
         'password' : 'admin'},
  'network_device': {'xrvr-1':{
-                     'address': '172.16.1.62',
+                     'address': '172.16.1.78',
                      'port': 830,
                      'password': 'cisco',
                      'username': 'cisco'},
                   'xrvr-2':{
-                     'address': '172.16.1.63',
+                     'address': '172.16.1.79',
                      'port': 830,
                      'password': 'cisco',
                      'username': 'cisco'},
