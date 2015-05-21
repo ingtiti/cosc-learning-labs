@@ -11,7 +11,7 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Mount a network device that is intentionally unreachable.
+''' Mount a network device that is intentionally unreachable and show that the status is as expected.
 
     Verify that the device is present in the inventory and is mounted but not connected.
 '''
