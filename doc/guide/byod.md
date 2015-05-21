@@ -99,7 +99,16 @@ Then, on Windows, you can run the `pip install -e .` command, as shown below:
 
 ![Windows Installing the lxml Python Package](byod_images/windows_pip_setup.png)
 
-The outcome is that the Python packages of this project will be appended to the Python *path*, and all required packages will be downloaded and appended to the Python *path*.
+On Mac OS X, you can use [Home Brew](http://brew.sh/) to install the 'lxml' package, which will put in place the header files needed to complete the `pip` install below. This requires a few additional steps as illustrated below:
+
+```bash
+$ brew install libxml2
+$ sudo ln -s /usr/local/Cellar/libxml2/2.9.2/include/libxml2 /usr/include/libxml2
+```
+
+The latter step, with the symbolic link for the directory, is required as the `pip` install looks for the `libxml2` header file in `/usr/include/libxml2`.
+
+The outcome, of running the `pip install -e .` command, is that the Python packages of this project will be appended to the Python *path*, and all required packages will be downloaded and appended to the Python *path*.
 
 On Linux and Mac OS X, There are two suggested techniques for achieving the required integration:
 * Modify the current Python environment of your computer, which is suitable for a Dev VM, say, which would only be used for single project.

@@ -7,8 +7,7 @@
 <p>Whilst the code will work with Python 2.7, we recommend that you install Python 3.x for your operating system. Download the installer here: https://www.python.org/downloads/.</p>
 <p>On Windows Python is installed by default in <code>C:\Python34</code> (for Python 3). After having installed Python, you will need to add that location, and the location of the Scripts sub-directory (for Pip) to your path, as shown below.</p>
 <div class="figure">
-<img src="byod_images/windows_pip_path.png" alt="Windows Pip Path" />
-<p class="caption">Windows Pip Path</p>
+<img src="byod_images/windows_pip_path.png" alt="Windows Pip Path" /><p class="caption">Windows Pip Path</p>
 </div>
 <h2 id="check-your-python-install">Check Your Python install</h2>
 <p>If you are using Mac OS X or Linux, enter <code>python3</code> to check the version, and expect to see something like:</p>
@@ -20,8 +19,7 @@
 <p>The <code>^D</code> shown above exits from the Python shell.</p>
 <p>On Windows, open a Bash shell with GitBash and enter <code>python</code> at the CLI to check the Python version. If you have only installed Python3, and you have set the path as illustrated above, you should expect to see something like the example below.</p>
 <div class="figure">
-<img src="byod_images/windows_python_bash.png" alt="Windows Python3 in a Git Bash shell" />
-<p class="caption">Windows Python3 in a Git Bash shell</p>
+<img src="byod_images/windows_python_bash.png" alt="Windows Python3 in a Git Bash shell" /><p class="caption">Windows Python3 in a Git Bash shell</p>
 </div>
 <h1 id="install-pip">Install Pip</h1>
 <p>Pip is the <a href="https://python-packaging-user-guide.readthedocs.org/en/latest/current.html">PyPA recommended tool</a> for installing Python packages.</p>
@@ -39,7 +37,7 @@ $ <span class="kw">sudo</span> python3 get-pip.py
 <span class="kw">...</span>
 <span class="kw">Collecting</span> pip
   <span class="kw">Downloading</span> pip-6.1.1-py2.py3-none-any.whl (1.1MB)
-    <span class="kw">100%</span> <span class="kw">|</span>████████████████████████████████<span class="kw">|</span> <span class="kw">1.1MB</span> 446kB/s 
+    <span class="kw">100%</span> <span class="kw">|</span>████████████████████████████████| <span class="kw">1.1MB</span> 446kB/s 
 <span class="kw">Installing</span> collected packages: pip
   <span class="kw">Found</span> existing installation: pip 6.0.8
     <span class="kw">Uninstalling</span> pip-6.0.8:
@@ -52,13 +50,11 @@ $ <span class="kw">sudo</span> python3 get-pip.py
 <h1 id="cloning-the-code">Cloning the Code</h1>
 <p>Assuming you have a Git client installed, you can clone the project code. If you do not have a Git Client, see above. For a project hosted in GitHub, such as the <a href="https://github.com/CiscoDevNet/cosc-learning-labs">COSC Learning Lab</a> you can <a href="https://help.github.com/articles/fork-a-repo/">fork a repository</a> using the &quot;Fork&quot; button at the top right of a project page, as illustrated below.</p>
 <div class="figure">
-<img src="byod_images/fork.png" alt="Forking a GitHub project" />
-<p class="caption">Forking a GitHub project</p>
+<img src="byod_images/fork.png" alt="Forking a GitHub project" /><p class="caption">Forking a GitHub project</p>
 </div>
 <p>Or you can just clone the project using the URL copied to the clipboard as shown below:</p>
 <div class="figure">
-<img src="byod_images/github_clone.png" alt="Copying the project URL in GitHub" />
-<p class="caption">Copying the project URL in GitHub</p>
+<img src="byod_images/github_clone.png" alt="Copying the project URL in GitHub" /><p class="caption">Copying the project URL in GitHub</p>
 </div>
 <p>The command to use the URL is the same for Linux, Max OS X or Windows. By convention, one clones Git projects into the <code>git</code> sub-directory of one's <code>$HOME</code> directory. These commands will work with a shell on Linux or Mac OS X and a GitBahs shell on windows:</p>
 <pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> <span class="ot">$HOME</span>
@@ -69,15 +65,17 @@ $ <span class="kw">git</span> clone <span class="kw">&lt;</span>repository URL<s
 <p>Having installed Python and Pip, on Linux and Mac OSX you can then use <code>pip3 install -e</code> in the project <code>src</code> directory, which, in turn, uses the contents of the <code>setup.py</code> script to install required components in your environment.</p>
 <p>On Windows, you will likely need to install the <code>lxml</code> library manually, and then run the <code>pip install -e .</code> command, as shown below. The pre-packaged binaries can be obtained from <a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml">Christoph Gohlke's Unofficial Windows Binaries for Python Extension Packages site</a>, and then follow the <a href="https://pip.pypa.io/en/latest/user_guide.html#installing-from-wheels">Installing from Wheels guide</a>.</p>
 <div class="figure">
-<img src="byod_images/windows_lxml_install.png" alt="Windows Installing the lxml Python Package" />
-<p class="caption">Windows Installing the lxml Python Package</p>
+<img src="byod_images/windows_lxml_install.png" alt="Windows Installing the lxml Python Package" /><p class="caption">Windows Installing the lxml Python Package</p>
 </div>
 <p>Then, on Windows, you can run the <code>pip install -e .</code> command, as shown below:</p>
 <div class="figure">
-<img src="byod_images/windows_pip_setup.png" alt="Windows Installing the lxml Python Package" />
-<p class="caption">Windows Installing the lxml Python Package</p>
+<img src="byod_images/windows_pip_setup.png" alt="Windows Installing the lxml Python Package" /><p class="caption">Windows Installing the lxml Python Package</p>
 </div>
-<p>The outcome is that the Python packages of this project will be appended to the Python <em>path</em>, and all required packages will be downloaded and appended to the Python <em>path</em>.</p>
+<p>On Mac OS X, you can use <a href="http://brew.sh/">Home Brew</a> to install the 'lxml' package, which will put in place the header files needed to complete the <code>pip</code> install below. This requires a few additional steps as illustrated below:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">brew</span> install libxml2
+$ <span class="kw">sudo</span> ln -s /usr/local/Cellar/libxml2/2.9.2/include/libxml2 /usr/include/libxml2</code></pre>
+<p>The latter step, with the symbolic link for the directory, is required as the <code>pip</code> install looks for the <code>libxml2</code> header file in <code>/usr/include/libxml2</code>.</p>
+<p>The outcome, of running the <code>pip install -e .</code> command, is that the Python packages of this project will be appended to the Python <em>path</em>, and all required packages will be downloaded and appended to the Python <em>path</em>.</p>
 <p>On Linux and Mac OS X, There are two suggested techniques for achieving the required integration: * Modify the current Python environment of your computer, which is suitable for a Dev VM, say, which would only be used for single project. * Create and modify a virtual, temporary Python environment, which is recommended when you have multiple projects being developed in parallel on your own laptop, say.</p>
 <p>Note that the first option below, which has to be run as <code>sudo</code> will create a <code>src/COSC_Learning_Lab.egg-info</code> owned by root. If you choose the vitualenv option below, then you will need to delete the <code>COSC_Learning_Lab.egg-info</code> directory owned by root first.</p>
 <h2 id="modify-the-current-python-environment-of-your-computer">Modify the Current Python Environment of Your Computer</h2>
