@@ -7,13 +7,8 @@
     </extensions>
     <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="143,77" vmImage="IOS XRv-5.3.1-i2ss [66b5540a-d6c2-4629-bd87-c8e480d06c36]" ipv4="192.168.0.1">
         <extensions>
-            <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
-ssh server netconf port 830
-ssh timeout 120
-netconf agent ssh
-</entry>
-            <entry key="config" type="String">!  IOS-XR Config generated on 2015-05-07 09:52
-! by autonetkit_0.15.2
+            <entry key="config" type="String">!  IOS-XR Config generated on 2015-05-21 12:03
+! by autonetkit_0.15.1
 !
 hostname iosxrv-1
 service timestamps log datetime msec
@@ -44,7 +39,7 @@ control-plane
 ssh server v2
 ssh server netconf port 830
 ssh timeout 120
-netconf agent ssh
+netconf-yang agent ssh
 
 !
 !
@@ -87,6 +82,11 @@ router isis 64496
             <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">64496</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
+            <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
+ssh server netconf port 830
+ssh timeout 120
+netconf-yang agent ssh
+</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/0/0/0"/>
         <interface id="1" name="GigabitEthernet0/0/0/1"/>
