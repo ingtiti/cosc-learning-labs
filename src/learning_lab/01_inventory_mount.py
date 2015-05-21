@@ -11,7 +11,7 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'device_mount'.
+''' Sample usage of function 'device_mount' to show how to mount Netconf devices.
 
     Print the function's documentation then apply the function to every device that is configured and not mounted.
 '''
