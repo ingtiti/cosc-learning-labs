@@ -11,7 +11,8 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage combining functions 'device_dismount' and 'connected' into one 'atomic' operation.
+''' Sample usage combining functions 'device_dismount' and 'inventory_connected' to show how to scan for connected devices 
+    whilst dismounting devices. Since this happens asynchronously, there is a potential race-condition to monitor for.
 
     Dismount every device that is mounted and wait for their connections to drop.
     This requires at least one additional HTTP request.

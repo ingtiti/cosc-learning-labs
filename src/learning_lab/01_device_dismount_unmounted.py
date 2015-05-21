@@ -11,7 +11,8 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'device_dismount(device_name)' on an unmounted device.
+''' Sample usage of function 'device_dismount(device_name)' on an unmounted device, that is not configured, 
+    to test that there is an expected exception.
 
     Dismount a device that is not mounted.
     The outcome is undefined.
