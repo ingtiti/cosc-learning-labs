@@ -68,7 +68,7 @@ You will then be able to run scripts in the lab, with the steps below:
 
 ## Step 0 - [Check Settings, and That the Controller and Devices are Reachable](0.md)
 
-## Step 1 - [Mounting Netconf Devices](1.md)
+## Step 1 - [Mounting and Unmounting Netconf Devices](1.md)
 
 ## Step 2 - [Displaying the Connected Devices and Inventory](2.md)
 
