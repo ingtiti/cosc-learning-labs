@@ -8,14 +8,10 @@
     <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="316,159" ipv4="192.168.0.2">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
-            <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
-ssh server netconf port 830
-ssh timeout 120
-netconf agent ssh</entry>
             <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">64496</entry>
-            <entry key="config" type="String">!  IOS-XR Config generated on 2015-05-20 15:37
+            <entry key="config" type="String">!  IOS-XR Config generated on 2015-05-21 12:03
 ! by autonetkit_0.15.1
 !
 hostname iosxrv-2
@@ -47,7 +43,7 @@ control-plane
 ssh server v2
 ssh server netconf port 830
 ssh timeout 120
-netconf agent ssh
+netconf-yang agent ssh
 !
 !
 interface Loopback0
@@ -123,18 +119,17 @@ router bgp 64496
     !
 !
         </entry>
+            <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
+ssh server netconf port 830
+ssh timeout 120
+netconf-yang agent ssh</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/0/0/0" ipv4="10.0.0.1" netPrefixLenV4="16"/>
         <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.128.1" netPrefixLenV4="17"/>
     </node>
     <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="143,77" ipv4="192.168.0.1">
         <extensions>
-            <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
-ssh server netconf port 830
-ssh timeout 120
-netconf agent ssh
-</entry>
-            <entry key="config" type="String">!  IOS-XR Config generated on 2015-05-20 15:37
+            <entry key="config" type="String">!  IOS-XR Config generated on 2015-05-21 12:03
 ! by autonetkit_0.15.1
 !
 hostname iosxrv-1
@@ -166,8 +161,7 @@ control-plane
 ssh server v2
 ssh server netconf port 830
 ssh timeout 120
-netconf agent ssh
-
+netconf-yang agent ssh
 !
 !
 interface Loopback0
@@ -247,6 +241,10 @@ router bgp 64496
             <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">64496</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
+            <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
+ssh server netconf port 830
+ssh timeout 120
+netconf-yang agent ssh</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/0/0/0" ipv4="10.0.0.2" netPrefixLenV4="16"/>
         <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.128.2" netPrefixLenV4="17"/>
