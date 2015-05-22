@@ -99,7 +99,8 @@ def odl_http_request(
         assert isinstance(url_params, dict), 'Expect url_params to be %s, got %s' % (dict, type(url_params))
         # Note: in the line below I am using 'items()' because it works for Python 2 and 3.
         #       In Python 2 it creates a duplicate of the dict which is inefficient.                   
-        url = url.format(**{k:url_encode(v) for k, v in url_params.items()})
+        url_params = {k:url_encode(str(v)) for k, v in url_params.items()}
+        url = url.format(**url_params)
     headers = {}
     if accept is not None:
         headers['Accept'] = accept
@@ -119,7 +120,7 @@ def odl_http_request(
             auth=HTTPBasicAuth(coordinates.username, coordinates.password),
             verify=False)
         http_history_append(response)
-    #     print(response.url)
+#         print(response.url)
         status_code_ok = response.status_code in expected_status_code \
             if isinstance(expected_status_code, (list, tuple)) \
             else  response.status_code == expected_status_code
