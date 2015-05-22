@@ -16,7 +16,6 @@
 '''
 
 from __future__ import print_function as _print_function
-import settings
 from basics.odl_http import coordinates as odl_coordinates, odl_http_head
 from sys import stderr
 from basics.interpreter import sys_exit
@@ -30,6 +29,7 @@ if __name__ == "__main__":
     
     try:
         response = odl_http_head(
+            # Use any URL that is likely to succeed.                                   
             url_suffix='operational/opendaylight-inventory:nodes',
             accept='application/json',
             expected_status_code=[200, 404, 503])
@@ -44,7 +44,7 @@ if __name__ == "__main__":
         exit_code = os.EX_OK
     except Exception as e:
         exit_code = os.EX_CONFIG
-        raise e
+        print(e, file=stderr)
     finally:
         sys_exit(exit_code)
 

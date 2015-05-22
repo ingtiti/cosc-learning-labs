@@ -14,9 +14,9 @@
     @author: Ken Jarrad (kjarrad@cisco.com)
 '''
 
-from __future__ import print_function as _print_function
+from __future__ import print_function
 from threading import Lock
-from requests import request
+from requests import request, ConnectionError
 from requests.auth import HTTPBasicAuth
 from basics.http import json_loads, json_dumps
 try:
@@ -110,25 +110,28 @@ def odl_http_request(
             if contentType.endswith('json'):
                 content = json_dumps(content) 
         headers['Content-Length'] = len(content)
-    response = request(
-        method,
-        url,
-        headers=headers,
-        data=content,
-        auth=HTTPBasicAuth(coordinates.username, coordinates.password),
-        verify=False)
-    http_history_append(response)
-#     print(response.url)
-    status_code_ok = response.status_code in expected_status_code \
-        if isinstance(expected_status_code, (list, tuple)) \
-        else  response.status_code == expected_status_code
-    if not status_code_ok:
-        msg = 'Expected HTTP status code %s, got %d' % (expected_status_code, response.status_code)
-        if response.text:
-            msg += ', "%s"' % response.text
-        raise Exception(msg)
-    else:
-        return response
+    try:
+        response = request(
+            method,
+            url,
+            headers=headers,
+            data=content,
+            auth=HTTPBasicAuth(coordinates.username, coordinates.password),
+            verify=False)
+        http_history_append(response)
+    #     print(response.url)
+        status_code_ok = response.status_code in expected_status_code \
+            if isinstance(expected_status_code, (list, tuple)) \
+            else  response.status_code == expected_status_code
+        if not status_code_ok:
+            msg = 'Expected HTTP status code %s, got %d' % (expected_status_code, response.status_code)
+            if response.text:
+                msg += ', "%s"' % response.text
+            raise Exception(msg)
+        else:
+            return response
+    except ConnectionError as e:
+        raise Exception("%s, %s" % (e, coordinates)) #from e
 
 def odl_http_head(
     url_suffix,
