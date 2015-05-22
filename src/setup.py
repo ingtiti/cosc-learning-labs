@@ -42,6 +42,7 @@ setup(
         "ipaddress",
         "lxml",
         "logilab-common",
+        "tabulate",
     ],
     tests_require=['pytest'],
     cmdclass = {'test': PyTest},
