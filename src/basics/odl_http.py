@@ -107,7 +107,7 @@ def odl_http_request(
     if contentType is not None:
         headers['Content-Type'] = contentType
     if content is not None:
-        if not isinstance(content, str):
+        if not isinstance(content, (str, unicode)):
             if contentType.endswith('json'):
                 content = json_dumps(content) 
         headers['Content-Length'] = len(content)
