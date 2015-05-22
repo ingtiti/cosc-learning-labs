@@ -11,7 +11,8 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample code to determine 'static route' capability for a specific device.
+''' Sample code to determine whether the 'static route' capability is available for a specific device. If there are no devices 
+    with a static route capability, then none of the `04_*` scripts will work.
 
     Print the documentation of function 'capability_discovery'.
     Apply the function.
