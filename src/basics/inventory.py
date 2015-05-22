@@ -49,10 +49,21 @@ def inventory():
     
     The inventory includes all mounted devices.
     The inventory excludes all unmounted devices.
-    The inventory can contain devices that are neither mounted nor unmounted.
     The inventory includes all connected devices.
     The inventory can contain unconnected devices.
-    Returns a list.
+
+    The inventory can contain devices that are introduced independently of the
+    Controller's mounting process. 
+    Examples of these devices are Open Flow switches.
+    Such devices have the following characteristics:
+    - not considered to be 'mounted' (see function 'inventory_mounted')
+    - no 'control' information available (see function 'inventory_control')
+    - not considered to be 'unmounted' because there are no settings configured
+      (see function 'inventory_unmounted')
+    - cannot be mounted (because not unmounted)
+    - cannot be dismounted (because not mounted)
+
+    Returns type is list, which may be empty.
     '''
     tree = inventory_xml()
     names = tree.xpath("i:node/i:id/text()", namespaces=_inventory_namespaces)
@@ -81,6 +92,7 @@ def connected(device_name):
     Return True if connected.
     '''
     response = odl_http_get(_url_inventory_node, {'node-id' : device_name}, 'application/xml', expected_status_code=(200, 404))
+    print(response.url)
     if response.status_code == 404:
         return False
     tree = etree.parse(StringIO(response.text))
