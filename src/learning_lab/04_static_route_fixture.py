@@ -11,7 +11,7 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-""" Data shared by 'static route' sample scripts."""
+""" This script is not intended to be run independently. It provides data shared by 'static route' sample scripts."""
 
 from basics.routes import  static_route_exists, to_ip_network
 from basics.interface import interface_names, management_interface, interface_configuration_tuple
