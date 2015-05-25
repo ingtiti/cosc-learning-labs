@@ -12,7 +12,7 @@
 # specific language governing permissions and limitations under the License.
 
 '''
-    Print a JSON document showing all routes.
+    Show the BGP RIB in JSON format.
 '''
 import sys
 import os
