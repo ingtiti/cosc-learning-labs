@@ -75,7 +75,7 @@ def to_ip_network(destination_address, destination_mask=None):
     else:
         network = ip_network(u'%s/%s' % (destination_address, destination_mask), strict=False)
         assert str(network).count('/') == 1
-        return  network
+        return network
 
 def static_route_json(device_name, destination_network):
     """ JSON representation of the specified 'static route' on the specified network device.
@@ -138,4 +138,12 @@ def static_route_create(device_name, destination_network, next_hop_address, desc
     if not description:
         description = 'static route to %s via %s' % (destination_network , next_hop_address)
     request_content = _static_route_content_template % (destination_network.network_address, destination_network.prefixlen, next_hop_address, description)
-    return odl_http_post(_static_route_url_template, {'node-id' : device_name}, 'application/json', request_content)
+    response = odl_http_post(_static_route_url_template, {'node-id' : device_name}, 'application/json', request_content, expected_status_code=[204, 409])
+    if response.status_code == 409:
+        try:
+            raise ValueError(response.json()['errors']['error'][1]['error-message'])
+        except IndexError:
+            pass
+        except KeyError:
+            pass
+        raise ValueError('Already exists: ' + description)

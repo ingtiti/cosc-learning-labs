@@ -20,27 +20,32 @@ from basics.odl_http import coordinates as odl_coordinates, odl_http_head
 from sys import stderr
 from basics.interpreter import sys_exit
 import os
+from basics.render import print_rich
 
 if __name__ == "__main__":
-    # Controller end-point
-    print('odl_url_prefix:', odl_coordinates.url_prefix)
-    print('odl_username:', odl_coordinates.username)
-    print('odl_password:', odl_coordinates.password)
+    print_rich(odl_coordinates)
+    print()
     
     try:
+        print('Connecting...')
         response = odl_http_head(
             # Use any URL that is likely to succeed.                                   
             url_suffix='operational/opendaylight-inventory:nodes',
             accept='application/json',
             expected_status_code=[200, 404, 503])
-        print('status code:', response.status_code)
-        if response.status_code == 404:
-            print('status: not found (either the URL is incorrect or the controller is starting).')
-            print('url:', response.url)
-        elif response.status_code == 503:
-            print('status: service unavailable (allow 5 or 10 minutes for controller to become ready)')
-        else:
-            print('status: OK')
+        outcome = {
+            "status code":response.status_code,
+            "status":
+                'Not found (either the URL is incorrect or the controller is starting).'
+                if response.status_code == 404 else
+                'Service unavailable (allow 5 or 10 minutes for controller to become ready)'
+                if response.status_code == 503 else
+                'OK'
+                if response.status_code == 200 else
+                'Unknown',
+            "method":response.request.method,
+            "url":response.url}
+        print_rich(outcome)
         exit_code = os.EX_OK
     except Exception as e:
         exit_code = os.EX_CONFIG
