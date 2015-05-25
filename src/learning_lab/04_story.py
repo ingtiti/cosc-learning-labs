@@ -58,7 +58,7 @@ while run_script('04_inventory_static_route') != EX_OK and run_script('01_device
     continue
 run_script('04_static_route_capability')
 from basics.routes import inventory_static_route
-assert inventory_static_route()
+assert inventory_static_route(), "Expect at least one device with static route capability."
 
 # Context: no static routes
 while EX_OK == run_script('04_static_route_delete'):
