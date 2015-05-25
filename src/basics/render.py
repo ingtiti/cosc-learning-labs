@@ -20,7 +20,8 @@
     otherwise output is printed to stdout using the built-in 'print' function. 
 '''
 
-from __future__ import print_function as _print_function
+from __future__ import print_function
+from tabulate import tabulate
 try:
     from IPython.display import display
     from IPython.core.display import DisplayObject, HTML
@@ -97,13 +98,48 @@ def _display_rich(*args, **kwargs):
         else:
             print(arg, **kwargs)
 
-def _print_plain(*args, **kwargs):
-    ''' Print plain text
+def _plain_tabulate_dict(arg):
+    """
+    Return textual representation of dict as table layout.
+    
+    Table design:             
+    - one table row for each field of dict.
+    - each row has columns 'field' and 'value'.
+    """
+    assert isinstance(arg, dict)
+    return tabulate([[field, value] for field, value in arg.items()], headers=('name', 'value'))
 
-    This function differs from the built-in 'print' function by accepting exactly one parameter,
-    to which it applies the built-in 'print' function.
+def _print_plain(*args, **kwargs):
     '''
-    print(*args, **kwargs)
+    Print a table if the arguments are tabular otherwise apply the built-in 'print' function.
+    '''
+    if len(args) == 1:
+        arg=args[0]
+        if isinstance(arg, tuple):
+            if '_asdict' in dir(arg):
+                # title of table is name of type.             
+                table_title = type(arg).__name__
+                print(table_title)
+                print(_plain_tabulate_dict(arg._asdict()))                 
+            else:
+                _print_plain(*arg)
+        elif isinstance(arg, list):
+            _print_plain(*arg)
+        elif isinstance(arg, dict):
+            print(_plain_tabulate_dict(arg))                 
+        else:
+            print(arg, **kwargs)
+    elif args:
+        peek = args[0]
+        headers = "keys" \
+            if isinstance(peek, dict) \
+            or isinstance(peek, tuple) and '_asdict' in dir(peek) \
+            else None
+        print(tabulate(args, headers=headers))
+    else:
+        assert args is None or len(args) ==0
+        print(None)
+#         print(*args, **kwargs)
 
 print_rich = _print_plain
 

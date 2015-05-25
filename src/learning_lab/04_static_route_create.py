@@ -11,24 +11,26 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'static_route_create' to show how to add a static route.
+''' Sample usage of function 'static_route_create'.
 
     Print the function's documentation.
-    Apply the function to a network device.
-    Print the function output.
+    Use any one network device of those that are capable.
+    Use any one network interface on the data plane.
+    Use any one destination, such as 2.2.2.2, 3.3.3.3, etc.
+    Show how to create a static route on the network device to the destination
+    network via the next-hop of the device's exit interface.
 '''
 
-from __future__ import print_function as _print_function
+from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
 import os
-from ipaddress import ip_address
-from basics.inventory import inventory_mounted
-from basics.interface import interface_names, management_interface, interface_configuration_tuple
+from ipaddress import ip_network
+from basics.inventory import inventory_mounted, device_control
+from basics.interface import interface_names, interface_configuration_tuple
 from basics.interpreter import sys_exit
+from basics.render import print_rich
 from basics.routes import static_route_create, static_route_exists, inventory_static_route, to_ip_network
-from importlib import import_module
-static_route_fixture = import_module('learning_lab.04_static_route_fixture')
 
 def match(device_name, interface_network):
     """ Discover matching interface on a different device."""
@@ -48,45 +50,77 @@ def match(device_name, interface_network):
     return None
 
 def demonstrate(device_name):
-    ''' Apply function 'static_route_create' to the specified device for a new destination.'''
-    mgmt_name = management_interface(device_name)
-    interface_list = interface_names(device_name)
-    for interface_name in interface_list:
-        if interface_name == mgmt_name:
-            # Do not configure static routes on the control plane.             
-            continue
-        config = interface_configuration_tuple(device_name, interface_name)
-        if config.address is None:
+    """
+    Apply function 'static_route_create' to the specified device.
+    
+    Choose a destination that does not already exist. 
+    Choose a next-hop on the same sub-network as an existing interface.
+    If the next-hop is unknown then use any valid ip-address.
+    """
+    
+    print('Determine whether a static route exists already (to a destination network).')
+    counter = 2
+    destination_network = ip_network(u"%s.%s.%s.%s/255.255.255.255" % (counter, counter, counter, counter), strict=False)
+    print('static_route_exists(%s, %s)' % (device_name, destination_network))
+    while static_route_exists(device_name, destination_network):
+        print(True)
+        print()
+        counter += 1
+        destination_network = ip_network(u"%s.%s.%s.%s/255.255.255.255" % (counter, counter, counter, counter), strict=False)
+        print('static_route_exists(%s, %s)' % (device_name, destination_network))
+    print(False)
+    print()
+    
+    print('Determine which interface is on the management plane (to avoid it).')     
+    print('device_control(%s)' % device_name)
+    device_mgmt = device_control(device_name)
+    print_rich(device_mgmt)
+    print()
+
+    print('Determine ip-address and network-mask of every interface.')     
+    print('interface_configuration_tuple(%s)' % device_name)
+    interface_config_list = interface_configuration_tuple(device_name)
+    print_rich(interface_config_list)
+    print()
+    
+    for interface_config in interface_config_list:
+        if interface_config.address is None:
             # Skip network interface with unassigned IP address.             
             continue
-        print()
-        interface_network = to_ip_network(config.address, config.netmask)
-        print('static_route_exists(%s, %s):' % (device_name, interface_network))
-        exists = static_route_exists(device_name, interface_network)
-        print(exists)
-        if exists:
+        if interface_config.address == device_mgmt.address:
+            # Do not configure static routes on the 'management plane'.             
             continue
+        if interface_config.name.startswith('Loopback'):
+            # Do not configure static routes on the 'control plane'.             
+            continue
+        
+        print('Determine next-hop for a network interface.')
+        interface_network = interface_config.ip_network
         next_hop_address = match(device_name, interface_network)
         if next_hop_address is None:
-            print('End-point for %s/%s %s/%s is outside the known topology.' % (device_name, interface_name, config.address, config.netmask))
-            print(interface_network.prefixlen)
-            print(interface_network)
+            print('Next-hop for %s/%s %s/%s is outside the known topology.' % (device_name, interface_config.name, interface_config.address, interface_config.netmask))
             next_hop_address = interface_network.network_address
-            if next_hop_address == ip_address(u'%s' % config.address):
+            if next_hop_address == interface_config.ip_interface:
                 next_hop_address += 1
-            print('Assume that end-point for %s/%s/%s/%s is %s.' % (device_name, interface_name, config.address, config.netmask, next_hop_address))
-#         destination_network = static_route_fixture.new_destination(device_name, interface_network)
-        print('static_route_create(%s, %s, %s)' % (device_name, interface_network, next_hop_address))
-        static_route_create(device_name, interface_network, next_hop_address)
+            print('Assume that next-hop for %s/%s %s/%s is %s.' % (device_name, interface_config.name, interface_config.address, interface_config.netmask, next_hop_address))
+        else:
+            print('Next-hop for %s/%s %s/%s is %s.' % (device_name, interface_config.name, interface_config.address, interface_config.netmask, next_hop_address))
+        print()
+
+        print('static_route_create(%s, %s, %s)' % (device_name, destination_network, next_hop_address))
+        static_route_create(device_name, destination_network, next_hop_address)
         return True
     return False
 
 def main():
     ''' Select a capable device and demonstrate.'''
     print(plain(doc(static_route_create)))
+
+    print('Determine which network devices are capable.')
     print('inventory_static_route()')
     device_names = inventory_static_route()
-    print('\t', device_names)
+    print_rich(device_names)
+    print()
     if not device_names:
         print("There are no 'static route' capable devices to examine. Demonstration cancelled.")
     else:
