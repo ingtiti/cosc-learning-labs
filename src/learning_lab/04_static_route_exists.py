@@ -31,7 +31,7 @@ def demonstrate(device_name):
     ''' Apply function 'static_route_exists' to one or more static route destinations for the specified device.'''
     destination_network = static_route_fixture.sample_destination(device_name)
     print()
-    print('static_route_exists(' + device_name, destination_network, sep=', ', end=')\n')
+    print('static_route_exists(%s, %s)' % (device_name, destination_network))
     print('\t', static_route_exists(device_name, destination_network))
     return True
 
