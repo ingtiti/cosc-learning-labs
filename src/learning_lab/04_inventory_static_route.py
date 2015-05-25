@@ -11,7 +11,8 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'inventory_static_route'.
+''' Sample usage of function 'inventory_static_route' to show which devices have the `static route` capability.
+     If there are no devices with a static route capability, then none of the `04_*` scripts will work.
 
     Print the function's documentation.
     Apply the function.

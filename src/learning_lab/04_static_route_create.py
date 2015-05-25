@@ -11,7 +11,7 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'static_route_create'.
+''' Sample usage of function 'static_route_create' to show how to add a static route.
 
     Print the function's documentation.
     Apply the function to a network device.

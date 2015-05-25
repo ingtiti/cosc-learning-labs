@@ -11,7 +11,7 @@
 
 from __future__ import print_function as _print_function
 
-odl_server_hostname = '127.0.0.1:8181'
+odl_server_hostname = '10.10.10.164:8181'
 
 odl_server_url_prefix = "http://%s/restconf/" % odl_server_hostname
 
