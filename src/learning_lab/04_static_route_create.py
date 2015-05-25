@@ -22,10 +22,11 @@ from __future__ import print_function as _print_function
 from pydoc import plain
 from pydoc import render_doc as doc
 import os
+from ipaddress import ip_address
 from basics.inventory import inventory_mounted
 from basics.interface import interface_names, management_interface, interface_configuration_tuple
 from basics.interpreter import sys_exit
-from basics.routes import static_route_create, inventory_static_route, to_ip_network
+from basics.routes import static_route_create, static_route_exists, inventory_static_route, to_ip_network
 from importlib import import_module
 static_route_fixture = import_module('learning_lab.04_static_route_fixture')
 
@@ -60,13 +61,23 @@ def demonstrate(device_name):
             continue
         print()
         interface_network = to_ip_network(config.address, config.netmask)
+        print('static_route_exists(%s, %s):' % (device_name, interface_network))
+        exists = static_route_exists(device_name, interface_network)
+        print(exists)
+        if exists:
+            continue
         next_hop_address = match(device_name, interface_network)
         if next_hop_address is None:
-            print('No end-point for %s/%s/%s/%s' % (device_name, interface_name, config.address, config.netmask))
-            continue
-        destination_network = static_route_fixture.new_destination(device_name, interface_network)
-        print('static_route_create(%s, %s, %s)' % (device_name, destination_network, next_hop_address))
-        static_route_create(device_name, destination_network, next_hop_address)
+            print('End-point for %s/%s %s/%s is outside the known topology.' % (device_name, interface_name, config.address, config.netmask))
+            print(interface_network.prefixlen)
+            print(interface_network)
+            next_hop_address = interface_network.network_address
+            if next_hop_address == ip_address(u'%s' % config.address):
+                next_hop_address += 1
+            print('Assume that end-point for %s/%s/%s/%s is %s.' % (device_name, interface_name, config.address, config.netmask, next_hop_address))
+#         destination_network = static_route_fixture.new_destination(device_name, interface_network)
+        print('static_route_create(%s, %s, %s)' % (device_name, interface_network, next_hop_address))
+        static_route_create(device_name, interface_network, next_hop_address)
         return True
     return False
 
@@ -82,6 +93,7 @@ def main():
         for device_name in device_names:
             if demonstrate(device_name):
                 return os.EX_OK
+    print("Unable to create a 'static route' on %s capable device(s). Demonstration cancelled." % len(device_names))
     return os.EX_TEMPFAIL
 
 if __name__ == "__main__":
