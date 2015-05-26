@@ -14,6 +14,7 @@ from ipaddress import ip_network, _BaseNetwork
 from basics.odl_http import odl_http_get, odl_http_post, odl_http_delete
 from basics.inventory import capability_discovery
 from basics.acl import _error_message
+import json
 
 _bgp_url_suffix = 'operational/bgp-rib:bgp-rib/rib/example-bgp-rib/loc-rib/tables/bgp-linkstate:linkstate-address-family/bgp-linkstate:linkstate-subsequent-address-family'
 
@@ -78,22 +79,44 @@ def to_ip_network(destination_address, destination_mask=None):
         assert str(network).count('/') == 1
         return network
 
-def static_route_json(device_name, destination_network):
-    """ JSON representation of the specified 'static route' on the specified network device.
+def static_route_json(device_name, destination_network=None):
+    """ 
+    JSON representation 'static route' configuration on the specified network device.
     
-        Return None if not found.
+    Parameters:
+    - device_name
+        Identifies the network device.
+    - destination_network
+        Either None or an instance of type ipaddress._BaseNetwork
+        - Unspecified
+            Return all static routes on the device.
+        - Specified
+            Return only the route with the specified destination.
+
+    Returns either a vector or a scalar, depending on the input parameters:
+    - vector
+        A list of zero or more routes.
+    - scalar
+        The route with the specified destination or None if not found.
     """
-    assert isinstance(destination_network, _BaseNetwork)
-    url_params = {
-        'node-id' : device_name, 
-        'ip-address' : destination_network.network_address, 
-        'prefix-length' : destination_network.prefixlen
-    }
-    response = odl_http_get(_static_route_uni_url_template, url_params, 'application/json', expected_status_code=[200, 404])
-    if response.status_code == 404:
-        return None
+    if destination_network:
+        assert isinstance(destination_network, _BaseNetwork)
+        url_params = {
+            'node-id' : device_name, 
+            'ip-address' : destination_network.network_address, 
+            'prefix-length' : destination_network.prefixlen
+        }
+        url_template = _static_route_uni_url_template
     else:
-        return response.json()['vrf-prefix'][0]
+        url_params = {'node-id' : device_name} 
+        url_template = _static_route_url_template
+    response = odl_http_get(url_template, url_params, 'application/json', expected_status_code=[200, 404])
+    if response.status_code == 404:
+        return [] if destination_network is None else None
+    else:
+        response_content = response.json()
+        return response_content['vrf-prefixes']['vrf-prefix'] if destination_network is None \
+            else response_content['vrf-prefix'][0]
 
 def static_route_exists(device_name, destination_network):
     """ Determine whether the specified 'static route' exists on the specified device. """
