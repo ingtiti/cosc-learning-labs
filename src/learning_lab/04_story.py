@@ -33,7 +33,6 @@
         04_static_route_exists
         04_static_route_list
         04_static_route_json
-        04_static_route_json_all
 
     To run them all:
         04_story
@@ -65,7 +64,6 @@ while EX_OK == run_script('04_static_route_delete'):
     continue
 run_script('04_static_route_exists')
 assert run_script('04_static_route_json') != EX_OK
-assert run_script('04_static_route_json_all') != EX_OK
 run_script('04_static_route_list')
 run_script('04_static_route_delete_all')
 
@@ -73,7 +71,6 @@ run_script('04_static_route_delete_all')
 assert run_script('04_static_route_create') == EX_OK
 run_script('04_static_route_exists')
 assert run_script('04_static_route_json') == EX_OK
-assert run_script('04_static_route_json_all') == EX_OK
 run_script('04_static_route_list')
 assert run_script('04_static_route_delete') == EX_OK
 assert run_script('04_static_route_delete_all') != EX_OK
@@ -85,7 +82,6 @@ for i in range(4):
     assert run_script('04_static_route_create') == EX_OK
 run_script('04_static_route_exists')
 assert run_script('04_static_route_json') == EX_OK
-assert run_script('04_static_route_json_all') == EX_OK
 run_script('04_static_route_list')
 assert run_script('04_static_route_delete') == EX_OK
 assert run_script('04_static_route_delete_all') == EX_OK

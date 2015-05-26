@@ -44,14 +44,6 @@ def inventory_static_route(capability_revision=None, device_name=None):
         device_name=device_name)
     return [device_capability[0] for device_capability in discovered]
 
-def static_route_json_all(device_name):
-    '''All static routes on the specified network device.'''
-    response = odl_http_get(_static_route_url_template, {'node-id' : device_name}, 'application/json', expected_status_code=[200, 404])
-    if response.status_code == 404:
-        return []
-    else:
-        return response.json()['vrf-prefixes']['vrf-prefix']
-
 def to_ip_network(destination_address, destination_mask=None):
     """ Transform various input patterns to a consistent output pattern.
     
