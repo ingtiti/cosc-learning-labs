@@ -11,36 +11,65 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'static_route_exists' to show whether a given static route exists on a given device.
+""" 
+Demonstrate how to determine whether a 'static route' exists on a specific device.
+ 
+Introduce function 'static_route_exists'.
+Print the function's documentation.
 
-    Print the function's documentation.
-    Apply the function to a network device for one or more sample 'static route' destinations.
-    Print the function output.
-'''
+Use several example destinations, such as 2.2.2.2, 3.3.3.3, etc.
+Apply the function to a network device once per example destination.
+Print the outcome.
+"""
 
-from __future__ import print_function as _print_function
+from __future__ import print_function
+from collections import OrderedDict
 import os
 from pydoc import plain
 from pydoc import render_doc as doc
 from basics.interpreter import sys_exit
 from basics.routes import   static_route_exists, inventory_static_route
-from importlib import import_module
-static_route_fixture = import_module('learning_lab.04_static_route_fixture')
+from basics.render import print_rich
+from ipaddress import ip_network
+
+destination_network_list = [
+    ip_network(u"%s.%s.%s.%s/255.255.255.255" % (counter, counter, counter, counter), strict=False) 
+    for counter in range(2, 6)
+]
 
 def demonstrate(device_name):
-    ''' Apply function 'static_route_exists' to one or more static route destinations for the specified device.'''
-    destination_network = static_route_fixture.sample_destination(device_name)
+    """ 
+    Apply function 'static_route_exists' to the specified device for each destination in the list.
+    """
+    for destination_network in destination_network_list:
+        print('static_route_exists(%s, %s)' % (device_name, destination_network))
+        
     print()
-    print('static_route_exists(%s, %s)' % (device_name, destination_network))
-    print('\t', static_route_exists(device_name, destination_network))
+    
+    print_rich([OrderedDict([
+            ("device", device_name),
+            ("destination", destination_network),
+            ("exists", str(static_route_exists(device_name, destination_network)))
+        ]) for destination_network in destination_network_list
+    ])
     return True
 
 def main():
-    ''' Select a device and demonstrate for each potential static route prefix.'''
+    """
+    Print the function's documentation then demonstrate the function multiple times on one device.
+    """
     print(plain(doc(static_route_exists)))
+    
+    print('Determine which devices are capable.')
     print('inventory_static_route()')
     device_names = inventory_static_route()
-    print('\t', device_names)
+    print_rich(device_names)
+    print()
+
+    print('Static routes to the following destination networks will be queried.')
+    print_rich(destination_network_list)
+    print()
+    
     if not device_names:
         print("There are no 'static route' capable devices to examine. Demonstration cancelled.")
     else:

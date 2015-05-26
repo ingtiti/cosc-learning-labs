@@ -11,15 +11,19 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'static_route_create'.
+"""
+Demonstrate how to configure the next-hop of a 'static route'.
 
-    Print the function's documentation.
-    Use any one network device of those that are capable.
-    Use any one network interface on the data plane.
-    Use any one destination, such as 2.2.2.2, 3.3.3.3, etc.
-    Show how to create a static route on the network device to the destination
-    network via the next-hop of the device's exit interface.
-'''
+Introduce function 'static_route_create'.
+Print the function's documentation.
+
+Use any one network device that is capable.
+Use any one network interface on the data plane.
+Use any one destination, such as 2.2.2.2, 3.3.3.3, etc.
+Exclude destinations for which a static route exists.
+Create a static route on the network device to the destination
+network via the next-hop of the device's exit interface.
+"""
 
 from __future__ import print_function
 from pydoc import plain
@@ -90,7 +94,7 @@ def demonstrate(device_name):
         if interface_config.address == device_mgmt.address:
             # Do not configure static routes on the 'management plane'.             
             continue
-        if interface_config.name.startswith('Loopback'):
+        if 'Loopback' in interface_config.name:
             # Do not configure static routes on the 'control plane'.             
             continue
         
@@ -113,7 +117,9 @@ def demonstrate(device_name):
     return False
 
 def main():
-    ''' Select a capable device and demonstrate.'''
+    """
+    Print the function's documentation then demonstrate the function once.
+    """
     print(plain(doc(static_route_create)))
 
     print('Determine which network devices are capable.')
