@@ -134,7 +134,7 @@ def _print_plain(*args, **kwargs):
         headers = "keys" \
             if isinstance(peek, dict) \
             or isinstance(peek, tuple) and '_asdict' in dir(peek) \
-            else None
+            else ()
         print(tabulate(args, headers=headers))
     else:
         assert args is None or len(args) ==0
