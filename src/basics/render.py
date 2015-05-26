@@ -109,6 +109,10 @@ def _plain_tabulate_dict(arg):
     assert isinstance(arg, dict)
     return tabulate([[field, value] for field, value in arg.items()], headers=('name', 'value'))
 
+# Sequence types that 'tabulate' recognises. 
+# There may be additional types related to 3rd party libraries.
+_columnar = (list, dict, tuple)
+
 def _print_plain(*args, **kwargs):
     '''
     Print a table if the arguments are tabular otherwise apply the built-in 'print' function.
@@ -128,13 +132,15 @@ def _print_plain(*args, **kwargs):
         elif isinstance(arg, dict):
             print(_plain_tabulate_dict(arg))                 
         else:
-            print(arg, **kwargs)
+            print(tabulate([[arg]]))
     elif args:
         peek = args[0]
         headers = "keys" \
             if isinstance(peek, dict) \
             or isinstance(peek, tuple) and '_asdict' in dir(peek) \
             else ()
+        # Transform a 1D table to 2D by making each row into a list.         
+        args = [arg if isinstance(arg, _columnar) else [arg] for arg in args]
         print(tabulate(args, headers=headers))
     else:
         assert args is None or len(args) ==0
