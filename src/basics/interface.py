@@ -23,7 +23,7 @@ try:
     from urllib import quote_plus
 except ImportError:
     from urllib.parse import quote_plus
-import ipaddress
+from ipaddress import ip_interface, ip_network, ip_address
 from basics.inventory import device_control
 
 _network_device_config = config['network_device']
@@ -79,8 +79,8 @@ def same_subnet(address1, address2, netmask):
         return same_subnet('127.0.0.1', address2, netmask)
     if address2 == 'localhost':
         return same_subnet(address1, '127.0.0.1', netmask)
-    subnet1 = ipaddress.ip_interface(u'%s/%s' % (address1, netmask))
-    subnet2 = ipaddress.ip_interface(u'%s/%s' % (address2, netmask))
+    subnet1 = ip_network(u'%s/%s' % (address1, netmask), strict=False)
+    subnet2 = ip_network(u'%s/%s' % (address2, netmask), strict=False)
     return subnet1 == subnet2
 
 def interface_configuration_http(content_type, device_name, interface_name=None):
@@ -130,7 +130,43 @@ def interface_configurations_json(device_name):
     'Return a JSON document containing interface configuration for the specified, mounted device.'
     return interface_configuration_json_http(device_name).json();
 
-InterfaceConfiguration = namedtuple('InterfaceConfiguration', ['name', 'description', 'shutdown', 'address', 'netmask', 'packet_filter_outbound', 'packet_filter_inbound', 'active'])
+class InterfaceConfiguration(namedtuple('InterfaceConfiguration', 
+[
+    'name', 
+    'description', 
+    'shutdown', 
+    'address', 
+    'netmask', 
+    'packet_filter_outbound', 
+    'packet_filter_inbound', 
+    'active'
+])):
+    """
+    Immutable class/tuple encapsulating the configuration of one network interface.
+    """
+    @property
+    def ip_network(self): 
+        """
+        Convenience property returning the ip_network as per module ipaddress.
+        """
+        return None if self.address is None or self.netmask is None \
+        else ip_network(u'%s/%s' % (self.address, self.netmask), strict=False)
+
+    @property
+    def ip_address(self): 
+        """
+        Convenience property returning the ip_address as per module ipaddress.
+        """
+        return None if self.address is None or self.netmask is None \
+        else ip_address(u'%s/%s' % self.address)
+
+    @property
+    def ip_interface(self): 
+        """
+        Convenience property returning the ip_interface as per module ipaddress.
+        """
+        return None if self.address is None or self.netmask is None \
+        else ip_interface(u'%s/%s' % (self.address, self.netmask))
 
 def interface_configuration_tuple_from_xml(tree):
     'Return a named tuple containing the configuration information in the specified XML.'
