@@ -73,9 +73,9 @@ def topology(config):
     The topology includes all connected devices.
     The topology can contain unconnected devices.
     """
-    response = odl_http_get(_url_topology.format(**{'config': config, 
+    response = odl_http_get(_url_topology, {'config': config, 
                                                     'topology-id': 'topology-netconf',
-                                                    }), 
+                                                    }, 
                             'application/json')
     return response.json()['topology'][0]
 
