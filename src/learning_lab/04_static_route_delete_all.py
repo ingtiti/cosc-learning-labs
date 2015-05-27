@@ -24,8 +24,6 @@ from pydoc import render_doc as doc
 import os
 from basics.interpreter import sys_exit
 from basics.routes import static_route_delete, inventory_static_route, static_route_list
-from importlib import import_module
-static_route_fixture = import_module('learning_lab.04_static_route_fixture')
 
 def demonstrate(device_name):
     """ Apply function 'static_route_delete' to the specified device.

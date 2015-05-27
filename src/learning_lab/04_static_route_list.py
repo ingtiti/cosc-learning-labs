@@ -11,34 +11,51 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'static_route_list' to show the static routes on a given device.
+""" 
+Demonstrate how to list the static routes on a specific network device.
 
-    Print the function's documentation.
-    Apply the function to a network device.
-    Print the function output.
-    If no routes are found then retry with a different network device.
-'''
+A static route is identified by the destination network. 
 
-from __future__ import print_function as _print_function
+Introduce function 'static_route_list'.
+Print the function's documentation.
+
+Determine which network devices have 'static route' capability.
+Select any one of these network devices.
+
+Apply the function to a selected network device.
+Print the function output.
+If no routes are found then retry with a different network device.
+"""
+
+from __future__ import print_function
 import os
 from pydoc import plain
 from pydoc import render_doc as doc
 from basics.interpreter import sys_exit
 from basics.routes import static_route_list, inventory_static_route
+from basics.render import print_rich
 
 def demonstrate(device_name):
-    ''' Apply function 'static_route_list' to the specified device.
+    """
+    Apply function 'static_route_list' to the specified device.
     
-        Return True when one or more routes are found.
-    '''
-    print('static_route_list(' + device_name, end=')\n')
+    Return True when one or more routes are found.
+    """
+    print('static_route_list(%s)' % device_name)
     routes = static_route_list(device_name)
-    print('\t', [str(route) for route in routes])
+    print_rich(routes)
     return bool(routes)
 
 def main():
-    """ Select a device and demonstrate. If no information is found then retry with a different device."""
+    """ 
+    Print the function documentation then demonstrate the function usage on a selected device.
+     
+    Repeat for another device if no 'static route' is configured.
+    """
     print(plain(doc(static_route_list)))
+
+    print('Determine which devices are capable.')
+    print('inventory_static_route()')
     device_names = inventory_static_route()
     if not device_names:
         print("There are no 'static route' capable devices to examine. Demonstration cancelled.")
@@ -46,6 +63,7 @@ def main():
         for device_name in device_names:
             if demonstrate(device_name):
                 return os.EX_OK
+        print("There are no devices with a 'static route' configured. Demonstration cancelled.")
     return os.EX_TEMPFAIL
 
 if __name__ == "__main__":

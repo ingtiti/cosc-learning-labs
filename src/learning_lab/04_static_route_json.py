@@ -39,13 +39,13 @@ from basics.render import print_rich
 from basics.interpreter import sys_exit
 from basics.routes import static_route_json, inventory_static_route
 import json
-from importlib import import_module
-static_route_fixture = import_module('learning_lab.04_static_route_fixture')
 
 def demonstrate(device_name):
     """
-    Apply function 'static_route_json' to the specified device to obtain all
-    static routes and one specifiec static route.
+    Apply function 'static_route_json' to the specified device twice. Once for 
+    all static routes and once for a specific static route.
+
+    Return True when one or more routes are found.
     """
     print('Request all static routes.')
     print('static_route_json(%s)' % device_name)
@@ -72,7 +72,7 @@ def demonstrate(device_name):
 
 def main():
     """ 
-    Print function documentation then demonstrate function usage on any one device.
+    Print the function documentation then demonstrate the function usage on a selected device.
      
     Repeat for another device if no 'static route' is configured.
     """

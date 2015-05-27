@@ -17,13 +17,12 @@ Demonstrate how to determine whether a 'static route' exists on a specific devic
 Introduce function 'static_route_exists'.
 Print the function's documentation.
 
-Use several example destinations, such as 2.2.2.2, 3.3.3.3, etc.
-Apply the function to a network device once per example destination.
-Print the outcome.
+Generate sample destinations such as 2.2.2.2, 3.3.3.3, etc.
+Apply the function to a network device once per sample destination.
+Cease when a static route is not found.
 """
 
 from __future__ import print_function
-from collections import OrderedDict
 import os
 from pydoc import plain
 from pydoc import render_doc as doc
@@ -32,27 +31,26 @@ from basics.routes import   static_route_exists, inventory_static_route
 from basics.render import print_rich
 from ipaddress import ip_network
 
-destination_network_list = [
-    ip_network(u"%s.%s.%s.%s/255.255.255.255" % (counter, counter, counter, counter), strict=False) 
-    for counter in range(2, 6)
-]
+def destination_network_generator():
+    counter = 1
+    while True:
+        counter += 1
+        yield ip_network(u"%s.%s.%s.%s/255.255.255.255" % (counter, counter, counter, counter), strict=False) 
 
 def demonstrate(device_name):
     """ 
     Apply function 'static_route_exists' to the specified device for each destination in the list.
     """
-    for destination_network in destination_network_list:
+    destination_network_iterator = destination_network_generator()
+    while True: 
+        destination_network = destination_network_iterator.next()
         print('static_route_exists(%s, %s)' % (device_name, destination_network))
-        
-    print()
-    
-    print_rich([OrderedDict([
-            ("device", device_name),
-            ("destination", destination_network),
-            ("exists", str(static_route_exists(device_name, destination_network)))
-        ]) for destination_network in destination_network_list
-    ])
-    return True
+        exists = static_route_exists(device_name, destination_network)
+        print(exists)
+        if not exists:
+            return True
+        else:
+            print()
 
 def main():
     """
@@ -66,10 +64,6 @@ def main():
     print_rich(device_names)
     print()
 
-    print('Static routes to the following destination networks will be queried.')
-    print_rich(destination_network_list)
-    print()
-    
     if not device_names:
         print("There are no 'static route' capable devices to examine. Demonstration cancelled.")
     else:

@@ -35,6 +35,10 @@ from basics.interface import interface_names, interface_configuration_tuple
 from basics.interpreter import sys_exit
 from basics.render import print_rich
 from basics.routes import static_route_create, static_route_exists, inventory_static_route, to_ip_network
+from importlib import import_module
+
+# Share the same destination networks across across all sample scripts.
+destination_network_generator = import_module('learning_lab.04_static_route_exists').destination_network_generator
 
 def match(device_name, interface_network):
     """ Discover matching interface on a different device."""
@@ -62,18 +66,16 @@ def demonstrate(device_name):
     If the next-hop is unknown then use any valid ip-address.
     """
     
-    print('Determine whether a static route exists already (to a destination network).')
-    counter = 2
-    destination_network = ip_network(u"%s.%s.%s.%s/255.255.255.255" % (counter, counter, counter, counter), strict=False)
-    print('static_route_exists(%s, %s)' % (device_name, destination_network))
-    while static_route_exists(device_name, destination_network):
-        print(True)
-        print()
-        counter += 1
-        destination_network = ip_network(u"%s.%s.%s.%s/255.255.255.255" % (counter, counter, counter, counter), strict=False)
+    print('Select a destination network for which a static route does not exist.')
+    destination_network_iterator = destination_network_generator()
+    while True: 
+        destination_network = destination_network_iterator.next()
         print('static_route_exists(%s, %s)' % (device_name, destination_network))
-    print(False)
-    print()
+        exists = static_route_exists(device_name, destination_network)
+        print(exists)
+        print()
+        if not exists:
+            break
     
     print('Determine which interface is on the management plane (to avoid it).')     
     print('device_control(%s)' % device_name)

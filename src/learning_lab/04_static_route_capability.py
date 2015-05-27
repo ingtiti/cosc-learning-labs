@@ -11,50 +11,43 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample code to determine whether the 'static route' capability is available for a specific device. If there are no devices 
-    with a static route capability, then none of the `04_*` scripts will work.
+""" 
+Demonstrate how to identify network devices that have 'static route' capabilities.
 
-    Print the documentation of function 'capability_discovery'.
-    Apply the function.
-    Print the function output.
-'''
+If there are no such devices then all sample scripts prefixed with 
+`04_static_route` are unable to perform their demonstrations.
 
-from __future__ import print_function as _print_function
+Introduce function 'inventory_static_route'.
+Print the function's documentation. 
+
+Apply the function to the inventory of network devices.
+Print the function output.
+"""
+
+from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
+from os import EX_OK, EX_TEMPFAIL
 from basics.interpreter import sys_exit
-from basics.routes import capability_ns, capability_name
-from basics.inventory import capability_discovery, inventory_mounted, connected
+from basics.routes import inventory_static_route
+from basics.render import print_rich
 
-def demonstrate(device_name):
-    ''' Apply function 'capability_discovery' to the specified device for required capability. '''
-    print()
-    print('capability_discovery(device_name=%s, capability_name=%s, capability_ns=%s)' % (device_name, capability_name, capability_ns))
-    discovered = capability_discovery(device_name=device_name, capability_name=capability_name, capability_ns=capability_ns)
-    if discovered:
-        print('\t', *discovered)
-        return True
-    else:
-        print(None)
-        return False
+def demonstrate():
+    """
+    Apply function 'inventory_static_route' to the inventory of network devices.
+    """
+    print('inventory_static_route()')
+    device_names = inventory_static_route()
+    print_rich(device_names, headers=('device-name',))
+    return device_names
     
 def main():
-    ''' Document and demonstrate the function until a capable device is found.'''
-    print(plain(doc(capability_discovery)))
-    for device_name in inventory_mounted():
-        try:
-            if demonstrate(device_name):
-                return os.EX_OK
-        except Exception as e:
-            if connected(device_name):
-                # Unexplained exception.                
-                print(e)
-                return os.EX_TEMPFAIL
-            else:
-                # Expect exception when device not connected.             
-                print('connected(%s): False' % device_name)
-    return os.EX_TEMPFAIL
+    """
+    Print the function documentation then demonstrate the function usage.
+    """
+    print(plain(doc(inventory_static_route)))
+    
+    return EX_OK if demonstrate() else EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())
