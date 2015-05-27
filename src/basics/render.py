@@ -118,7 +118,7 @@ def _print_plain(*args, **kwargs):
     Print a table if the arguments are tabular otherwise apply the built-in 'print' function.
     '''
     if len(args) == 1:
-        arg=args[0]
+        arg = args[0]
         if isinstance(arg, tuple):
             if '_asdict' in dir(arg):
                 # title of table is name of type.             
@@ -126,26 +126,26 @@ def _print_plain(*args, **kwargs):
                 print(table_title)
                 print(_plain_tabulate_dict(arg._asdict()))                 
             else:
-                _print_plain(*arg)
+                _print_plain(*arg, **kwargs)
         elif isinstance(arg, list):
-            _print_plain(*arg)
+            _print_plain(*arg, **kwargs)
         elif isinstance(arg, dict):
             print(_plain_tabulate_dict(arg))                 
         else:
-            print(tabulate([[arg]]))
+            assert arg is not None
+            print(tabulate([[arg]], **kwargs))
     elif args:
         peek = args[0]
-        headers = "keys" \
-            if isinstance(peek, dict) \
-            or isinstance(peek, tuple) and '_asdict' in dir(peek) \
+        headers = kwargs['headers'] \
+            if 'headers' in kwargs else "keys" \
+            if isinstance(peek, dict) or isinstance(peek, tuple) and '_asdict' in dir(peek) \
             else ()
         # Transform a 1D table to 2D by making each row into a list.         
         args = [arg if isinstance(arg, _columnar) else [arg] for arg in args]
         print(tabulate(args, headers=headers))
     else:
-        assert args is None or len(args) ==0
-        print(None)
-#         print(*args, **kwargs)
+        assert args is None or len(args) == 0
+        print(tabulate([[str(None)]], **kwargs))
 
 print_rich = _print_plain
 
