@@ -33,26 +33,26 @@ from __future__ import print_function
 from collections import OrderedDict
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
+from os import EX_OK, EX_TEMPFAIL
 from ipaddress import ip_network
 from basics.render import print_rich
 from basics.interpreter import sys_exit
 from basics.routes import static_route_json, inventory_static_route
 import json
 
-def demonstrate(device_name):
+def demonstrate_all(device_name):
     """
-    Apply function 'static_route_json' to the specified device twice. Once for 
-    all static routes and once for a specific static route.
+    Apply function 'static_route_json' to the specified device without 
+    specifying a static route destination.
 
-    Return True when one or more routes are found.
+    Return a list of static route destination networks (may be empty).
     """
     print('Request all static routes.')
     print('static_route_json(%s)' % device_name)
     route_list = static_route_json(device_name)
     if not route_list:
         print(None)
-        return False
+        return []
     
     print_rich([OrderedDict([
             ("device", device_name),
@@ -61,10 +61,15 @@ def demonstrate(device_name):
         ]) for route in route_list
     ])
     print()
-    
+    return [ip_network("%s/%s" % (route['prefix'], route['prefix-length'])) for route in route_list]
+
+def demonstrate_one(device_name, destination_network):
+    """
+    Apply function 'static_route_json' to the specified device and destination.
+
+    Return True if the static route is found.
+    """
     print('Request a specific static route.')
-    route = route_list[0]
-    destination_network = ip_network("%s/%s" % (route['prefix'], route['prefix-length']))
     print('static_route_json(%s, %s)' % (device_name, destination_network))
     route = static_route_json(device_name, destination_network)
     print(json.dumps(route, indent=2, sort_keys=True))
@@ -72,9 +77,7 @@ def demonstrate(device_name):
 
 def main():
     """ 
-    Print the function documentation then demonstrate the function usage on a selected device.
-     
-    Repeat for another device if no 'static route' is configured.
+    Print the documentation then perform the demonstration(s).
     """
     print(plain(doc(static_route_json)))
 
@@ -88,10 +91,13 @@ def main():
         print_rich(inventory)
         print()
         for device_name in inventory:
-            if demonstrate(device_name):
-                return os.EX_OK
+            route_list = demonstrate_all(device_name)
+            if route_list:
+                return EX_OK if demonstrate_one(device_name, route_list[0]) else EX_TEMPFAIL
+            else:
+                print()
         print("There are no devices with a 'static route' configured. Demonstration cancelled.")
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())
