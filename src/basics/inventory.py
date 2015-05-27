@@ -99,17 +99,22 @@ def connected(device_name):
     names = tree.xpath("/i:node[nni:connected/text()='true']/i:id/text()", namespaces=_inventory_namespaces)
     return len(names) > 0
 
-class DeviceControl(namedtuple('DeviceControl',
+# Implementation note: define the named tuple separately so that it is fully
+# formed when used as a super-class. This helps Eclipse IDE to understand it.
+# Otherwise Eclipse IDE shows an error related to class attribute _fields.
+DeviceControl = namedtuple('DeviceControl',
 [
     'device_name',
     'address',
     'port',
     'username',
     'password'
-])):
+])
+
+class DeviceControl(DeviceControl):
     """Properties of a connection to a management interface to control a device."""
     pass
-
+        
 def device_control(device_name):
     """A DeviceControl if the specified device is mounted, otherwise None."""
     response = odl_http_get(_url_connector, {'node-id':device_name}, 'application/xml', expected_status_code=[200, 404])

@@ -130,7 +130,10 @@ def interface_configurations_json(device_name):
     'Return a JSON document containing interface configuration for the specified, mounted device.'
     return interface_configuration_json_http(device_name).json();
 
-class InterfaceConfiguration(namedtuple('InterfaceConfiguration', 
+# Implementation note: define the named tuple separately so that it is fully
+# formed when used as a super-class. This helps Eclipse IDE to understand it.
+# Otherwise Eclipse IDE shows an error related to class attribute _fields.
+InterfaceConfiguration = namedtuple('InterfaceConfiguration', 
 [
     'name', 
     'description', 
@@ -140,7 +143,9 @@ class InterfaceConfiguration(namedtuple('InterfaceConfiguration',
     'packet_filter_outbound', 
     'packet_filter_inbound', 
     'active'
-])):
+])
+                       
+class InterfaceConfiguration(InterfaceConfiguration):
     """
     Immutable class/tuple encapsulating the configuration of one network interface.
     """
