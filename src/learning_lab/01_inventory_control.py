@@ -18,17 +18,14 @@
 
 from __future__ import print_function as _print_function
 from basics.inventory import inventory_control, DeviceControl
+from basics.render import print_rich
 from pydoc import render_doc as doc
 from pydoc import plain
 _doc = plain(doc(inventory_control))
 
 def demonstrate():
-    print('inventory_control():')
-    controls = inventory_control()
-    if controls:
-        [print('\t', *control) for control in controls]
-    else:
-        print('\t', None)
+    print('inventory_control()')
+    print_rich(inventory_control())
     
 def main():
     print(_doc)

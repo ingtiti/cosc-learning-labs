@@ -18,12 +18,14 @@
 
 from __future__ import print_function as _print_function
 from basics.inventory import inventory_not_connected
+from basics.render import print_rich
 from pydoc import render_doc as doc
 from pydoc import plain
 
 def main():
     print(plain(doc(inventory_not_connected)))
-    print(inventory_not_connected())
+    print("inventory_not_connected()")
+    print_rich(inventory_not_connected())
     
 if __name__ == "__main__":
     main()

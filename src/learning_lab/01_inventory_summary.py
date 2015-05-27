@@ -30,7 +30,7 @@ from basics.render import print_rich
 def main():
     print(plain(doc(inventory_summary)))
     print('InventorySummary fields:', *InventorySummary._fields, sep='\n\t', end='\n\n')
-    print_rich(*inventory_summary(), sep='\n')
+    print_rich(inventory_summary())
     
 if __name__ == "__main__":
     main()
