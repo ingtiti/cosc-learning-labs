@@ -35,7 +35,7 @@
         04_static_route_json
 
     To run them all:
-        04_story
+        04_static_route_suite (this file)
 '''
 
 from os import EX_OK

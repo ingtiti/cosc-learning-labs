@@ -149,7 +149,7 @@ finally:
 
 run_script('04_routes')
 run_script('04_topology')
-run_script('04_story')
+run_script('04_static_route_suite')
 run_script('05_story')
       
 from basics import render
