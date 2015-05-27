@@ -11,47 +11,80 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'static_route_delete'.
+"""
+Demonstrate how to delete static routes.
 
-    Print the function's documentation.
-    Apply the function to a network device.
-    Retry with a different network device/prefix until a route is deleted.
-'''
+Introduce function 'static_route_delete'.
+Print the function's documentation.
 
-from __future__ import print_function as _print_function
+Determine which network devices have 'static route' capability.
+Select any one of these network devices.
+Select a different network device when no static routes are found.
+
+Apply the function to the selected network device:
+- to delete one specific static route.
+- to delete all static routes.
+"""
+
+from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
+from os import EX_OK, EX_TEMPFAIL
 from basics.interpreter import sys_exit
-from basics.routes import static_route_delete, inventory_static_route,\
+from basics.render import print_rich
+from basics.routes import static_route_delete, inventory_static_route, \
     static_route_list
 
-def demonstrate(device_name):
-    ''' Apply function 'static_route_delete' to any route of the specified device.'''
+def demonstrate_all(device_name):
+    """
+    Apply function 'static_route_delete' to all routes on the specified device.
+    """
     print()
-    print('static_route_list(' + device_name, sep=', ', end=')\n')
-    route_list=static_route_list(device_name)
-    print('\t', [str(route) for route in route_list])
-    for destination_network in route_list:
-        print()
-        print('static_route_delete(' + device_name, destination_network, sep=', ', end=')\n')
-        static_route_delete(device_name, destination_network)
-        return True
-    return False
+    print('static_route_delete(%s)' % device_name)
+    static_route_delete(device_name)
+
+    print()
+    print('static_route_list(%s)' % device_name)
+    print_rich(static_route_list(device_name))
+
+def demonstrate_one(device_name, destination_network):
+    """
+    Apply function 'static_route_delete' to the specified device and destination.
+    """
+    print('static_route_delete(%s, %s)' % (device_name, destination_network))
+    static_route_delete(device_name, destination_network)
+    print()
+
+    print('static_route_list(%s)' % device_name)
+    print_rich(static_route_list(device_name))
 
 def main():
-    ''' Select a device and demonstrate. Retry with a different device/route until information is deleted.'''
+    """ 
+    Print the documentation then perform the demonstration(s).
+    """
     print(plain(doc(static_route_delete)))
+
+    print('Determine which devices are capable.')
     print('inventory_static_route()')
-    device_names = inventory_static_route()
-    print('\t', device_names)
-    if not device_names:
-        print("There are no 'static route' capable devices to examine. Demonstration cancelled.")
+    inventory = inventory_static_route()
+    if not inventory:
+        print(None)
+        print("There are no 'static route' capable devices. Demonstration cancelled.")
     else:
-        for device_name in device_names:
-            if demonstrate(device_name):
-                return os.EX_OK
-    return os.EX_TEMPFAIL
+        print_rich(inventory)
+        print()
+        for device_name in inventory:
+            print('static_route_list(%s)' % device_name)
+            route_list = static_route_list(device_name)
+            print_rich(route_list)
+            print()
+            if route_list:
+                demonstrate_one(device_name, route_list[0])
+                if len(route_list) > 1:
+                    demonstrate_all(device_name)
+                return EX_OK
+        print("There are no devices with a 'static route' configured. Demonstration cancelled.")
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

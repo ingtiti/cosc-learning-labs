@@ -20,13 +20,13 @@
     The goal is to simulate the running of sample scripts in a robotic manner.
 
     The basic story would be:
-        04_static_route_create_port_grant
-        04_static_route_apply_packet_filter
-        04_static_route_unapply_packet_filter
+        04_static_route_create
+        04_static_route_list
+        04_static_route_exists
+        04_static_route_json
         04_static_route_delete
         
     To know which devices are static_route capable:
-        04_inventory_static_route
         04_static_route_capability
     
     To browse:
@@ -65,7 +65,7 @@ while EX_OK == run_script('04_static_route_delete'):
 run_script('04_static_route_exists')
 assert run_script('04_static_route_json') != EX_OK
 run_script('04_static_route_list')
-run_script('04_static_route_delete_all')
+run_script('04_static_route_delete')
 
 # Context: one static routes
 assert run_script('04_static_route_create') == EX_OK
@@ -73,9 +73,8 @@ run_script('04_static_route_exists')
 assert run_script('04_static_route_json') == EX_OK
 run_script('04_static_route_list')
 assert run_script('04_static_route_delete') == EX_OK
-assert run_script('04_static_route_delete_all') != EX_OK
 assert run_script('04_static_route_create') == EX_OK
-assert run_script('04_static_route_delete_all') == EX_OK
+assert run_script('04_static_route_delete') == EX_OK
 
 # Context: multiple static routes
 for i in range(4):
@@ -84,4 +83,3 @@ run_script('04_static_route_exists')
 assert run_script('04_static_route_json') == EX_OK
 run_script('04_static_route_list')
 assert run_script('04_static_route_delete') == EX_OK
-assert run_script('04_static_route_delete_all') == EX_OK

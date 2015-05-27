@@ -73,7 +73,7 @@ def to_ip_network(destination_address, destination_mask=None):
 
 def static_route_json(device_name, destination_network=None):
     """ 
-    JSON representation 'static route' configuration on the specified network device.
+    JSON representation of 'static route' configuration on the specified network device.
     
     Parameters:
     - device_name
@@ -123,23 +123,40 @@ def static_route_exists(device_name, destination_network):
 
 def static_route_list(device_name):
     """ List the destination network of all 'static routes' on the specified device."""
-    route_list = static_route_json_all(device_name)
-    print(route_list)
+    route_list = static_route_json(device_name)
     return [to_ip_network(route['prefix'], route['prefix-length']) for route in route_list]
 
-def static_route_delete(device_name, destination_network):
-    """ Delete the specified 'static route' from the specified device.
-    
-        No value is returned.
-        An exception is raised if the static route does not exist on the device.
+def static_route_delete(device_name, destination_network=None):
     """
-    assert isinstance(destination_network, _BaseNetwork)
-    url_params = {
-        'node-id' : device_name, 
-        'ip-address' : destination_network.network_address, 
-        'prefix-length' : destination_network.prefixlen
-    }
-    response = odl_http_delete(_static_route_uni_url_template, url_params, expected_status_code=[200, 500])
+    Delete zero, one or more static routes from the specified device.
+    
+    Parameters:
+    - device_name
+        Identifies the network device.
+    - destination_network
+        Either None or an instance of type ipaddress._BaseNetwork
+        - Unspecified
+            Delete all static routes on the device.
+            An exception is raised if there are no routes found on the device.
+        - Specified
+            Delete the route with the specified destination.
+            An exception is raised if the specified route is not found on the device.
+
+    No value is returned.
+    An exception is raised if the static route does not exist on the device.
+    """
+    if destination_network:
+        assert isinstance(destination_network, _BaseNetwork)
+        url_params = {
+            'node-id' : device_name, 
+            'ip-address' : destination_network.network_address, 
+            'prefix-length' : destination_network.prefixlen
+        }
+        url_template = _static_route_uni_url_template
+    else:
+        url_params = {'node-id' : device_name} 
+        url_template = _static_route_url_template
+    response = odl_http_delete(url_template, url_params, 'application/json', expected_status_code=[200, 404, 500])
     if response.status_code != 200:
         raise Exception(_error_message(response.json()))
 
