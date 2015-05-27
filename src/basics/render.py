@@ -48,10 +48,12 @@ def _html_cells(columns):
     return ''.join(['<td>%s</td>' % v for v in columns])
 
 def _html_rows(rows):
-    first = rows[0]
-    if hasattr(first, '__dict__'):
+    if len(rows) == 0:
+        return '<tr><td><em>Empty</em></td></tr>'
+    peek = rows[0]
+    if hasattr(peek, '__dict__'):
         r = []
-        r.append('<tr>%s</tr>' % _html_headings(vars(first).keys()))
+        r.append('<tr>%s</tr>' % _html_headings(vars(peek).keys()))
         for row in rows:
             r.append('<tr>%s</tr>' % _html_cells(vars(row).values()))
         return "\n".join(r)
@@ -113,9 +115,9 @@ def _plain_tabulate_dict(arg):
 # There may be additional types related to 3rd party libraries.
 _columnar = (list, dict, tuple)
 
-def _print_plain(*args, **kwargs):
+def _print_plain_table(*args, **kwargs):
     '''
-    Print a table if the arguments are tabular otherwise apply the built-in 'print' function.
+    Print the arguments in a tabular format using plain text.
     '''
     if len(args) == 1:
         arg = args[0]
@@ -126,9 +128,9 @@ def _print_plain(*args, **kwargs):
                 print(table_title)
                 print(_plain_tabulate_dict(arg._asdict()))                 
             else:
-                _print_plain(*arg, **kwargs)
+                _print_plain_table(*arg, **kwargs)
         elif isinstance(arg, list):
-            _print_plain(*arg, **kwargs)
+            _print_plain_table(*arg, **kwargs)
         elif isinstance(arg, dict):
             print(_plain_tabulate_dict(arg))                 
         else:
@@ -147,11 +149,11 @@ def _print_plain(*args, **kwargs):
         assert args is None or len(args) == 0
         print(tabulate([[str(None)]], **kwargs))
 
-print_rich = _print_plain
+print_table = _print_plain_table
 
 try:
     __IPYTHON__
-    print_rich = _display_rich
+    print_table = _display_rich
     _display = display
 except NameError:
     pass

@@ -33,7 +33,7 @@ from pydoc import plain
 from pydoc import render_doc as doc
 from basics.interpreter import sys_exit
 from basics.routes import static_route_list, inventory_static_route
-from basics.render import print_rich
+from basics.render import print_table
 
 def demonstrate(device_name):
     """
@@ -43,7 +43,7 @@ def demonstrate(device_name):
     """
     print('static_route_list(%s)' % device_name)
     routes = static_route_list(device_name)
-    print_rich(routes)
+    print_table(routes)
     return bool(routes)
 
 def main():

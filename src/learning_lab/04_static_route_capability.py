@@ -30,7 +30,7 @@ from pydoc import render_doc as doc
 from os import EX_OK, EX_TEMPFAIL
 from basics.interpreter import sys_exit
 from basics.routes import inventory_static_route
-from basics.render import print_rich
+from basics.render import print_table
 
 def demonstrate():
     """
@@ -38,7 +38,7 @@ def demonstrate():
     """
     print('inventory_static_route()')
     device_names = inventory_static_route()
-    print_rich(device_names, headers=('device-name',))
+    print_table(device_names, headers=('device-name',))
     return device_names
     
 def main():

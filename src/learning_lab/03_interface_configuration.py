@@ -26,12 +26,12 @@ from basics.interface import management_interface
 from basics.interface import interface_configuration_tuple
 from basics.interface import interface_names
 from basics.inventory import inventory_connected
-from basics.render import print_rich
+from basics.render import print_table
 
 def demonstrate(device_name, interface_name):
     ''' Apply function 'interface_configuration_tuple' to the specified device/interface.'''
     print('interface_configuration(' + device_name, interface_name, sep=', ', end=')\n')
-    print_rich(interface_configuration_tuple(device_name, interface_name))
+    print_table(interface_configuration_tuple(device_name, interface_name))
 
 def main():
     ''' Select a device/interface and demonstrate.'''

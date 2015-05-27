@@ -28,13 +28,13 @@ from basics.interface import management_interface
 from basics.interface import interface_names
 from basics.interface_properties import interface_properties
 from basics.inventory import inventory_connected
-from basics.render import print_rich
+from basics.render import print_table
 
 
 def demonstrate(device_name, interface_name):
     ''' Apply function 'interface_properties' to the specified device/interface.'''
     print('interface_properties(' + device_name, interface_name, sep=', ', end=')\n')
-    print_rich(interface_properties(device_name, interface_name))
+    print_table(interface_properties(device_name, interface_name))
 
 def main():
     ''' Select a device/interface and demonstrate.'''

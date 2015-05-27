@@ -20,10 +20,10 @@ from basics.odl_http import coordinates as odl_coordinates, odl_http_head
 from sys import stderr
 from basics.interpreter import sys_exit
 import os
-from basics.render import print_rich
+from basics.render import print_table
 
 if __name__ == "__main__":
-    print_rich(odl_coordinates)
+    print_table(odl_coordinates)
     print()
     
     try:
@@ -45,7 +45,7 @@ if __name__ == "__main__":
                 'Unknown',
             "method":response.request.method,
             "url":response.url}
-        print_rich(outcome)
+        print_table(outcome)
         exit_code = os.EX_OK
     except Exception as e:
         exit_code = os.EX_CONFIG

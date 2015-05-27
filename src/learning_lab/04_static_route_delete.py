@@ -31,7 +31,7 @@ from pydoc import plain
 from pydoc import render_doc as doc
 from os import EX_OK, EX_TEMPFAIL
 from basics.interpreter import sys_exit
-from basics.render import print_rich
+from basics.render import print_table
 from basics.routes import static_route_delete, inventory_static_route, \
     static_route_list
 
@@ -45,7 +45,7 @@ def demonstrate_all(device_name):
 
     print()
     print('static_route_list(%s)' % device_name)
-    print_rich(static_route_list(device_name))
+    print_table(static_route_list(device_name))
 
 def demonstrate_one(device_name, destination_network):
     """
@@ -56,7 +56,7 @@ def demonstrate_one(device_name, destination_network):
     print()
 
     print('static_route_list(%s)' % device_name)
-    print_rich(static_route_list(device_name))
+    print_table(static_route_list(device_name))
 
 def main():
     """ 
@@ -71,12 +71,12 @@ def main():
         print(None)
         print("There are no 'static route' capable devices. Demonstration cancelled.")
     else:
-        print_rich(inventory)
+        print_table(inventory)
         print()
         for device_name in inventory:
             print('static_route_list(%s)' % device_name)
             route_list = static_route_list(device_name)
-            print_rich(route_list)
+            print_table(route_list)
             print()
             if route_list:
                 demonstrate_one(device_name, route_list[0])

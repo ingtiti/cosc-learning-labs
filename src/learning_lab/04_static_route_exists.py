@@ -28,7 +28,7 @@ from pydoc import plain
 from pydoc import render_doc as doc
 from basics.interpreter import sys_exit
 from basics.routes import   static_route_exists, inventory_static_route
-from basics.render import print_rich
+from basics.render import print_table
 from ipaddress import ip_network
 
 def destination_network_generator():
@@ -61,7 +61,7 @@ def main():
     print('Determine which devices are capable.')
     print('inventory_static_route()')
     device_names = inventory_static_route()
-    print_rich(device_names)
+    print_table(device_names)
     print()
 
     if not device_names:

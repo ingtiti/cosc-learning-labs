@@ -35,7 +35,7 @@ from pydoc import plain
 from pydoc import render_doc as doc
 from os import EX_OK, EX_TEMPFAIL
 from ipaddress import ip_network
-from basics.render import print_rich
+from basics.render import print_table
 from basics.interpreter import sys_exit
 from basics.routes import static_route_json, inventory_static_route
 import json
@@ -54,7 +54,7 @@ def demonstrate_all(device_name):
         print(None)
         return []
     
-    print_rich([OrderedDict([
+    print_table([OrderedDict([
             ("device", device_name),
             ("destination", "%s/%s" % (route['prefix'], route['prefix-length'])),
             ("next-hop", route['vrf-route']['vrf-next-hops']['next-hop-address'][0]['next-hop-address'])
@@ -88,7 +88,7 @@ def main():
         print(None)
         print("There are no 'static route' capable devices. Demonstration cancelled.")
     else:
-        print_rich(inventory)
+        print_table(inventory)
         print()
         for device_name in inventory:
             route_list = demonstrate_all(device_name)

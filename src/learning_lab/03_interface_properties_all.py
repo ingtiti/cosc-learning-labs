@@ -28,7 +28,7 @@ from pydoc import render_doc as doc
 
 from basics.interface_properties import interface_properties
 from basics.inventory import inventory_connected
-from basics.render import print_rich
+from basics.render import print_table
 from basics.interpreter import sys_exit
 import os
 
@@ -37,7 +37,7 @@ def demonstrate(device_name):
     Apply function 'interface_properties' to the specified device.
     """
     print('interface_properties(%s)' % device_name)
-    print_rich(interface_properties(device_name))
+    print_table(interface_properties(device_name))
 
 def main():
     """

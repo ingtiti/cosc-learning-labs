@@ -24,13 +24,13 @@ from __future__ import print_function as _print_function
 from pydoc import render_doc as doc
 from pydoc import plain
 from basics.inventory import inventory_summary, InventorySummary
-from basics.render import print_rich
+from basics.render import print_table
 # type_doc = plain(doc(InventorySummary))
 
 def main():
     print(plain(doc(inventory_summary)))
     print('InventorySummary fields:', *InventorySummary._fields, sep='\n\t', end='\n\n')
-    print_rich(inventory_summary())
+    print_table(inventory_summary())
     
 if __name__ == "__main__":
     main()

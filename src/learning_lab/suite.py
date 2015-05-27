@@ -147,13 +147,13 @@ finally:
     while run_script('03_interface_startup') == EX_OK:
         continue
 
-run_script('04_routes')
+# run_script('04_routes')
 run_script('04_topology')
 run_script('04_static_route_suite')
 run_script('05_story')
       
 from basics import render
-if render.print_rich == render._print_plain:
-    render.print_rich = render._display_rich
+if render.print_table == render._print_plain_table:
+    render.print_table = render._display_rich
     this_script = splitext(basename(__file__))[0]
     run_script(this_script)

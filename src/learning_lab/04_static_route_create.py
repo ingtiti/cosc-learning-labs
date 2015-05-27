@@ -33,7 +33,7 @@ from ipaddress import ip_network
 from basics.inventory import inventory_mounted, device_control
 from basics.interface import interface_names, interface_configuration_tuple
 from basics.interpreter import sys_exit
-from basics.render import print_rich
+from basics.render import print_table
 from basics.routes import static_route_create, static_route_exists, inventory_static_route, to_ip_network
 from importlib import import_module
 
@@ -80,13 +80,13 @@ def demonstrate(device_name):
     print('Determine which interface is on the management plane (to avoid it).')     
     print('device_control(%s)' % device_name)
     device_mgmt = device_control(device_name)
-    print_rich(device_mgmt)
+    print_table(device_mgmt)
     print()
 
     print('Determine ip-address and network-mask of every interface.')     
     print('interface_configuration_tuple(%s)' % device_name)
     interface_config_list = interface_configuration_tuple(device_name)
-    print_rich(interface_config_list)
+    print_table(interface_config_list)
     print()
     
     for interface_config in interface_config_list:
@@ -127,7 +127,7 @@ def main():
     print('Determine which network devices are capable.')
     print('inventory_static_route()')
     device_names = inventory_static_route()
-    print_rich(device_names)
+    print_table(device_names)
     print()
     if not device_names:
         print("There are no 'static route' capable devices to examine. Demonstration cancelled.")

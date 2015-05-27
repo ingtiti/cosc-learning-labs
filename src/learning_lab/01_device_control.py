@@ -25,12 +25,12 @@ from pydoc import plain
 from pydoc import render_doc as doc
 import os
 from basics.inventory import inventory_mounted, device_control, DeviceControl
-from basics.render import print_rich
+from basics.render import print_table
 
 def demonstrate(device_name):
     ''' Apply function 'device_control' to the specified device.'''
     print('device_control(' + device_name, end=')\n')
-    print_rich(device_control(device_name))
+    print_table(device_control(device_name))
     
 def main():
     ''' Select a device and demonstrate.'''
