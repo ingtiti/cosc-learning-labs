@@ -25,7 +25,8 @@ from lxml import etree
 from basics.odl_http import odl_http_get
 from basics.html import html_bind
 
-_url_template = 'operational/opendaylight-inventory:nodes/node/{node-id}/yang-ext:mount/Cisco-IOS-XR-ifmgr-oper:interface-properties/data-nodes/data-node/{data-node-id}/system-view/interfaces/interface/{interface-id}'
+_url_template_general = 'operational/opendaylight-inventory:nodes/node/{node-id}/yang-ext:mount/Cisco-IOS-XR-ifmgr-oper:interface-properties/data-nodes/data-node/{data-node-id}/system-view/interfaces'
+_url_template_specific = _url_template_general + '/interface/{interface-id}'
 
 InterfaceProperties = namedtuple('InterfaceProperties', [
     'name',
@@ -105,14 +106,8 @@ def print_html_interface_properties(*args):
     
 html_bind(InterfaceProperties, print_html_interface_properties)
 
-def interface_properties(
-    device_name,
-    interface_name
-):
-    'Return a named tuple containing the information available for the specified interface of the specified, mounted device.'
-    url_params = {'node-id' : device_name, 'data-node-id' : '0/0/CPU0', 'interface-id' : interface_name}
-    response = odl_http_get(_url_template, url_params, 'application/xml')
-    tree = etree.parse(StringIO(response.text))
+def interface_properties_tuple_from_xml(tree):
+    'Return a named tuple containing the properties in the specified XML.'
     return InterfaceProperties(
         name=tree.findtext('{*}interface-name'),
         type=tree.findtext('{*}type'),
@@ -126,3 +121,32 @@ def interface_properties(
         l2Transport=tree.findtext('{*}l2-transport') == 'true',
         mtu=tree.findtext('{*}mtu'),
         subInterfaceMtuOverhead=tree.findtext('{*}sub-interface-mtu-overhead'))
+
+def interface_properties(
+    device_name,
+    interface_name=None
+):
+    """
+    Obtain network interface properties for one specific network device.
+    
+    Parameters:
+    - device_name
+        Identifies the network device.
+    - interface_name
+        Either None or a specific name.
+        - Unspecified
+            Return properties for all network interfaces on the network device.
+            Return type is a list of type InterfaceProperties, which may be empty.
+        - Specified
+            Return an instance of InterfaceProperties or None.
+    """
+    url_params = {'node-id' : device_name, 'data-node-id' : '0/0/CPU0'} 
+    if interface_name:
+        url_params['interface-id'] = interface_name
+        url_template = _url_template_specific
+    else:
+        url_template = _url_template_general
+    response = odl_http_get(url_template, url_params, 'application/xml')
+    tree = etree.parse(StringIO(response.text))
+    return interface_properties_tuple_from_xml(tree) if interface_name \
+        else [interface_properties_tuple_from_xml(config) for config in tree.iterfind('{*}interface')]

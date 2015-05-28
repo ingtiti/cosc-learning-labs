@@ -11,42 +11,62 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'interface_properties'.
+"""
+Demonstrate how to obtain the properties of network interfaces.
 
-    Print the function's documentation then invoke the function and print the output.
-    Apply the function to one interface on one device.
-    The selected device must be connected.
-    The selected interface is on the 'data plane' 
-    Interfaces on the 'control plane' are excluded.
-'''
-from __future__ import print_function as _print_function
-
+1. for all network interfaces of one network device.
+2. for one specific network interface.
+"""
+from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-
-from basics.interface import management_interface
+from inspect import cleandoc
+from os import EX_OK, EX_TEMPFAIL
+from basics.interpreter import sys_exit
+from basics.render import print_table
 from basics.interface import interface_names
 from basics.interface_properties import interface_properties
 from basics.inventory import inventory_connected
-from basics.render import print_table
 
+def demonstrate_one(device_name, interface_name):
+    """ Obtain, print and return the properties of the specified interface on the specified device."""
+    print("Apply function 'interface_properties' to both a network interface and a network device.")
+    print('interface_properties(%s, %s)' % (device_name, interface_name))
+    properties = interface_properties(device_name, interface_name)
+    print_table(properties)
+    print()
+    return 
 
-def demonstrate(device_name, interface_name):
-    ''' Apply function 'interface_properties' to the specified device/interface.'''
-    print('interface_properties(' + device_name, interface_name, sep=', ', end=')\n')
-    print_table(interface_properties(device_name, interface_name))
+def demonstrate_all(device_name):
+    """ Obtain, print and return the properties of all network interfaces on the specified device."""
+    print("Apply function 'interface_properties' to a network device.")
+    print('interface_properties(%s)' % device_name)
+    interface_properties_list = interface_properties(device_name)
+    print_table(interface_properties_list)
+    print()
+    return [properties.name for properties in interface_properties_list]
 
 def main():
-    ''' Select a device/interface and demonstrate.'''
-    print(plain(doc(interface_properties)))
-    for device_name in inventory_connected():
-        mgmt_name = management_interface(device_name)
-        for interface_name in interface_names(device_name):
-            # Choose interface on 'data plane' not 'control plane'.
-            if interface_name == mgmt_name:
-                continue
-            return demonstrate(device_name, interface_name)
+    """ Select a device/interface and demonstrate."""
+    print(cleandoc(__doc__))
+    print()
+    
+    print('Determine which network devices are capable.')
+    device_names = inventory_connected()
+    print_table(device_names, headers='device-name')
+    print()
+    for device_name in device_names:
+        interface_names = demonstrate_all(device_name)
+        if interface_names:
+            demonstrate_one(device_name, interface_names[0])
+            return EX_OK
     print("There are no suitable network devices and interfaces. Demonstration cancelled.")
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
-    main()
+    try:
+        sys_exit(main())
+    finally:
+        print('Function Reference:')
+        print(plain(doc(interface_properties)))
+        
