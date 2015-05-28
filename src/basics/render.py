@@ -138,7 +138,7 @@ def _print_plain_table(*args, **kwargs):
             print(tabulate([[arg]], **kwargs))
     elif args:
         peek = args[0]
-        headers = kwargs['headers'] \
+        headers = _vectorise(kwargs['headers']) \
             if 'headers' in kwargs else "keys" \
             if isinstance(peek, dict) or isinstance(peek, tuple) and '_asdict' in dir(peek) \
             else ()
@@ -148,6 +148,15 @@ def _print_plain_table(*args, **kwargs):
     else:
         assert args is None or len(args) == 0
         print(tabulate([[str(None)]], **kwargs))
+
+def _vectorise(arg):
+    """
+    If arg is scalar then transform to a vector.
+    
+    A string is considered scalar by this module.
+    Note that Python considers strings to be a sequence.
+    """
+    return arg if isinstance(arg, (tuple, list, dict)) else [arg]
 
 print_table = _print_plain_table
 
