@@ -53,7 +53,7 @@ def run_script(script):
 
 # Run static_route scripts. Context: one static_route capable device.
 run_script('01_inventory_dismount_atomic')
-while run_script('04_inventory_static_route') != EX_OK and run_script('01_device_connect') == EX_OK:
+while run_script('04_static_route_capability') != EX_OK and run_script('01_device_connect') == EX_OK:
     continue
 run_script('04_static_route_capability')
 from basics.routes import inventory_static_route
