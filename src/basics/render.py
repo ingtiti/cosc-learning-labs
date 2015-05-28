@@ -135,6 +135,8 @@ def _print_plain_table(*args, **kwargs):
             print(_plain_tabulate_dict(arg))                 
         else:
             assert arg is not None
+            if 'headers' in kwargs:
+                kwargs['headers'] = _vectorise(kwargs['headers'])
             print(tabulate([[arg]], **kwargs))
     elif args:
         peek = args[0]
@@ -147,6 +149,8 @@ def _print_plain_table(*args, **kwargs):
         print(tabulate(args, headers=headers))
     else:
         assert args is None or len(args) == 0
+        if 'headers' in kwargs:
+            kwargs['headers'] = _vectorise(kwargs['headers'])
         print(tabulate([[str(None)]], **kwargs))
 
 def _vectorise(arg):
