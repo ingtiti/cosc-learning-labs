@@ -43,7 +43,7 @@ def demonstrate(device_name):
     """
     print('static_route_list(%s)' % device_name)
     routes = static_route_list(device_name)
-    print_table(routes)
+    print_table(routes, headers='destination-network')
     return bool(routes)
 
 def main():
@@ -60,6 +60,8 @@ def main():
     if not device_names:
         print("There are no 'static route' capable devices to examine. Demonstration cancelled.")
     else:
+        print_table(device_names, headers='device-name')
+        print()
         for device_name in device_names:
             if demonstrate(device_name):
                 return os.EX_OK
