@@ -29,7 +29,7 @@ from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
 import os
-from ipaddress import ip_network
+from inspect import cleandoc
 from basics.inventory import inventory_mounted, device_control
 from basics.interface import interface_names, interface_configuration_tuple
 from basics.interpreter import sys_exit
@@ -122,6 +122,8 @@ def main():
     """
     Print the function's documentation then demonstrate the function once.
     """
+    print(cleandoc(__doc__))
+    print()
     print(plain(doc(static_route_create)))
 
     print('Determine which network devices are capable.')
