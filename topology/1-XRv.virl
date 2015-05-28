@@ -81,12 +81,12 @@ router isis 64496
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">64496</entry>
-            <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
             <entry key="AutoNetkit.custom_config_global" type="String">ssh server v2
 ssh server netconf port 830
 ssh timeout 120
 netconf-yang agent ssh
 </entry>
+            <entry key="AutoNetkit.ibgp_role" type="String">Peer</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/0/0/0"/>
         <interface id="1" name="GigabitEthernet0/0/0/1"/>

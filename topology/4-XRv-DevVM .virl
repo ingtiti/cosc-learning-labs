@@ -11,6 +11,8 @@
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="AutoNetkit.odl_mgmt_group" type="String">odl_devnetvm</entry>
             <entry key="config" type="String">!  IOS-XR Config generated on 2015-03-13 16:21
 ! by autonetkit_0.15.0
 !
@@ -142,7 +144,7 @@ router isis 1
   distribute bgp-ls level 2
   address-family ipv4 unicast
     metric-style wide
-    redistribute static route-policy odl_server
+    redistribute static route-policy odl_devnetvm
     mpls traffic-eng level-2-only
     mpls traffic-eng router-id Loopback0
   !
@@ -212,7 +214,7 @@ route-policy bgp_out
   pass
 end-policy
 !
-route-policy odl_server
+route-policy odl_devnetvm
  if tag eq 100 then
   pass
  endif
@@ -289,8 +291,6 @@ router bgp 1
     !
 !
         </entry>
-            <entry key="Auto-generate config" type="Boolean">false</entry>
-            <entry key="AutoNetkit.odl_mgmt_group" type="String">odl_devnetvm</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/0/0/0" ipv4="10.0.0.5" netPrefixLenV4="30"/>
         <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.0.1" netPrefixLenV4="30"/>
@@ -949,7 +949,7 @@ router bgp 1
         <interface id="0" name="link0"/>
         <interface id="1" name="link1"/>
     </node>
-    <node name="ODL-Server" type="SIMPLE" subtype="server" location="309,448">
+    <node name="ODL-Server" type="SIMPLE" subtype="server" location="384,259">
         <extensions>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">#cloud-config
@@ -1013,7 +1013,7 @@ write_files:
         </extensions>
         <interface id="0" name="eth1" ipv4="10.1.0.2" netPrefixLenV4="30"/>
     </node>
-    <node name="flat-2" type="ASSET" subtype="FLAT" location="234,449">
+    <node name="flat-2" type="ASSET" subtype="FLAT" location="309,260">
         <extensions>
             <entry key="static_ip" type="String">172.16.2.201</entry>
             <entry key="host_network" type="String">flat1</entry>
