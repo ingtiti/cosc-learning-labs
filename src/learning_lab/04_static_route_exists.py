@@ -61,7 +61,7 @@ def main():
     print('Determine which devices are capable.')
     print('inventory_static_route()')
     device_names = inventory_static_route()
-    print_table(device_names)
+    print_table(device_names, headers='device-name')
     print()
 
     if not device_names:

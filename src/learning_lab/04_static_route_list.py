@@ -44,6 +44,7 @@ def demonstrate(device_name):
     print('static_route_list(%s)' % device_name)
     routes = static_route_list(device_name)
     print_table(routes, headers='destination-network')
+    print()
     return bool(routes)
 
 def main():

@@ -45,7 +45,8 @@ def demonstrate_all(device_name):
 
     print()
     print('static_route_list(%s)' % device_name)
-    print_table(static_route_list(device_name))
+    print_table(static_route_list(device_name), headers='destination-network')
+
 
 def demonstrate_one(device_name, destination_network):
     """
@@ -56,7 +57,7 @@ def demonstrate_one(device_name, destination_network):
     print()
 
     print('static_route_list(%s)' % device_name)
-    print_table(static_route_list(device_name))
+    print_table(static_route_list(device_name), headers='destination-network')
 
 def main():
     """ 
@@ -67,16 +68,15 @@ def main():
     print('Determine which devices are capable.')
     print('inventory_static_route()')
     inventory = inventory_static_route()
+    print_table(inventory, headers='device-name')
     if not inventory:
-        print(None)
         print("There are no 'static route' capable devices. Demonstration cancelled.")
     else:
-        print_table(inventory)
         print()
         for device_name in inventory:
             print('static_route_list(%s)' % device_name)
             route_list = static_route_list(device_name)
-            print_table(route_list)
+            print_table(route_list, headers='destination-network')
             print()
             if route_list:
                 demonstrate_one(device_name, route_list[0])

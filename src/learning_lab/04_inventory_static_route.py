@@ -24,6 +24,7 @@ from pydoc import plain
 from pydoc import render_doc as doc
 import os
 from basics.interpreter import sys_exit
+from basics.render import print_table
 from basics.routes import inventory_static_route
 
 def demonstrate():
@@ -32,7 +33,7 @@ def demonstrate():
         Return True if network devices are discovered.
     '''
     print('inventory_static_route()')
-    print(inventory_static_route())
+    print_table(inventory_static_route(), headers='device-name')
 
 def main():
     ''' Document and demonstrate the function.'''

@@ -52,16 +52,23 @@ def demonstrate_all(device_name):
     route_list = static_route_json(device_name)
     if not route_list:
         print(None)
+        print()
         return []
     
     print_table([OrderedDict([
             ("device", device_name),
             ("destination", "%s/%s" % (route['prefix'], route['prefix-length'])),
-            ("next-hop", route['vrf-route']['vrf-next-hops']['next-hop-address'][0]['next-hop-address'])
+            ("next-hop", next_hop_address(route))
         ]) for route in route_list
     ])
     print()
     return [ip_network("%s/%s" % (route['prefix'], route['prefix-length'])) for route in route_list]
+
+def next_hop_address(route):
+    try:
+        return route['vrf-route']['vrf-next-hops']['next-hop-address'][0]['next-hop-address']
+    except KeyError as ke:
+        return route
 
 def demonstrate_one(device_name, destination_network):
     """
