@@ -16,6 +16,7 @@
 '''
 
 from __future__ import print_function as _print_function
+import settings 
 from basics.odl_http import coordinates as odl_coordinates, odl_http_head
 from sys import stderr
 from basics.interpreter import sys_exit
@@ -23,6 +24,13 @@ import os
 from basics.render import print_table
 
 if __name__ == "__main__":
+    # It is essential to import module 'settings' because it injects the
+    # Controller settings into attribute 'odl_http.coordinates'.     
+    # The code below references module 'settings' to prevent it from
+    # being auto-removed due to an 'unused import' warning.
+    if not settings:
+        print('Settings must be configured', file=stderr)
+    
     print_table(odl_coordinates)
     print()
     
