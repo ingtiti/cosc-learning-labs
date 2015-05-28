@@ -23,6 +23,7 @@ from basics import odl_http
 single_url_encode = odl_http.url_encode
 double_url_encode = lambda val: single_url_encode(single_url_encode(val))
 odl_http.url_encode = double_url_encode
+from logging import log, INFO as LOG_LEVEL
 
 def cosc_authentication_token(hostname='localhost', port=8181, username='admin', password='admin'):
     """ Obtain authentication token from COSC.
@@ -30,13 +31,13 @@ def cosc_authentication_token(hostname='localhost', port=8181, username='admin',
     global _cosc_authentication_token
     if not '_cosc_authentication_token' in globals():
         url = "https://%s/controller-auth" % (hostname)
-        print('cosc authentication url:', url)
+        log(LOG_LEVEL,'cosc authentication url: %s', url)
         form_data = {'grant_type': 'password', 'username': username, 'password':password, 'scope':'sdn'}
-        print('cosc authentication parameters:')
-        [print('  ',k,'=',v) for (k,v) in form_data.items()]
+        log(LOG_LEVEL, 'cosc authentication parameters:')
+        [log(LOG_LEVEL, '  %s = %s', k, v) for (k, v) in form_data.items()]
         try:
             response = post(url, data=form_data, verify=False)
-            print('cosc authentication status code:', response.status_code)
+            log(LOG_LEVEL, 'cosc authentication status code: %s', response.status_code)
             expected_status_code = 201
             if response.status_code == expected_status_code:
                 _cosc_authentication_token = response.json()['access_token']
