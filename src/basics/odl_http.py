@@ -36,7 +36,7 @@ default_coordinates = ControllerCoordinates(
     url_prefix='http://localhost:8181/restconf/',
     username='admin',
     password='admin')
-coordinates = default_coordinates
+coordinates = None
 
 def http_history_append(http):
     '''Append one HTTP request to the historical record.
@@ -94,6 +94,7 @@ def odl_http_request(
     expected_status_code
 ):
     'Request a response from the ODL server.'
+    assert coordinates, "Import module 'settings' to configure Controller's coordinates."
     url = coordinates.url_prefix + url_suffix
     if url_params:
         assert isinstance(url_params, dict), 'Expect url_params to be %s, got %s' % (dict, type(url_params))
@@ -120,7 +121,6 @@ def odl_http_request(
             auth=HTTPBasicAuth(coordinates.username, coordinates.password),
             verify=False)
         http_history_append(response)
-        print(response.url)
         status_code_ok = response.status_code in expected_status_code \
             if isinstance(expected_status_code, (list, tuple)) \
             else  response.status_code == expected_status_code
