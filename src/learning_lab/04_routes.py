@@ -14,10 +14,13 @@
 '''
     Show the BGP RIB in JSON format.
 '''
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from __future__ import print_function
+from pydoc import plain
+from pydoc import render_doc as doc
+from os import EX_OK, EX_TEMPFAIL
+from basics.interpreter import sys_exit
+import json
 
 from basics.routes import routes
 
-print ('routes', routes())
+print('routes =', json.dumps(routes(), indent=2, separators=(',', ': ')))
