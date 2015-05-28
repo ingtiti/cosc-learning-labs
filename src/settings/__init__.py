@@ -24,7 +24,7 @@
     Configuration data is accessed in a consistent manner (from 'settings.config').
     Sample Usage:
         import settings
-        print(settings.config['odl_server']['address'])
+        print(settings.config['_odl_server']['address'])
 '''
 
 from __future__ import print_function as _print_function
@@ -32,7 +32,7 @@ from importlib import import_module
 from os import getenv
 from basics import odl_http
 from basics.odl_http import ControllerCoordinates
-from basics.odl_http import default_coordinates as odl_default_coordinates
+from basics.odl_http import default_coordinates as _odl_default_coordinates
 
 _network_profile = getenv('NETWORK_PROFILE', 'learning_lab')
 
@@ -41,12 +41,12 @@ try:
     config = network_settings_module.config 
     
     # Inject configuration into module odl_http.
-    if 'odl_server' in config:
-        odl_server = config['odl_server']
+    if '_odl_server' in config:
+        _odl_server = config['_odl_server']
         odl_http.coordinates = ControllerCoordinates(
-            url_prefix = odl_server.get('url_prefix', odl_default_coordinates.url_prefix),
-            username = odl_server.get('username', odl_default_coordinates.username),
-            password = odl_server.get('password', odl_default_coordinates.password))
+            url_prefix = _odl_server.get('url_prefix', _odl_default_coordinates.url_prefix),
+            username = _odl_server.get('username', _odl_default_coordinates.username),
+            password = _odl_server.get('password', _odl_default_coordinates.password))
 except Exception as e:
     raise ImportError('Unable to import settings.' + _network_profile, e)
 
