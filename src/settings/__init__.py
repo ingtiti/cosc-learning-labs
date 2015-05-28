@@ -41,8 +41,8 @@ try:
     config = network_settings_module.config 
     
     # Inject configuration into module odl_http.
-    if '_odl_server' in config:
-        _odl_server = config['_odl_server']
+    if 'odl_server' in config:
+        _odl_server = config['odl_server']
         odl_http.coordinates = ControllerCoordinates(
             url_prefix = _odl_server.get('url_prefix', _odl_default_coordinates.url_prefix),
             username = _odl_server.get('username', _odl_default_coordinates.username),
