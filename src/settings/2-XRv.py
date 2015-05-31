@@ -21,12 +21,12 @@ config = {
         'username' : 'admin',
         'password' : 'admin'},
  'network_device': {'xrvr-1':{
-                     'address': '172.16.1.78',
+                     'address': '172.16.1.73',
                      'port': 830,
                      'password': 'cisco',
                      'username': 'cisco'},
                   'xrvr-2':{
-                     'address': '172.16.1.79',
+                     'address': '172.16.1.74',
                      'port': 830,
                      'password': 'cisco',
                      'username': 'cisco'},
