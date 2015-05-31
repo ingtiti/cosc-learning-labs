@@ -5,7 +5,7 @@
         <entry key="AutoNetkit.IGP" type="String">isis</entry>
         <entry key="AutoNetkit.address_family" type="String">v4</entry>
     </extensions>
-    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="143,77" vmImage="IOS XRv-5.3.1-i2ss [66b5540a-d6c2-4629-bd87-c8e480d06c36]" ipv4="192.168.0.1">
+    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="143,77" vmImage="IOS XRv-iosxrv-k9-i2ss-5.3.1" ipv4="192.168.0.1">
         <extensions>
             <entry key="config" type="String">!  IOS-XR Config generated on 2015-05-21 12:03
 ! by autonetkit_0.15.1
