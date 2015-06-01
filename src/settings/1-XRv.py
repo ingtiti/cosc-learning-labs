@@ -1,6 +1,6 @@
 config = {
  'network_device': {'xrvr-1':{
-                     'address': '172.16.1.65',
+                     'address': '172.16.1.10',
                      'port': 830,
                      'password': 'cisco',
                      'username': 'cisco'},
