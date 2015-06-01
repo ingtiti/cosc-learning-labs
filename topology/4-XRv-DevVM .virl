@@ -7,6 +7,7 @@
     </extensions>
     <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="473,145" ipv4="192.168.0.1">
         <extensions>
+            <entry key="static_ip" type="String">172.16.1.11</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
@@ -299,6 +300,7 @@ router bgp 1
     </node>
     <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="733,154" ipv4="192.168.0.2">
         <extensions>
+            <entry key="static_ip" type="String">172.16.1.12</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
@@ -511,6 +513,7 @@ router bgp 1
     </node>
     <node name="iosxrv-3" type="SIMPLE" subtype="IOS XRv" location="489,357" ipv4="192.168.0.3">
         <extensions>
+            <entry key="static_ip" type="String">172.16.1.13</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
@@ -723,6 +726,7 @@ router bgp 1
     </node>
     <node name="iosxrv-4" type="SIMPLE" subtype="IOS XRv" location="738,355" ipv4="192.168.0.4">
         <extensions>
+            <entry key="static_ip" type="String">172.16.1.14</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
@@ -962,7 +966,7 @@ runcmd:
 - systemctl start getty@ttyS0.service
 - systemctl start rc-local
 - sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config
-- echo &quot;UseDNS no&quot; &gt;&gt; /etc/ssh/sshd_config
+- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config
 - service ssh restart
 - service sshd restart
 users:
