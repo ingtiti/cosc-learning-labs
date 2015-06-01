@@ -7,7 +7,7 @@
     </extensions>
     <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="143,77">
         <extensions>
-            <entry key="static_ip" type="String">127.16.1.11</entry>
+            <entry key="static_ip" type="String">172.16.1.11</entry>
             <entry key="config" type="String">!  IOS-XR Config generated on 2015-05-21 12:03
 ! by autonetkit_0.15.1
 !
