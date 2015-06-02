@@ -3,8 +3,8 @@
     <extensions>
         <entry key="AutoNetkit.enable_cdp" type="Boolean">true</entry>
         <entry key="management_network" type="String">flat</entry>
-        <entry key="management_lxc" type="Boolean">false</entry>
         <entry key="AutoNetkit.ipv4_loopback_prefix" type="String">22</entry>
+        <entry key="management_lxc" type="Boolean">true</entry>
     </extensions>
     <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="122,20">
         <extensions>
