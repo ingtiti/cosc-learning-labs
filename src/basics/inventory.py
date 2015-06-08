@@ -92,7 +92,6 @@ def connected(device_name):
     Return True if connected.
     '''
     response = odl_http_get(_url_inventory_node, {'node-id' : device_name}, 'application/xml', expected_status_code=(200, 404))
-    print(response.url)
     if response.status_code == 404:
         return False
     tree = etree.parse(StringIO(response.text))
