@@ -25,7 +25,7 @@ from pydoc import plain
 def main():
     print(plain(doc(inventory_not_connected)))
     print("inventory_not_connected()")
-    print_table(inventory_not_connected())
+    print_table(inventory_not_connected(), headers='device-name')
     
 if __name__ == "__main__":
     main()
