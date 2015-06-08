@@ -115,52 +115,56 @@ def _plain_tabulate_dict(arg):
 # There may be additional types related to 3rd party libraries.
 _columnar = (list, dict, tuple)
 
-def _print_plain_table(*args, **kwargs):
+def _print_plain_table(tabular_data, **kwargs):
     '''
     Print the arguments in a tabular format using plain text.
     '''
-    if len(args) == 1:
-        arg = args[0]
-        if isinstance(arg, tuple):
-            if '_asdict' in dir(arg):
-                # title of table is name of type.             
-                table_title = type(arg).__name__
-                print(table_title)
-                print(_plain_tabulate_dict(arg._asdict()))                 
-            else:
-                _print_plain_table(*arg, **kwargs)
-        elif isinstance(arg, list):
-            _print_plain_table(*arg, **kwargs)
-        elif isinstance(arg, dict):
-            print(_plain_tabulate_dict(arg))                 
+    if isinstance(tabular_data, tuple):
+        if '_asdict' in dir(tabular_data):
+            # title of table is name of type.             
+            table_title = type(tabular_data).__name__
+            print(table_title)
+            print(_plain_tabulate_dict(tabular_data._asdict()))
+            return
         else:
-            assert arg is not None
-            if 'headers' in kwargs:
-                kwargs['headers'] = _vectorise(kwargs['headers'])
-            print(tabulate([[arg]], **kwargs))
-    elif args:
-        peek = args[0]
-        headers = _vectorise(kwargs['headers']) \
-            if 'headers' in kwargs else "keys" \
-            if isinstance(peek, dict) or isinstance(peek, tuple) and '_asdict' in dir(peek) \
-            else ()
-        # Transform a 1D table to 2D by making each row into a list.         
-        args = [arg if isinstance(arg, _columnar) else [arg] for arg in args]
-        print(tabulate(args, headers=headers))
-    else:
-        assert args is None or len(args) == 0
-        if 'headers' in kwargs:
+            pass
+    elif isinstance(tabular_data, dict):
+        print(_plain_tabulate_dict(tabular_data))
+        return
+    
+    if 'headers' in kwargs:
+        if not kwargs['headers'] in ('firstrow', 'keys'):
             kwargs['headers'] = _vectorise(kwargs['headers'])
+    elif len(tabular_data) > 0:
+        firstrow = tabular_data[0]
+        if isinstance(firstrow, dict) or isinstance(firstrow, tuple) and '_asdict' in dir(firstrow):
+            kwargs['headers'] = 'keys'
+        
+    if len(tabular_data) > 0:
+        if not 'numalign' in kwargs:
+            # Override default setting numalign='decimal' because it is expensive to compute.
+            # The caller of this method can explicitly set numalign='decimal'.                      
+            kwargs['numalign'] = 'right'
+
+        # Transform a 1D table to 2D by making each row into a list.
+        tabular_data = [arg if isinstance(arg, _columnar) else (arg, ) for arg in tabular_data]
+        print(tabulate(tabular_data, **kwargs))
+    else:
+        assert tabular_data is None or len(tabular_data) == 0, 'Expected no data, got %s' % tabular_data
         print(tabulate([[str(None)]], **kwargs))
 
 def _vectorise(arg):
     """
     If arg is scalar then transform to a vector.
     
-    A string is considered scalar by this module.
-    Note that Python considers strings to be a sequence.
+    The return type is always tuple, list or dict.
+    If the type of 'arg' is not one of these then it is considered to be scalar.
+    If 'arg' is scalar then a sequence is returned that contains 'arg'.
+    
+    A string is considered scalar by this function.
+    The Python language considers type string to be a sequence.
     """
-    return arg if isinstance(arg, (tuple, list, dict)) else [arg]
+    return arg if isinstance(arg, (tuple, list, dict)) else (arg, )
 
 print_table = _print_plain_table
 
