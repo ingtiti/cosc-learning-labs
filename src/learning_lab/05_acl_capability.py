@@ -11,31 +11,28 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample code to determine ACL capability for a specific device.
+""" 
+Demonstrate how to identify network devices that have 'access control list' capabilities.
 
-    Print the documentation of function 'capability_discovery'.
-    Apply the function.
-    Print the function output.
-'''
+If there are no such devices then all sample scripts prefixed with 
+`05_acl` are unable to perform their demonstrations.
+"""
 
-from __future__ import print_function as _print_function
+from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
 import os
 from basics.interpreter import sys_exit
 from basics.acl import capability_ns, capability_name
 from basics.inventory import capability_discovery, inventory_mounted, connected
+from basics.render import print_table
 
 def demonstrate(device_name):
     ''' Apply function 'capability_discovery' to the specified device for required capability. '''
-    print('\ncapability_discovery(device_name=%s, capability_name=%s, capability_ns=%s)' % (device_name, capability_name, capability_ns))
-    discovered = capability_discovery(device_name=device_name, capability_name=capability_name, capability_ns=capability_ns)
-    if discovered:
-        print(*discovered)
-        return True
-    else:
-        print(None)
-        return False
+    print('capability_discovery(device_name=%s, capability_name=%s, capability_ns=%s)' % (device_name, capability_name, capability_ns))
+    results = capability_discovery(device_name=device_name, capability_name=capability_name, capability_ns=capability_ns)
+    print_table([{'device-name' : result[0], 'capability' : result[1][0], 'namespace' : result[1][1], 'revision' : result[1][2]} for result in results])
+    return bool(results)
 
 def main():
     ''' Document and demonstrate the function until a capable device is found.'''
