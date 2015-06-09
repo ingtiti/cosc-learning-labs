@@ -15,6 +15,7 @@
 '''
 
 from __future__ import print_function
+from past.builtins import basestring
 from threading import Lock
 from requests import request, ConnectionError
 from requests.auth import HTTPBasicAuth
@@ -108,7 +109,7 @@ def odl_http_request(
     if contentType is not None:
         headers['Content-Type'] = contentType
     if content is not None:
-        if not isinstance(content, (str, unicode)):
+        if not isinstance(content, basestring):
             if contentType.endswith('json'):
                 content = json_dumps(content) 
         headers['Content-Length'] = len(content)

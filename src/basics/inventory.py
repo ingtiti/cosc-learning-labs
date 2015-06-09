@@ -261,11 +261,11 @@ class CapabilityDiscovery(object):
     
     def data(self, data):
         if self.in_id:
-            self.node_id = data.encode('utf-8')
+            self.node_id = data
         elif self.in_capability:
-            capability_text = data.encode('utf-8')
+            capability_text = data
             parts = self.parts(capability_text)
-            accept = True
+            accept = parts is not None
             if accept and self.capability_name:
                 accept = parts[0] == self.capability_name
             if accept and self.capability_ns:

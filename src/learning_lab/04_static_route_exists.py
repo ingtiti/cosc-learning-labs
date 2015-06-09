@@ -23,6 +23,7 @@ Cease when a static route is not found.
 """
 
 from __future__ import print_function
+from future.builtins import next
 import os
 from pydoc import plain
 from pydoc import render_doc as doc
@@ -43,7 +44,7 @@ def demonstrate(device_name):
     """
     destination_network_iterator = destination_network_generator()
     while True: 
-        destination_network = destination_network_iterator.next()
+        destination_network = next(destination_network_iterator)
         print('static_route_exists(%s, %s)' % (device_name, destination_network))
         exists = static_route_exists(device_name, destination_network)
         print(exists)

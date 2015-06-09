@@ -26,6 +26,7 @@ network via the next-hop of the device's exit interface.
 """
 
 from __future__ import print_function
+from future.builtins import next
 from pydoc import plain
 from pydoc import render_doc as doc
 import os
@@ -69,7 +70,7 @@ def demonstrate(device_name):
     print('Select a destination network for which a static route does not exist.')
     destination_network_iterator = destination_network_generator()
     while True: 
-        destination_network = destination_network_iterator.next()
+        destination_network = next(destination_network_iterator)
         print('static_route_exists(%s, %s)' % (device_name, destination_network))
         exists = static_route_exists(device_name, destination_network)
         print(exists)
