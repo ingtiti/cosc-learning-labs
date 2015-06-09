@@ -33,6 +33,21 @@ except ImportError:
     class HTML(DisplayObject):
         pass
 
+from tabulate import _isnumber as _isnumber_standard
+
+def _isnumber_exclude_bool(cell_value):
+    """Consider type 'bool' to be non-numeric."""
+    return False if isinstance(cell_value, bool) else _isnumber_standard(cell_value)
+
+# Verify that the 'tabulate' module behaves undesirably.
+assert _isnumber_standard != _isnumber_exclude_bool, "Expected no monkey-patch (yet)."
+assert _isnumber_standard(True) and _isnumber_standard(False), 'Expected boolean to be numeric.'
+
+# Monkey-patch the 'tabulate' module such that boolean is not numeric.
+import tabulate as tabulate_module
+tabulate_module._isnumber = _isnumber_exclude_bool
+assert not tabulate_module._isnumber(True) and not tabulate_module._isnumber(False), 'Expected boolean to be non-numeric.'
+
 def _display_stdout(value, **kwargs):
     if isinstance(value, DisplayObject):
         print(value.data, **kwargs)
