@@ -21,8 +21,7 @@
 from __future__ import print_function as _print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
-from basics.interpreter import sys_exit
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.acl import inventory_acl
 
 def demonstrate():
@@ -37,9 +36,9 @@ def main():
     ''' Document and demonstrate the function.'''
     print(plain(doc(inventory_acl)))
     if demonstrate():
-        return os.EX_OK
+        return EX_OK
     else:
-        return os.EX_TEMPFAIL
+        return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

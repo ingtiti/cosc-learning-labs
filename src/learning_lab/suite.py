@@ -20,7 +20,7 @@
     The goal is to simulate the running of sample scripts in a robotic manner.
 '''
 
-from os import EX_OK
+from basics.interpreter import EX_OK
 from os.path import basename,splitext
 from runpy import run_module
 

@@ -21,8 +21,7 @@
 from __future__ import print_function as _print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
-from basics.interpreter import sys_exit
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.acl import acl_exists, inventory_acl
 from importlib import import_module
 acl_fixture = import_module('learning_lab.05_acl_fixture')
@@ -42,8 +41,8 @@ def main():
         for device_name in inventory:
             for acl_sample in acl_fixture.fixtures:
                 demonstrate(device_name, acl_sample.name)
-            return os.EX_OK
-    return os.EX_TEMPFAIL
+            return EX_OK
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

@@ -20,8 +20,7 @@ from __future__ import print_function as _print_function
 from basics.inventory import device_dismount, inventory_mounted
 from pydoc import render_doc as doc
 from pydoc import plain
-import os
-from basics.interpreter import sys_exit
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 
 def demonstrate(device_name):
     print('device_dismount(' + device_name, end=')\n')
@@ -31,9 +30,9 @@ def main():
     print(plain(doc(device_dismount)))
     for device_name in inventory_mounted():
         demonstrate(device_name)
-        return os.EX_OK
+        return EX_OK
     print('There are no mounted devices to dismount. Demonstration cancelled.')
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

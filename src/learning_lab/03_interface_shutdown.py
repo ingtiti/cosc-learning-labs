@@ -23,8 +23,7 @@
 from __future__ import print_function as _print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
-from basics.interpreter import sys_exit
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.interface import management_interface
 from basics.interface import interface_configuration_tuple
 from basics.interface import interface_configuration_update
@@ -64,9 +63,9 @@ def main():
             if interface_config.shutdown:
                 continue
             demonstrate(device_name, interface_config)
-            return os.EX_OK
+            return EX_OK
     print("There are no suitable network devices/interfaces. Demonstration cancelled.")
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

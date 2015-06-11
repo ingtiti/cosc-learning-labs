@@ -22,8 +22,7 @@
 from __future__ import print_function as _print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
-from basics.interpreter import sys_exit
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.acl import acl_json_all, inventory_acl
 import json
 
@@ -47,8 +46,8 @@ def main():
     else:
         for device_name in inventory:
             if demonstrate(device_name):
-                return os.EX_OK
-    return os.EX_TEMPFAIL
+                return EX_OK
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

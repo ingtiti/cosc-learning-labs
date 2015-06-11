@@ -24,10 +24,9 @@ Cease when a static route is not found.
 
 from __future__ import print_function
 from future.builtins import next
-import os
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from pydoc import plain
 from pydoc import render_doc as doc
-from basics.interpreter import sys_exit
 from basics.routes import   static_route_exists, inventory_static_route
 from basics.render import print_table
 from ipaddress import ip_network
@@ -70,8 +69,8 @@ def main():
     else:
         for device_name in device_names:
             if demonstrate(device_name):
-                return os.EX_OK
-    return os.EX_TEMPFAIL
+                return EX_OK
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

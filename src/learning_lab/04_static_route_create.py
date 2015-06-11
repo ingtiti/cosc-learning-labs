@@ -29,11 +29,10 @@ from __future__ import print_function
 from future.builtins import next
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from inspect import cleandoc
 from basics.inventory import inventory_mounted, device_control
 from basics.interface import interface_names, interface_configuration_tuple
-from basics.interpreter import sys_exit
 from basics.render import print_table
 from basics.routes import static_route_create, static_route_exists, inventory_static_route, to_ip_network
 from importlib import import_module
@@ -137,9 +136,9 @@ def main():
     else:
         for device_name in device_names:
             if demonstrate(device_name):
-                return os.EX_OK
+                return EX_OK
     print("Unable to create a 'static route' on %s capable device(s). Demonstration cancelled." % len(device_names))
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

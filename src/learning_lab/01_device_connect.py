@@ -27,8 +27,7 @@ from __future__ import print_function as _print_function
 from basics.inventory import device_mount, inventory_unmounted, connected
 from settings import config
 import time
-from basics.interpreter import sys_exit
-import os
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 
 time_out = 10.0
 '''Number of seconds to time out.'''
@@ -82,8 +81,8 @@ def main():
     else:
         for device_name in unmounted_list:
             if demonstrate(device_name):
-                return os.EX_OK
-    return os.EX_TEMPFAIL
+                return EX_OK
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

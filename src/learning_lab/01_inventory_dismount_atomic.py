@@ -24,8 +24,7 @@
 '''
 
 from __future__ import print_function as _print_function
-import os
-from basics.interpreter import sys_exit
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.inventory import device_dismount, inventory_mounted, inventory_connected
 from time import sleep
 
@@ -52,8 +51,8 @@ def main():
             remaining_connected = mounted_list & set(inventory_connected())
             continue
         print('Dismounted %s device(s), slept for %s seconds' % (len(mounted_list), sleep_total))
-        return os.EX_OK
-    return os.EX_TEMPFAIL
+        return EX_OK
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

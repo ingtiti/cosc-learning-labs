@@ -21,8 +21,7 @@ If there are no such devices then all sample scripts prefixed with
 from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
-from basics.interpreter import sys_exit
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.acl import capability_ns, capability_name
 from basics.inventory import capability_discovery, inventory_mounted, connected
 from basics.render import print_table
@@ -40,16 +39,16 @@ def main():
     for device_name in inventory_mounted():
         try:
             if demonstrate(device_name):
-                return os.EX_OK
+                return EX_OK
         except Exception as e:
             if connected(device_name):
                 # Unexplained exception.                
                 print(e)
-                return os.EX_TEMPFAIL
+                return EX_TEMPFAIL
             else:
                 # Expect exception when device not connected.             
                 print('connected(%s): False' % device_name)
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

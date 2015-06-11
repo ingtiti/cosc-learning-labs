@@ -26,8 +26,7 @@ from basics.interface import interface_configuration_update
 from basics.inventory import inventory_connected
 from pydoc import render_doc as doc
 from pydoc import plain
-from basics.interpreter import sys_exit
-import os
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 
 # The network interface will temporarily be configured with these settings.
 temp_address = '101.101.101.101'
@@ -84,9 +83,9 @@ def main():
             if interface_name == mgmt_name:
                 continue
             demonstrate(device_name, interface_name)
-            return os.EX_OK
+            return EX_OK
     print("There are no suitable network devices. Demonstration cancelled.")
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

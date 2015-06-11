@@ -27,8 +27,7 @@ Print the function output.
 from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-from os import EX_OK, EX_TEMPFAIL
-from basics.interpreter import sys_exit
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.routes import inventory_static_route
 from basics.render import print_table
 
