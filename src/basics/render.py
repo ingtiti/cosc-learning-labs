@@ -166,7 +166,7 @@ def _print_plain_table(tabular_data, **kwargs):
         print(tabulate(tabular_data, **kwargs))
     else:
         assert tabular_data is None or len(tabular_data) == 0, 'Expected no data, got %s' % tabular_data
-        print(tabulate([[str(None)]], **kwargs))
+        print(tabulate([[str(None) for _ in kwargs.get('headers', (None,))]], **kwargs))
 
 def _vectorise(arg):
     """
