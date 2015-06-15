@@ -216,6 +216,7 @@ def json_loads(s, encoding=None):
     
 def json_dumps(obj, skipkeys=False, ensure_ascii=True, check_circular=True,
         allow_nan=True, cls=None, indent=None, separators=None,
-        encoding='utf-8', default=None, sort_keys=False, **kw):
+        default=None, sort_keys=False, **kw):
     """Exactly the same as json.dumps."""
-    return json.dumps(obj, skipkeys, ensure_ascii, check_circular, allow_nan, cls, indent, separators, encoding, default, sort_keys)
+    # Beware that json.dumps signature is different for Python 2 and 3.
+    return json.dumps(obj, skipkeys=skipkeys, ensure_ascii=ensure_ascii, check_circular=check_circular, allow_nan=allow_nan, cls=cls, indent=indent, separators=separators, default=default, sort_keys=sort_keys)

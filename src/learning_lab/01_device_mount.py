@@ -19,8 +19,7 @@
 from __future__ import print_function as _print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
-from basics.interpreter import sys_exit
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.inventory import device_mount, inventory_unmounted
 from settings import config
 
@@ -39,9 +38,9 @@ def main():
     print(plain(doc(device_mount)))
     for device_name in inventory_unmounted():
         demonstrate(device_name)
-        return os.EX_OK
+        return EX_OK
     print('All configured devices are mounted. Demonstration cancelled.')
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

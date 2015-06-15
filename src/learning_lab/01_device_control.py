@@ -23,7 +23,7 @@
 from __future__ import print_function as _print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.inventory import inventory_mounted, device_control, DeviceControl
 from basics.render import print_table
 
@@ -38,9 +38,9 @@ def main():
     print('DeviceControl fields:', *DeviceControl._fields, sep='\n\t', end='\n\n')
     for device_name in inventory_mounted():
         demonstrate(device_name)
-        return os.EX_OK
+        return EX_OK
     print("There are no suitable network devices. Demonstration cancelled.")
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
-    main()
+    sys_exit(main())

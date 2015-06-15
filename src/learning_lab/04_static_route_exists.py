@@ -23,10 +23,10 @@ Cease when a static route is not found.
 """
 
 from __future__ import print_function
-import os
+from future.builtins import next
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from pydoc import plain
 from pydoc import render_doc as doc
-from basics.interpreter import sys_exit
 from basics.routes import   static_route_exists, inventory_static_route
 from basics.render import print_table
 from ipaddress import ip_network
@@ -43,7 +43,7 @@ def demonstrate(device_name):
     """
     destination_network_iterator = destination_network_generator()
     while True: 
-        destination_network = destination_network_iterator.next()
+        destination_network = next(destination_network_iterator)
         print('static_route_exists(%s, %s)' % (device_name, destination_network))
         exists = static_route_exists(device_name, destination_network)
         print(exists)
@@ -69,8 +69,8 @@ def main():
     else:
         for device_name in device_names:
             if demonstrate(device_name):
-                return os.EX_OK
-    return os.EX_TEMPFAIL
+                return EX_OK
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

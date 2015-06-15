@@ -43,6 +43,7 @@ setup(
         "lxml",
         "logilab-common",
         "tabulate",
+        "future",
     ],
     tests_require=['pytest'],
     cmdclass = {'test': PyTest},

@@ -261,11 +261,11 @@ class CapabilityDiscovery(object):
     
     def data(self, data):
         if self.in_id:
-            self.node_id = data.encode('utf-8')
+            self.node_id = data
         elif self.in_capability:
-            capability_text = data.encode('utf-8')
+            capability_text = data
             parts = self.parts(capability_text)
-            accept = True
+            accept = parts is not None
             if accept and self.capability_name:
                 accept = parts[0] == self.capability_name
             if accept and self.capability_ns:
@@ -290,11 +290,27 @@ class CapabilityDiscovery(object):
         return (short_name, ns, revision)
 
 def capability_discovery(capability_name=None, capability_ns=None, capability_revision=None, device_name=None):
-    '''Discover the revision of the specified capability for a set of devices.
+    '''
+    Discover network capability.
     
-    The entire inventory will be examined unless a single device is specified.
-    Function output is a list of tuples. 
-    Each tuple consists of (device_name, (capability_name, capability_ns, capability_revision). 
+    Parameters:
+    - device_name
+        If specified then other network devices are excluded.
+    - capability_name
+        For example, 'Cisco-IOS-XR-cdp-oper'.
+        If specified then non-matching capabilities are excluded.
+    - capability_ns
+        The name-space, such as 'http://cisco.com/ns/yang/'.
+        If specified then non-matching capabilities are excluded.
+    - capability_revision
+        Type string but usually represents a day, such as '2015-01-07'.
+        If specified then non-matching capabilities are excluded.
+        There is no ability to search for a range of revisions,
+        such as 'on or after 2015-01-07'. To achieve this, leave this
+        parameter unspecified then apply a filter to the output.
+
+    Returns a list of nested tuples, structured as follows:
+        (device_name, (capability_name, capability_ns, capability_revision)). 
     '''
     parser = etree.XMLParser(target=CapabilityDiscovery(capability_name, capability_ns, capability_revision, device_name))
     if device_name:
@@ -306,8 +322,11 @@ def capability_discovery(capability_name=None, capability_ns=None, capability_re
 
     # When iterated over, 'results' will contain the output from 
     # target parser's close() method
-    results = etree.parse(BytesIO(response.content), parser=parser)
-    return results
+    discoveries = etree.parse(BytesIO(response.content), parser=parser)
+
+    # Filter out the internal components of the ODL Controller.
+    discoveries = [discovered for discovered in discoveries if discovered[0] != 'controller-config']
+    return discoveries
 
 def device_mount_http(
     device_name,

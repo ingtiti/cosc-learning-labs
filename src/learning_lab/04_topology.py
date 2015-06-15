@@ -19,11 +19,10 @@
 '''
 
 from __future__ import print_function as _print_function
-from basics.interpreter import sys_exit
 from basics.topology import topology
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
+from basics.interpreter import sys_exit, EX_OK, EX_SOFTWARE
 
 def main():
     '''
@@ -38,10 +37,10 @@ def main():
     print(plain(doc(topology)))
     try:
         print(topology("operational"))
-        return os.EX_OK
+        return EX_OK
     except Exception as e:
         print(e)
-        return os.EX_SOFTWARE
+        return EX_SOFTWARE
 
 if __name__ == "__main__":
     sys_exit(main())

@@ -24,7 +24,7 @@ from pydoc import plain
 from pydoc import render_doc as doc
 from basics.interface import management_interface
 from basics.inventory import inventory_mounted
-import os
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 
 def demonstrate(device_name):
     ''' Apply function 'management_interface' to the specified device.'''
@@ -36,9 +36,9 @@ def main():
     print(plain(doc(management_interface)))
     for device_name in inventory_mounted():
         demonstrate(device_name)
-        return os.EX_OK
+        return EX_OK
     print("There are no suitable network devices. Demonstration cancelled.")
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
-    main()
+    sys_exit(main())

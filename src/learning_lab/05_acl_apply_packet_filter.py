@@ -15,8 +15,7 @@ from __future__ import print_function as _print_function
 from basics.interface import interface_configuration_tuple, management_interface
 from basics.acl_apply import acl_apply_packet_filter
 from basics.acl import acl_list, inventory_acl
-from basics.interpreter import sys_exit
-import os
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 import random
 from pydoc import plain
 from pydoc import render_doc as doc
@@ -54,12 +53,12 @@ def main():
                 print('Consider %s %s in=%s, out=%s' % (device_name, ic.name, ic.packet_filter_inbound, ic.packet_filter_outbound))
                 if not ic.packet_filter_outbound:
                     demonstrate(device_name, ic.name, 'outbound', acl_name)
-                    return os.EX_OK
+                    return EX_OK
                 if not ic.packet_filter_inbound:
                     demonstrate(device_name, ic.name, 'inbound', acl_name)
-                    return os.EX_OK
+                    return EX_OK
         print('There are no network interfaces available to apply an ACL. Demonstration cancelled.')
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

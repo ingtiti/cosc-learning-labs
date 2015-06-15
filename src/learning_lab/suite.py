@@ -20,7 +20,7 @@
     The goal is to simulate the running of sample scripts in a robotic manner.
 '''
 
-from os import EX_OK
+from basics.interpreter import EX_OK
 from os.path import basename,splitext
 from runpy import run_module
 
@@ -107,45 +107,7 @@ run_script('02_capability')
 run_script('02_capability_matrix')
 run_script('02_capability_discovery')
 
-# Run interface scripts. Context: no devices mounted.
-run_script('01_inventory_dismount_atomic')
-run_script('03_interface_names')
-run_script('03_management_interface')
-run_script('03_interface_configuration')
-run_script('03_interface_configuration_update')
-run_script('03_interface_properties')
-run_script('03_interface_shutdown')
-run_script('03_interface_startup')
-
-# Run interface scripts. Context: all devices mounted.
-run_script('01_inventory_dismount_atomic')
-while EX_OK == run_script('01_device_connect'):
-    continue
-run_script('03_interface_names')
-run_script('03_management_interface')
-run_script('03_interface_configuration')
-run_script('03_interface_configuration_update')
-run_script('03_interface_properties')
-run_script('03_interface_shutdown')
-run_script('03_interface_startup')
-
-# Run interface scripts with all devices mounted but all interfaces shutdown.
-run_script('01_inventory_dismount_atomic')
-while EX_OK == run_script('01_device_connect'):
-    continue
-while run_script('03_interface_shutdown') == EX_OK:
-    continue
-try:
-    run_script('01_inventory_mount')
-    run_script('03_interface_names')
-    run_script('03_management_interface')
-    run_script('03_interface_configuration')
-    run_script('03_interface_configuration_update')
-    run_script('03_interface_properties')
-finally:
-    # Restore all interfaces to 'up'     
-    while run_script('03_interface_startup') == EX_OK:
-        continue
+run_script('03_interface_suite')
 
 # run_script('04_routes')
 run_script('04_topology')

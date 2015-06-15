@@ -23,8 +23,7 @@ from __future__ import print_function as _print_function
 from importlib import import_module
 from pydoc import plain
 from pydoc import render_doc as doc
-import os
-from basics.interpreter import sys_exit
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.acl import acl_create_port_grant, inventory_acl
 acl_fixture = import_module('learning_lab.05_acl_fixture')
 
@@ -44,11 +43,11 @@ def main():
             try:
                 for acl_sample in acl_fixture.fixtures:
                     demonstrate(device_name, acl_sample.name, acl_sample.port, acl_sample.grant, acl_sample.protocol)
-                return os.EX_OK
+                return EX_OK
             except Exception as e:
                 print(e)
-                return os.EX_TEMPFAIL
-    return os.EX_TEMPFAIL
+                return EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())

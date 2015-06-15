@@ -28,7 +28,7 @@ If no routes are found then retry with a different network device.
 """
 
 from __future__ import print_function
-import os
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from pydoc import plain
 from pydoc import render_doc as doc
 from basics.interpreter import sys_exit
@@ -65,9 +65,9 @@ def main():
         print()
         for device_name in device_names:
             if demonstrate(device_name):
-                return os.EX_OK
+                return EX_OK
         print("There are no devices with a 'static route' configured. Demonstration cancelled.")
-    return os.EX_TEMPFAIL
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
     sys_exit(main())
