@@ -74,7 +74,7 @@ def demonstrate_all():
     summary = [(revision, len(capability_name_by_revision(revision))) for revision in capability_revisions]
     summary.sort()
     print()
-    print('List revisions of capabilities in sorted order (often chronological).')
+    print('Display revisions of capabilities in sorted order (often chronological).')
     print_table(summary, headers=('capability revision', '# capabilities'))
 
     capability_namespaces = set([capability[1] for capability in capabilities])
@@ -85,17 +85,19 @@ def demonstrate_all():
         ) for namespace in capability_namespaces]
     summary.sort()
     print()
+    print('Display name-spaces of capabilities in sorted order.')
+    print()
     print_table(summary, headers=('capability name-space', '# capabilities', '# revisions'))
 
     print()
-    print('Note that all the information contained in the multiple summaries, \nabove, came from a single request (RPC) to the Controller.')
+    print('Note that all the information contained in the multiple summaries, above, \nwas obtained with a single HTTP request (RPC) to the Controller.')
     return discoveries
     
 def demonstrate_by_capability(capability_name, capability_namespace):
     print()
     print('2. Discover which network devices are capable of a specific task.')
-    print('The appropriate capability must be determined.')
-    print('For convenience, this demonstration chooses any one capability.')
+    print('For each task that will be performed by an application, the appropriate \ncapability must be determined.')
+    print('For convenience, this demonstration chooses any one capability \nand searches for devices that are capable.')
     print()
     print('capability_discovery(%s, %s)' % (capability_name, capability_namespace))
     discoveries = capability_discovery(capability_name, capability_namespace)
@@ -106,7 +108,7 @@ def demonstrate_not_found():
     print()
     print('3. Attempt discovery of a capability that is unavailable.')
     print('If there are no capable devices then an empty list is returned.')
-    print('This is demonstrated using a capability that is unavailable.')
+    print('This is demonstrated using a capability that is expected to be unavailable.')
     print()
     capability_name = 'teleport'
     capability_namespace = 'http://startrek.com/ns/yang/'
