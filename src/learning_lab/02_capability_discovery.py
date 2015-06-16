@@ -26,13 +26,6 @@ from basics.render import print_table
 from pydoc import render_doc as doc, plain
 from inspect import cleandoc
 
-# Micro-functions that encapsulate the indices of fields within the nested tuple.
-# _device_name = lambda discovered: discovered[0]
-# _capability = lambda discovered: discovered[1]
-# _capability_name = lambda discovered: _capability(discovered)[0]
-# _capability_namespace = lambda discovered: _capability(discovered)[1]
-# _capability_revision = lambda discovered: _capability(discovered)[2]
-
 def demonstrate_all():
     print()
     print('1. Discover all capabilities of all network devices.')

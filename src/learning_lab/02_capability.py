@@ -11,20 +11,55 @@
 # an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-''' Sample usage of function 'capability'.
+""" Demonstrate how to discover the capability of one network device.
 
-   For each connected device, get the capabilities for that device and print the 
-   device name and capability.
-'''
+The following demonstrations are performed:
+1. Determine the inventory of network devices and choose one.
+2. Discover all capabilities of the chosen network device.
+"""
 
 from __future__ import print_function as _print_function
-from basics.inventory import  inventory_connected
-from basics.inventory import capability
+from basics.inventory import  inventory_mounted
+from basics.inventory import capability_discovery
+from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.render import print_table
+from pydoc import render_doc as doc, plain
+from inspect import cleandoc
+
+def demonstrate(device_name):
+    """ Discover, print and return the capabilities of the specified network device."""
+    print()
+    print("2. Discover all capabilities of the chosen network device.")
+    print('capability_discovery(device_name=%s)' % device_name)
+    discoveries = capability_discovery(device_name=device_name)
+    capabilities = [discovered.capability for discovered in discoveries]
+    capabilities.sort()
+    print_table(capabilities)
+    return capabilities
 
 def main():
-    for device_name in inventory_connected():
-        for capability_name in capability(device_name):
-            print(device_name, capability_name)
+    print(cleandoc(__doc__))
+    print()
+    print('1. Determine the inventory of network devices and choose one.')
+    print('inventory_mounted()')
+    device_names = inventory_mounted()
+    if not device_names:
+        print("There are no mounted network devices. Demonstration cancelled.")
+        return EX_TEMPFAIL
+    else:
+        print_table(device_names, headers='device-name')
+    for device_name in inventory_mounted():
+        capabilities = demonstrate(device_name)
+        if capabilities:
+            return EX_OK
+    print()
+    print("No capabilities were discovered. Demonstration incomplete.")
+    return EX_TEMPFAIL
 
 if __name__ == "__main__":
-    main()
+    try:
+        sys_exit(main())
+    finally:
+        print()
+        print('Function Reference:')
+        print(plain(doc(capability_discovery)))
