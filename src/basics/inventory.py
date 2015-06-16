@@ -211,6 +211,15 @@ def capability(device_name):
     else:
         return tree.xpath(".//fi:switch-features/fi:capabilities/text()", namespaces=_inventory_namespaces)
 
+CapabilityDiscovered = namedtuple('CapabilityDiscovered', [
+    'device_name',
+    'capability'])
+
+Capability = namedtuple('Capability', [
+    'name',
+    'namespace',
+    'revision'])
+
 import re
 
 _capability_pattern = re.compile(r'\((.*)\?revision\=(.*)\)(.*)')
@@ -273,7 +282,7 @@ class CapabilityDiscovery(object):
             if accept and self.capability_revision:
                 accept = parts[2] == self.capability_revision
             if accept:
-                self.discovered.append((self.node_id, parts))
+                self.discovered.append(CapabilityDiscovered(self.node_id, parts))
     
     def close(self):
         return self.discovered
@@ -287,7 +296,7 @@ class CapabilityDiscovery(object):
         short_name = match.group(3)
         # truncate redundant information from tail of full_name
         ns = full_name[:-len(short_name)] if full_name.endswith(short_name) else full_name
-        return (short_name, ns, revision)
+        return Capability(short_name, ns, revision)
 
 def capability_discovery(capability_name=None, capability_ns=None, capability_revision=None, device_name=None):
     '''
@@ -309,8 +318,8 @@ def capability_discovery(capability_name=None, capability_ns=None, capability_re
         such as 'on or after 2015-01-07'. To achieve this, leave this
         parameter unspecified then apply a filter to the output.
 
-    Returns a list of nested tuples, structured as follows:
-        (device_name, (capability_name, capability_ns, capability_revision)). 
+    Returns a list of nested, named tuples, structured as follows:
+        (device-name, (capability-name, capability-ns, capability-revision)). 
     '''
     parser = etree.XMLParser(target=CapabilityDiscovery(capability_name, capability_ns, capability_revision, device_name))
     if device_name:
