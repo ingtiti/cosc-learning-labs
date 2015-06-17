@@ -12,43 +12,49 @@
 # specific language governing permissions and limitations under the License.
 
 """ 
-Demonstrate how to identify network devices that have 'access control list' capabilities.
+Demonstrate how to discover network devices that have 'access control list' 
+(ACL) capabilities.
 
 If there are no such devices then all sample scripts prefixed with 
-`05_acl` are unable to perform their demonstrations.
+`05_acl_` are unable to perform their demonstrations.
 """
 
 from __future__ import print_function
-from pydoc import plain
-from pydoc import render_doc as doc
+from pydoc import render_doc as doc, plain
 from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.acl import capability_ns, capability_name
-from basics.inventory import capability_discovery, inventory_mounted, connected
+from basics.inventory import capability_discovery
 from basics.render import print_table
+from inspect import cleandoc
 
-def demonstrate(device_name):
+def demonstrate():
     ''' Apply function 'capability_discovery' to the specified device for required capability. '''
-    print('capability_discovery(device_name=%s, capability_name=%s, capability_ns=%s)' % (device_name, capability_name, capability_ns))
-    results = capability_discovery(device_name=device_name, capability_name=capability_name, capability_ns=capability_ns)
-    print_table([{'device-name' : result[0], 'capability' : result[1][0], 'namespace' : result[1][1], 'revision' : result[1][2]} for result in results])
-    return bool(results)
+    print('capability_discovery(capability_name=%s, capability_ns=%s)' % (capability_name, capability_ns))
+    discoveries = capability_discovery(capability_name=capability_name, capability_ns=capability_ns)
+    print_table([(
+            discovered.device_name, 
+            discovered.capability.revision
+        ) for discovered in discoveries], headers=(
+            'device-name',
+            'revision'
+        ))
+    return discoveries
 
 def main():
     ''' Document and demonstrate the function until a capable device is found.'''
-    print(plain(doc(capability_discovery)))
-    for device_name in inventory_mounted():
-        try:
-            if demonstrate(device_name):
-                return EX_OK
-        except Exception as e:
-            if connected(device_name):
-                # Unexplained exception.                
-                print(e)
-                return EX_TEMPFAIL
-            else:
-                # Expect exception when device not connected.             
-                print('connected(%s): False' % device_name)
-    return EX_TEMPFAIL
+    print(cleandoc(__doc__))
+    print()
+    discoveries = demonstrate()
+    if not discoveries:
+        print()
+        print("There are no ACL capable network devices. Demonstration insufficient.")
+        return EX_TEMPFAIL
+    return EX_OK
 
 if __name__ == "__main__":
-    sys_exit(main())
+    try:
+        sys_exit(main())
+    finally:
+        print()
+        print('Function Reference:')
+        print(plain(doc(capability_discovery)))

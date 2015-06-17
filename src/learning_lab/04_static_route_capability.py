@@ -12,41 +12,48 @@
 # specific language governing permissions and limitations under the License.
 
 """ 
-Demonstrate how to identify network devices that have 'static route' capabilities.
+Demonstrate how to discover network devices that have 'static route' capabilities.
 
 If there are no such devices then all sample scripts prefixed with 
-`04_static_route` are unable to perform their demonstrations.
-
-Introduce function 'inventory_static_route'.
-Print the function's documentation. 
-
-Apply the function to the inventory of network devices.
-Print the function output.
+`05_static_route_` are unable to perform their demonstrations.
 """
 
 from __future__ import print_function
-from pydoc import plain
-from pydoc import render_doc as doc
+from pydoc import render_doc as doc, plain
 from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
-from basics.routes import inventory_static_route
+from basics.routes import capability_ns, capability_name
+from basics.inventory import capability_discovery
 from basics.render import print_table
+from inspect import cleandoc
 
 def demonstrate():
-    """
-    Apply function 'inventory_static_route' to the inventory of network devices.
-    """
-    print('inventory_static_route()')
-    device_names = inventory_static_route()
-    print_table(device_names, headers=('device-name',))
-    return device_names
-    
+    ''' Apply function 'capability_discovery' to the specified device for required capability. '''
+    print('capability_discovery(capability_name=%s, capability_ns=%s)' % (capability_name, capability_ns))
+    discoveries = capability_discovery(capability_name=capability_name, capability_ns=capability_ns)
+    print_table([(
+            discovered.device_name, 
+            discovered.capability.revision
+        ) for discovered in discoveries], headers=(
+            'device-name',
+            'revision'
+        ))
+    return discoveries
+
 def main():
-    """
-    Print the function documentation then demonstrate the function usage.
-    """
-    print(plain(doc(inventory_static_route)))
-    
-    return EX_OK if demonstrate() else EX_TEMPFAIL
+    ''' Document and demonstrate the function until a capable device is found.'''
+    print(cleandoc(__doc__))
+    print()
+    discoveries = demonstrate()
+    if not discoveries:
+        print()
+        print("There are no 'static route' capable network devices. Demonstration insufficient.")
+        return EX_TEMPFAIL
+    return EX_OK
 
 if __name__ == "__main__":
-    sys_exit(main())
+    try:
+        sys_exit(main())
+    finally:
+        print()
+        print('Function Reference:')
+        print(plain(doc(capability_discovery)))

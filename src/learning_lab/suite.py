@@ -95,7 +95,7 @@ run_script('01_inventory_mount')
 
 # Run capability scripts. Context: no devices mounted.
 run_script('01_inventory_dismount_atomic')
-run_script('02_capability')
+run_script('02_device_capability')
 run_script('02_capability_matrix')
 run_script('02_capability_discovery')
 
@@ -103,7 +103,7 @@ run_script('02_capability_discovery')
 run_script('01_inventory_dismount_atomic')
 while EX_OK == run_script('01_device_connect'):
     continue
-run_script('02_capability')
+run_script('02_device_capability')
 run_script('02_capability_matrix')
 run_script('02_capability_discovery')
 
