@@ -202,7 +202,12 @@ def inventory_summary():
     return inventory_summary_from_xml(inventory_xml())
 
 def capability(device_name):
-    'Return a list of capability names for the specified device.'
+    """Return a list of capability names for the specified device.
+    
+    This function is superseded by capability_discovery.
+    It has not been removed because it discovers OpenFlow capabilities,
+    which fn capability_discovery does not yet do.
+    """
     response = odl_http_get(_url_inventory_node, {'node-id' : device_name}, 'application/xml')
     tree = etree.parse(StringIO(response.text))
     initial_capability_list = tree.xpath(".//nni:initial-capability/text()", namespaces=_inventory_namespaces)
