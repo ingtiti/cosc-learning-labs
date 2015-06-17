@@ -32,6 +32,8 @@ def demonstrate(device_name):
     print("2. Discover all capabilities of the chosen network device.")
     print('capability_discovery(device_name=%s)' % device_name)
     discoveries = capability_discovery(device_name=device_name)
+    
+    # Discard the outer tuples because they are redundant.     
     capabilities = [discovered.capability for discovered in discoveries]
     capabilities.sort()
     print_table(capabilities)
