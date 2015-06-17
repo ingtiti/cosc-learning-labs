@@ -26,7 +26,6 @@
         05_acl_delete
         
     To know which devices are ACL capable:
-        05_inventory_acl
         05_acl_capability
     
     To browse:
@@ -34,6 +33,7 @@
         05_acl_list
         05_acl_json
         05_acl_json_all
+        03_interface_configuration
 
     To run them all:
         05_story
@@ -54,7 +54,7 @@ def run_script(script):
 
 # Run ACL scripts. Context: one ACL capable device.
 run_script('01_inventory_dismount_atomic')
-while run_script('05_inventory_acl') != EX_OK and run_script('01_device_connect') == EX_OK:
+while run_script('05_acl_capability') != EX_OK and run_script('01_device_connect') == EX_OK:
     continue
 while EX_OK == run_script('05_acl_delete'):
     continue

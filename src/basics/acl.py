@@ -148,12 +148,12 @@ def inventory_acl(capability_revision=None, device_name=None):
         The discovery process can be scoped to a single device.
         Returns a list of device names. 
     """
-    discovered = capability_discovery(
+    discoveries = capability_discovery(
         capability_name=capability_name,
         capability_ns=capability_ns,
         capability_revision=capability_revision,
         device_name=device_name)
-    return [device_capability[0] for device_capability in discovered]
+    return [discovered.device_name for discovered in discoveries]
 
 def acl_exists(
     device_name,
