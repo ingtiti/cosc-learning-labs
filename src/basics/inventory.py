@@ -42,7 +42,7 @@ def inventory_xml_http():
 def inventory_xml():
     'Return a XML tree representation of the inventory items.'
     response = inventory_xml_http()
-    return etree.parse(StringIO(response.text))
+    return etree.parse(BytesIO(response.content) if isinstance(response.content, (bytes, bytearray)) else StringIO(response.content))
 
 def inventory():
     '''Names of network devices known to the Controller.
@@ -185,6 +185,9 @@ InventorySummary = namedtuple('InventorySummary',
 ])
 
 def inventory_summary_from_xml(xml):
+#     xml_bytes = etree.tostring(xml, pretty_print=True, xml_declaration=True)
+#     xml_str = xml_bytes.decode("utf-8")
+#     print(xml_str)
     return [ 
         InventorySummary(
             name=item.findtext('i:id', namespaces=_inventory_namespaces),
@@ -216,10 +219,12 @@ def capability(device_name):
     else:
         return tree.xpath(".//fi:switch-features/fi:capabilities/text()", namespaces=_inventory_namespaces)
 
-CapabilityDiscovered = namedtuple('CapabilityDiscovered', [
+# One capability of one device.
+DeviceCapability = namedtuple('DeviceCapability', [
     'device_name',
     'capability'])
 
+# One capability
 Capability = namedtuple('Capability', [
     'name',
     'namespace',
@@ -287,7 +292,7 @@ class CapabilityDiscovery(object):
             if accept and self.capability_revision:
                 accept = parts[2] == self.capability_revision
             if accept:
-                self.discovered.append(CapabilityDiscovered(self.node_id, parts))
+                self.discovered.append(DeviceCapability(self.node_id, parts))
     
     def close(self):
         return self.discovered
