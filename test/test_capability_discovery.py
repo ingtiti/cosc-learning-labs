@@ -11,9 +11,14 @@
 
 from __future__ import print_function
 from unittest.case import TestCase
-from basics.inventory import capability_discovery
+from basics.inventory import capability_discovery, mounted, inventory_connected
 from unittest import main
 from helpers import inventory_connect, inventory_purge
+
+unmounted_device_name = 'dark'
+fictional_capability_name = 'teleport'
+fictional_capability_revision = '9999-99-99'
+fictional_capability_namespace = 'http://blackhole/ns/yang/'
 
 class Test(TestCase):
 
@@ -24,8 +29,7 @@ class Test(TestCase):
         inventory_purge()
         inventory_connect()
         
-
-    def test_capability_discovery(self):
+    def test_discover_all(self):
         discoveries = capability_discovery()
         self.assertTrue(discoveries, "Expected one or more capable devices.")
         device_names = set([discovered.device_name for discovered in discoveries])
@@ -63,6 +67,33 @@ class Test(TestCase):
             rediscover = capability_discovery(capability_name=capability.name,capability_ns=capability.namespace,capability_revision=capability.revision)
             self.assertTrue(rediscover, "Expected discovery of capability %s" % str(capability))
             self.assertEqual(capability, rediscover[0].capability)
+
+    def test_discover_none(self):
+        self.assertFalse(mounted(unmounted_device_name))
+        discoveries = capability_discovery(device_name=unmounted_device_name)
+        self.assertFalse(discoveries, "Expected no capabilities for unmounted device.")
+
+        discoveries = capability_discovery(capability_name=fictional_capability_name)
+        self.assertFalse(discoveries, "Expected to find zero fictional capabilities.")
+
+        discoveries = capability_discovery(capability_ns=fictional_capability_namespace)
+        self.assertFalse(discoveries, "Expected to find no capabilities for fictional name-space.")
+
+        discoveries = capability_discovery(capability_revision=fictional_capability_revision)
+        self.assertFalse(discoveries, "Expected to find no capabilities for fictional revision.")
+        
+        device_names = inventory_connected()
+        self.assertTrue(device_names, "Expected at least one connected device.")
+        device_name = device_names[0]
+
+        discoveries = capability_discovery(device_name=device_name, capability_name=fictional_capability_name)
+        self.assertFalse(discoveries, "Expected to find zero fictional capabilities.")
+
+        discoveries = capability_discovery(device_name=device_name, capability_ns=fictional_capability_namespace)
+        self.assertFalse(discoveries, "Expected to find no capabilities for fictional name-space.")
+
+        discoveries = capability_discovery(device_name=device_name, capability_revision=fictional_capability_revision)
+        self.assertFalse(discoveries, "Expected to find no capabilities for fictional revision.")
 
 if __name__ == '__main__':
     main()
