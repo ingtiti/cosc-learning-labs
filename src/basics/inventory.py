@@ -219,10 +219,12 @@ def capability(device_name):
     else:
         return tree.xpath(".//fi:switch-features/fi:capabilities/text()", namespaces=_inventory_namespaces)
 
-CapabilityDiscovered = namedtuple('CapabilityDiscovered', [
+# One capability of one device.
+DeviceCapability = namedtuple('DeviceCapability', [
     'device_name',
     'capability'])
 
+# One capability
 Capability = namedtuple('Capability', [
     'name',
     'namespace',
@@ -290,7 +292,7 @@ class CapabilityDiscovery(object):
             if accept and self.capability_revision:
                 accept = parts[2] == self.capability_revision
             if accept:
-                self.discovered.append(CapabilityDiscovered(self.node_id, parts))
+                self.discovered.append(DeviceCapability(self.node_id, parts))
     
     def close(self):
         return self.discovered
