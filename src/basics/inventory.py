@@ -42,7 +42,7 @@ def inventory_xml_http():
 def inventory_xml():
     'Return a XML tree representation of the inventory items.'
     response = inventory_xml_http()
-    return etree.parse(StringIO(response.text))
+    return etree.parse(BytesIO(response.content) if isinstance(response.content, (bytes, bytearray)) else StringIO(response.content))
 
 def inventory():
     '''Names of network devices known to the Controller.
@@ -185,6 +185,9 @@ InventorySummary = namedtuple('InventorySummary',
 ])
 
 def inventory_summary_from_xml(xml):
+#     xml_bytes = etree.tostring(xml, pretty_print=True, xml_declaration=True)
+#     xml_str = xml_bytes.decode("utf-8")
+#     print(xml_str)
     return [ 
         InventorySummary(
             name=item.findtext('i:id', namespaces=_inventory_namespaces),
