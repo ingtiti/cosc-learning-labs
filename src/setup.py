@@ -45,6 +45,6 @@ setup(
         "tabulate",
         "future",
     ],
-    tests_require=['pytest'],
+    tests_require=['pytest','testfixtures'],
     cmdclass = {'test': PyTest},
 )
