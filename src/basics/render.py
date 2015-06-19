@@ -142,7 +142,7 @@ def _print_plain_table(tabular_data, **kwargs):
             print(table_title)
             tuple_as_dict = OrderedDict(zip(tabular_data._fields, tabular_data))
             # Note: on Python 3, unreliable: tabular_data._asdict()
-            # possibly whenever a value is type int   
+            # fails for type DeviceControl   
             # it returns an empty dict (no exception raised).                       
             print(_plain_tabulate_dict(tuple_as_dict))
             return
