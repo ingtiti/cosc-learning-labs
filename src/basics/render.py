@@ -21,6 +21,7 @@
 '''
 
 from __future__ import print_function
+from collections import OrderedDict
 from tabulate import tabulate
 try:
     from IPython.display import display
@@ -139,7 +140,11 @@ def _print_plain_table(tabular_data, **kwargs):
             # title of table is name of type.             
             table_title = type(tabular_data).__name__
             print(table_title)
-            print(_plain_tabulate_dict(tabular_data._asdict()))
+            tuple_as_dict = OrderedDict(zip(tabular_data._fields, tabular_data))
+            # Note: on Python 3, unreliable: tabular_data._asdict()
+            # possibly whenever a value is type int   
+            # it returns an empty dict (no exception raised).                       
+            print(_plain_tabulate_dict(tuple_as_dict))
             return
         else:
             pass
