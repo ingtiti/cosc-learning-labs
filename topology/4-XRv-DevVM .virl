@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.9" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.9/virl.xsd">
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.8" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.8/virl.xsd">
     <extensions>
         <entry key="AutoNetkit.IGP" type="String">isis</entry>
         <entry key="AutoNetkit.enable_mpls_oam" type="Boolean">true</entry>
         <entry key="management_network" type="String">flat</entry>
     </extensions>
-    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="473,145" ipv4="192.168.0.1">
+    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="149,38" ipv4="192.168.0.1">
         <extensions>
             <entry key="static_ip" type="String">172.16.1.11</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
@@ -14,6 +14,7 @@
             <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="AutoNetkit.odl_mgmt_group" type="String">odl_devnetvm</entry>
+            <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
             <entry key="config" type="String">!  IOS-XR Config generated on 2015-03-13 16:21
 ! by autonetkit_0.15.0
 !
@@ -145,7 +146,6 @@ router isis 1
   distribute bgp-ls level 2
   address-family ipv4 unicast
     metric-style wide
-    redistribute static route-policy odl_devnetvm
     mpls traffic-eng level-2-only
     mpls traffic-eng router-id Loopback0
   !
@@ -215,17 +215,6 @@ route-policy bgp_out
   pass
 end-policy
 !
-route-policy odl_devnetvm
- if tag eq 100 then
-  pass
- endif
-end-policy
-!
-router static
- address-family ipv4 unicast
- 172.16.2.201/32 GigabitEthernet0/0/0/3 tag 100
-+ !
-+!
 router bgp 1
   bgp router-id 192.168.0.1
   bgp update-delay 0
@@ -269,21 +258,9 @@ router bgp 1
 !
 ! lsd route reflector clients
   !
-  neighbor 172.16.2.201
-    description lsd rr client ext-router-1
+  neighbor 172.16.1.10
+    description odl-server
     remote-as 1
-    update-source Loopback0
-    address-family ipv4 unicast
-      route-reflector-client
-    !
-    address-family link-state link-state
-      route-reflector-client
-    !
-  !
-  neighbor 172.16.2.201
-    description lsd rr client ext-router-1
-    remote-as 1
-    update-source Loopback0
     address-family ipv4 unicast
       route-reflector-client
     !
@@ -291,17 +268,16 @@ router bgp 1
       route-reflector-client
     !
 !
-        </entry>
+</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/0/0/0" ipv4="10.0.0.5" netPrefixLenV4="30"/>
         <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.0.1" netPrefixLenV4="30"/>
         <interface id="2" name="GigabitEthernet0/0/0/2" ipv4="10.0.128.1" netPrefixLenV4="30"/>
         <interface id="3" name="GigabitEthernet0/0/0/3"/>
     </node>
-    <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="733,154" ipv4="192.168.0.2">
+    <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="409,47" ipv4="192.168.0.2">
         <extensions>
             <entry key="static_ip" type="String">172.16.1.12</entry>
-            <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
@@ -506,12 +482,14 @@ router bgp 1
         </entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="AutoNetkit.odl_mgmt_group" type="String">odl_devnetvm</entry>
+            <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/0/0/0" ipv4="10.0.0.2" netPrefixLenV4="30"/>
         <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.0.9" netPrefixLenV4="30"/>
         <interface id="2" name="GigabitEthernet0/0/0/2" ipv4="10.0.128.5" netPrefixLenV4="30"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
     </node>
-    <node name="iosxrv-3" type="SIMPLE" subtype="IOS XRv" location="489,357" ipv4="192.168.0.3">
+    <node name="iosxrv-3" type="SIMPLE" subtype="IOS XRv" location="165,250" ipv4="192.168.0.3">
         <extensions>
             <entry key="static_ip" type="String">172.16.1.13</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
@@ -724,7 +702,7 @@ router bgp 1
         <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.0.13" netPrefixLenV4="30"/>
         <interface id="2" name="GigabitEthernet0/0/0/2" ipv4="10.0.128.6" netPrefixLenV4="30"/>
     </node>
-    <node name="iosxrv-4" type="SIMPLE" subtype="IOS XRv" location="738,355" ipv4="192.168.0.4">
+    <node name="iosxrv-4" type="SIMPLE" subtype="IOS XRv" location="414,248" ipv4="192.168.0.4">
         <extensions>
             <entry key="static_ip" type="String">172.16.1.14</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
@@ -937,24 +915,9 @@ router bgp 1
         <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.0.14" netPrefixLenV4="30"/>
         <interface id="2" name="GigabitEthernet0/0/0/2" ipv4="10.0.128.2" netPrefixLenV4="30"/>
     </node>
-    <node name="ext-router-1" type="ASSET" subtype="EXT-ROUTER" location="196,244">
+    <node name="ODL-Server" type="SIMPLE" subtype="server" location="60,152">
         <extensions>
-            <entry key="AutoNetkit.remote_asn" type="Integer">1</entry>
-            <entry key="AutoNetkit.odl_mgmt_group" type="String">odl_china</entry>
-            <entry key="AutoNetkit.odl_external_server_ip" type="String">172.16.2.201</entry>
-        </extensions>
-        <interface id="0" name="link0"/>
-    </node>
-    <node name="flat-1" type="ASSET" subtype="FLAT" location="293,133">
-        <extensions>
-            <entry key="static_ip" type="String">172.16.2.202</entry>
-            <entry key="host_network" type="String">flat1</entry>
-        </extensions>
-        <interface id="0" name="link0"/>
-        <interface id="1" name="link1"/>
-    </node>
-    <node name="ODL-Server" type="SIMPLE" subtype="server" location="384,259">
-        <extensions>
+            <entry key="static_ip" type="String">172.16.1.10</entry>
             <entry key="Auto-generate config" type="Boolean">false</entry>
             <entry key="config" type="String">#cloud-config
 bootcmd:
@@ -966,7 +929,7 @@ runcmd:
 - systemctl start getty@ttyS0.service
 - systemctl start rc-local
 - sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config
-- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config
+- echo &quot;UseDNS no&quot; &gt;&gt; /etc/ssh/sshd_config
 - service ssh restart
 - service sshd restart
 users:
@@ -1017,20 +980,10 @@ write_files:
         </extensions>
         <interface id="0" name="eth1" ipv4="10.1.0.2" netPrefixLenV4="30"/>
     </node>
-    <node name="flat-2" type="ASSET" subtype="FLAT" location="309,260">
-        <extensions>
-            <entry key="static_ip" type="String">172.16.2.201</entry>
-            <entry key="host_network" type="String">flat1</entry>
-        </extensions>
-        <interface id="0" name="link0"/>
-    </node>
     <connection dst="/virl:topology/virl:node[3]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
     <connection dst="/virl:topology/virl:node[2]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[2]"/>
     <connection dst="/virl:topology/virl:node[4]/virl:interface[1]" src="/virl:topology/virl:node[2]/virl:interface[2]"/>
-    <connection dst="/virl:topology/virl:node[4]/virl:interface[2]" src="/virl:topology/virl:node[3]/virl:interface[2]"/>
     <connection dst="/virl:topology/virl:node[2]/virl:interface[3]" src="/virl:topology/virl:node[3]/virl:interface[3]"/>
     <connection dst="/virl:topology/virl:node[4]/virl:interface[3]" src="/virl:topology/virl:node[1]/virl:interface[3]"/>
-    <connection dst="/virl:topology/virl:node[6]/virl:interface[1]" src="/virl:topology/virl:node[5]/virl:interface[1]"/>
-    <connection dst="/virl:topology/virl:node[1]/virl:interface[4]" src="/virl:topology/virl:node[6]/virl:interface[2]"/>
-    <connection dst="/virl:topology/virl:node[8]/virl:interface[1]" src="/virl:topology/virl:node[7]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[4]" src="/virl:topology/virl:node[1]/virl:interface[4]"/>
 </topology>
