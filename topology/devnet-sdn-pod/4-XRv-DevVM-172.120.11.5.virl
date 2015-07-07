@@ -7,7 +7,7 @@
         <entry key="AutoNetkit.enable_cdp" type="Boolean">true</entry>
         <entry key="AutoNetkit.enable_OnePK" type="Boolean">true</entry>
     </extensions>
-    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="161,46" vmImage="iosxrv-k9-i2ss-5.3.1" ipv4="192.168.0.1">
+    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="161,46" vmImage="IOS XRv-iosxrv-i2ss-5.3.2" ipv4="192.168.0.1">
         <extensions>
             <entry key="static_ip" type="String">172.120.11.51</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
@@ -216,7 +216,7 @@ router bgp 64496
         <interface id="2" name="GigabitEthernet0/0/0/2" ipv4="10.0.0.25" netPrefixLenV4="30"/>
         <interface id="3" name="GigabitEthernet0/0/0/3" ipv4="10.0.0.17" netPrefixLenV4="30"/>
     </node>
-    <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="409,47" vmImage="iosxrv-k9-i2ss-5.3.1" ipv4="192.168.0.2">
+    <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="409,47" vmImage="IOS XRv-iosxrv-i2ss-5.3.2" ipv4="192.168.0.2">
         <extensions>
             <entry key="static_ip" type="String">172.120.11.52</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
@@ -418,7 +418,7 @@ router bgp 64496
         <interface id="3" name="GigabitEthernet0/0/0/3" ipv4="10.0.0.18" netPrefixLenV4="30"/>
         <interface id="4" name="GigabitEthernet0/0/0/4" ipv4="10.0.0.5" netPrefixLenV4="30"/>
     </node>
-    <node name="iosxrv-3" type="SIMPLE" subtype="IOS XRv" location="165,250" vmImage="iosxrv-k9-i2ss-5.3.1" ipv4="192.168.0.3">
+    <node name="iosxrv-3" type="SIMPLE" subtype="IOS XRv" location="165,250" vmImage="IOS XRv-iosxrv-i2ss-5.3.2" ipv4="192.168.0.3">
         <extensions>
             <entry key="static_ip" type="String">172.120.11.53</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
@@ -582,7 +582,7 @@ router bgp 64496
         <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.0.9" netPrefixLenV4="30"/>
         <interface id="2" name="GigabitEthernet0/0/0/2" ipv4="10.0.0.30" netPrefixLenV4="30"/>
     </node>
-    <node name="iosxrv-4" type="SIMPLE" subtype="IOS XRv" location="413,249" vmImage="iosxrv-k9-i2ss-5.3.1" ipv4="192.168.0.4">
+    <node name="iosxrv-4" type="SIMPLE" subtype="IOS XRv" location="413,249" vmImage="IOS XRv-iosxrv-i2ss-5.3.2" ipv4="192.168.0.4">
         <extensions>
             <entry key="static_ip" type="String">172.120.11.54</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>

@@ -13,7 +13,7 @@
             <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
-            <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
+            <entry key="AutoNetkit.MPLS TE IOS XRv-iosxrv-i2ss-5.3.2" type="Boolean">true</entry>
             <entry key="AutoNetkit.odl_mgmt_group" type="String">odl_devnetvm</entry>
             <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
             <entry key="config" type="String">!  IOS-XR Config generated on 2015-06-30 08:23
@@ -221,7 +221,7 @@ router bgp 64496
             <entry key="static_ip" type="String">172.18.11.42</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
-            <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
+            <entry key="AutoNetkit.MPLS TE IOS XRv-iosxrv-i2ss-5.3.2" type="Boolean">true</entry>
             <entry key="config" type="String">!  IOS-XR Config generated on 2015-06-30 08:23
 ! by autonetkit_0.15.3
 !
@@ -424,7 +424,7 @@ router bgp 64496
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
-            <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
+            <entry key="AutoNetkit.MPLS TE IOS XRv-iosxrv-i2ss-5.3.2" type="Boolean">true</entry>
             <entry key="config" type="String">!  IOS-XR Config generated on 2015-06-30 08:23
 ! by autonetkit_0.15.3
 !
@@ -588,7 +588,7 @@ router bgp 64496
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
-            <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
+            <entry key="AutoNetkit.MPLS TE IOS XRv-iosxrv-i2ss-5.3.2" type="Boolean">true</entry>
             <entry key="config" type="String">!  IOS-XR Config generated on 2015-06-30 08:23
 ! by autonetkit_0.15.3
 !

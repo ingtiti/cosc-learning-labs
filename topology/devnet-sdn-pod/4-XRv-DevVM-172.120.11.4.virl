@@ -7,7 +7,7 @@
         <entry key="AutoNetkit.enable_cdp" type="Boolean">true</entry>
         <entry key="AutoNetkit.enable_OnePK" type="Boolean">true</entry>
     </extensions>
-    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="161,46" vmImage="iosxrv-k9-i2ss-5.3.1" ipv4="192.168.0.1">
+    <node name="iosxrv-1" type="SIMPLE" subtype="IOS XRv" location="161,46" vmImage="IOS XRv-i2ss-5.3.2" ipv4="192.168.0.1">
         <extensions>
             <entry key="static_ip" type="String">172.120.11.41</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RR</entry>
@@ -16,7 +16,7 @@
             <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
             <entry key="AutoNetkit.odl_mgmt_group" type="String">odl_devnetvm</entry>
             <entry key="AutoNetkit.ASN" type="Integer">64496</entry>
-            <entry key="config" type="String">!  IOS-XR Config generated on 2015-06-30 08:23
+            <entry key="config" type="String">!  IOS-XR Config generated on 2015-07-07 06:26
 ! by autonetkit_0.15.3
 !
 hostname iosxrv-1
@@ -216,13 +216,13 @@ router bgp 64496
         <interface id="2" name="GigabitEthernet0/0/0/2" ipv4="10.0.0.25" netPrefixLenV4="30"/>
         <interface id="3" name="GigabitEthernet0/0/0/3" ipv4="10.0.0.17" netPrefixLenV4="30"/>
     </node>
-    <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="409,47" vmImage="iosxrv-k9-i2ss-5.3.1" ipv4="192.168.0.2">
+    <node name="iosxrv-2" type="SIMPLE" subtype="IOS XRv" location="409,47" vmImage="IOS XRv-i2ss-5.3.2" ipv4="192.168.0.2">
         <extensions>
             <entry key="static_ip" type="String">172.120.11.42</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
-            <entry key="config" type="String">!  IOS-XR Config generated on 2015-06-30 08:23
+            <entry key="config" type="String">!  IOS-XR Config generated on 2015-07-07 06:26
 ! by autonetkit_0.15.3
 !
 hostname iosxrv-2
@@ -418,14 +418,14 @@ router bgp 64496
         <interface id="3" name="GigabitEthernet0/0/0/3" ipv4="10.0.0.18" netPrefixLenV4="30"/>
         <interface id="4" name="GigabitEthernet0/0/0/4" ipv4="10.0.0.5" netPrefixLenV4="30"/>
     </node>
-    <node name="iosxrv-3" type="SIMPLE" subtype="IOS XRv" location="165,250" vmImage="iosxrv-k9-i2ss-5.3.1" ipv4="192.168.0.3">
+    <node name="iosxrv-3" type="SIMPLE" subtype="IOS XRv" location="165,250" vmImage="IOS XRv-i2ss-5.3.2" ipv4="192.168.0.3">
         <extensions>
             <entry key="static_ip" type="String">172.120.11.43</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
-            <entry key="config" type="String">!  IOS-XR Config generated on 2015-06-30 08:23
+            <entry key="config" type="String">!  IOS-XR Config generated on 2015-07-07 06:26
 ! by autonetkit_0.15.3
 !
 hostname iosxrv-3
@@ -582,14 +582,14 @@ router bgp 64496
         <interface id="1" name="GigabitEthernet0/0/0/1" ipv4="10.0.0.9" netPrefixLenV4="30"/>
         <interface id="2" name="GigabitEthernet0/0/0/2" ipv4="10.0.0.30" netPrefixLenV4="30"/>
     </node>
-    <node name="iosxrv-4" type="SIMPLE" subtype="IOS XRv" location="413,249" vmImage="iosxrv-k9-i2ss-5.3.1" ipv4="192.168.0.4">
+    <node name="iosxrv-4" type="SIMPLE" subtype="IOS XRv" location="413,249" vmImage="IOS XRv-i2ss-5.3.2" ipv4="192.168.0.4">
         <extensions>
             <entry key="static_ip" type="String">172.120.11.44</entry>
             <entry key="AutoNetkit.ibgp_role" type="String">RRC</entry>
             <entry key="AutoNetkit.RR_cluster" type="String">odl</entry>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="AutoNetkit.MPLS TE enabled" type="Boolean">true</entry>
-            <entry key="config" type="String">!  IOS-XR Config generated on 2015-06-30 08:23
+            <entry key="config" type="String">!  IOS-XR Config generated on 2015-07-07 06:26
 ! by autonetkit_0.15.3
 !
 hostname iosxrv-4
@@ -745,7 +745,7 @@ router bgp 64496
             <entry key="config" type="String">#cloud-config
 bootcmd:
 - ln -s -t /etc/rc.d /etc/rc.local
-hostname: ODL-Server
+hostname: Dev-VM
 manage_etc_hosts: true
 runcmd:
 - start ttyS0
