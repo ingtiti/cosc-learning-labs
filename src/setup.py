@@ -44,6 +44,7 @@ setup(
         "logilab-common",
         "tabulate",
         "future",
+        "pexpect",
     ],
     tests_require=['pytest','testfixtures'],
     cmdclass = {'test': PyTest},
