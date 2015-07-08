@@ -21,7 +21,7 @@ from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
 from inspect import cleandoc
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.render import print_table
 from basics.interface import interface_names
 from basics.interface_properties import interface_properties

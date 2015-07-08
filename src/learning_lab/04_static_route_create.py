@@ -29,7 +29,7 @@ from __future__ import print_function
 from future.builtins import next
 from pydoc import plain
 from pydoc import render_doc as doc
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 from inspect import cleandoc
 from basics.inventory import inventory_mounted, device_control
 from basics.interface import interface_names, interface_configuration_tuple

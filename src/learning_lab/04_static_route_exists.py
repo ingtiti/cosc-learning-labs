@@ -24,7 +24,7 @@ Cease when a static route is not found.
 
 from __future__ import print_function
 from future.builtins import next
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 from pydoc import plain
 from pydoc import render_doc as doc
 from basics.routes import   static_route_exists, inventory_static_route

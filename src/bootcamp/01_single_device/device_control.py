@@ -26,7 +26,7 @@ from pydoc import render_doc as doc
 import os
 from basics.inventory import inventory_mounted, device_control, DeviceControl
 from basics.render import print_table
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 
 def demonstrate(device_name):
     ''' Apply function 'device_control' to the specified device.'''

@@ -21,7 +21,7 @@ The following demonstrations are performed:
 from __future__ import print_function as _print_function
 from basics.inventory import  inventory_mounted
 from basics.inventory import capability_discovery
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.render import print_table
 from pydoc import render_doc as doc, plain
 from inspect import cleandoc

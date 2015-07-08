@@ -24,7 +24,7 @@ from pydoc import plain
 from pydoc import render_doc as doc
 from basics.interface import management_interface
 from basics.inventory import inventory_mounted
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 
 def demonstrate(device_name):
     ''' Apply function 'management_interface' to the specified device.'''

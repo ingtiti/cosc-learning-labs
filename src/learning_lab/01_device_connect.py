@@ -27,7 +27,7 @@ from __future__ import print_function as _print_function
 from basics.inventory import device_mount, inventory_unmounted, connected
 from settings import config
 import time
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 
 time_out = 10.0
 '''Number of seconds to time out.'''

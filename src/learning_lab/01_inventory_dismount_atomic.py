@@ -24,7 +24,7 @@
 '''
 
 from __future__ import print_function as _print_function
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.inventory import device_dismount, inventory_mounted, inventory_connected
 from time import sleep
 
