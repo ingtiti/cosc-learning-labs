@@ -56,7 +56,7 @@ from __future__ import absolute_import
 import pexpect
 import sys
 
-def main ():
+def test_netconf_agent ():
     
     username = 'cisco'
     password = 'cisco'
@@ -81,4 +81,4 @@ def main ():
 
 if __name__ == '__main__':
 
-    main ()
+    test_netconf_agent ()

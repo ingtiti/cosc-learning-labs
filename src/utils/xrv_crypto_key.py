@@ -60,7 +60,7 @@ from __future__ import absolute_import
 import pexpect
 import sys
 
-def main ():
+def add_crypto_key ():
     
     username = 'cisco'
     password = 'cisco'
@@ -89,4 +89,4 @@ def main ():
         
 if __name__ == '__main__':
 
-    main ()
+    add_crypto_key ()
