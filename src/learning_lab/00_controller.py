@@ -19,7 +19,7 @@ from __future__ import print_function as _print_function
 import settings 
 from basics.odl_http import coordinates as odl_coordinates, odl_http_head
 from sys import stderr
-from basics.interpreter import sys_exit, EX_OK, EX_CONFIG
+from basics.context import sys_exit, EX_OK, EX_CONFIG
 from basics.render import print_table
 
 if __name__ == "__main__":

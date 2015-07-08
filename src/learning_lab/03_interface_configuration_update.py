@@ -26,7 +26,7 @@ from basics.interface import interface_configuration_update
 from basics.inventory import inventory_connected
 from pydoc import render_doc as doc
 from pydoc import plain
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 
 # The network interface will temporarily be configured with these settings.
 temp_address = '101.101.101.101'

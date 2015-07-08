@@ -22,7 +22,7 @@ from __future__ import print_function as _print_function
 from basics.topology import topology
 from pydoc import plain
 from pydoc import render_doc as doc
-from basics.interpreter import sys_exit, EX_OK, EX_SOFTWARE
+from basics.context import sys_exit, EX_OK, EX_SOFTWARE
 
 def main():
     '''

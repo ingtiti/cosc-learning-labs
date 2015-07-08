@@ -33,10 +33,10 @@ from __future__ import print_function
 from collections import OrderedDict
 from pydoc import plain
 from pydoc import render_doc as doc
-from basics.interpreter import EX_OK, EX_TEMPFAIL
+from basics.context import EX_OK, EX_TEMPFAIL
 from ipaddress import ip_network
 from basics.render import print_table
-from basics.interpreter import sys_exit
+from basics.context import sys_exit
 from basics.routes import static_route_json, inventory_static_route
 import json
 

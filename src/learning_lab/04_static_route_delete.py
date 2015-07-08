@@ -29,7 +29,7 @@ Apply the function to the selected network device:
 from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.render import print_table
 from basics.routes import static_route_delete, inventory_static_route, \
     static_route_list
