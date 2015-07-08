@@ -23,7 +23,7 @@ from __future__ import print_function as _print_function
 from importlib import import_module
 from pydoc import plain
 from pydoc import render_doc as doc
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 from basics.acl import acl_create_port_grant, inventory_acl
 acl_fixture = import_module('learning_lab.05_acl_fixture')
 

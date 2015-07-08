@@ -28,10 +28,10 @@ If no routes are found then retry with a different network device.
 """
 
 from __future__ import print_function
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 from pydoc import plain
 from pydoc import render_doc as doc
-from basics.interpreter import sys_exit
+from basics.context import sys_exit
 from basics.routes import static_route_list, inventory_static_route
 from basics.render import print_table
 

@@ -21,7 +21,7 @@ from __future__ import print_function as _print_function
 from basics.interface import interface_configuration_tuple
 from basics.acl_apply import acl_unapply_packet_filter
 from basics.acl import inventory_acl
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 from pydoc import plain
 from pydoc import render_doc as doc
 

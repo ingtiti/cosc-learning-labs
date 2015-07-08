@@ -17,7 +17,7 @@
 from __future__ import print_function
 from pydoc import plain
 from pydoc import render_doc as doc
-from basics.interpreter import sys_exit, EX_OK, EX_TEMPFAIL
+from basics.context import sys_exit, EX_OK, EX_TEMPFAIL
 import json
 
 from basics.routes import routes

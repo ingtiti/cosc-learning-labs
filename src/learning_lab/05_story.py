@@ -39,7 +39,7 @@
         05_story
 '''
 
-from basics.interpreter import EX_OK
+from basics.context import EX_OK
 from runpy import run_module
 
 def run_script(script):
