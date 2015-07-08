@@ -25,19 +25,25 @@
     Sample Usage:
         import settings
         print(settings.config['_odl_server']['address'])
+        
+    Update 08-July-2015, the configuration file does not need to be on the 
+    Python path. It can be located anywhere and therefore can be external to an
+    egg file, which allows cosc-learning-labs to be deployed as an egg.
 '''
 
 from __future__ import print_function as _print_function
 from importlib import import_module
 from os import getenv
+from os.path import dirname
 from basics import odl_http
 from basics.odl_http import ControllerCoordinates
 from basics.odl_http import default_coordinates as _odl_default_coordinates
+from basics.context import load_module
 
 _network_profile = getenv('NETWORK_PROFILE', 'learning_lab')
 
 try:
-    network_settings_module = import_module('settings.' + _network_profile)
+    network_settings_module = load_module('network_profile', _network_profile, dirname(__file__))
     config = network_settings_module.config 
     
     # Inject configuration into module odl_http.
