@@ -31,7 +31,14 @@ PEXPECT LICENSE
     ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-    This script will use telnet to login to a Cisco XRv device and set the cryptographic keys to support SSH connectivity.
+    This script will use telnet to login to a Cisco XRv device and set the cryptographic keys 
+    to support SSH connectivity. This version of the script uses the arguments encoded in the
+    script itself.
+    
+    To test for whether the crypto key is set, and whether the netconf agent is running, we can
+    use this command:
+    
+    ssh -p 830 cisco@172.16.1.11 -s netconf
 '''
 
 from __future__ import print_function
@@ -43,22 +50,30 @@ import sys
 
 def main ():
     
-    telnet_command = "telnet %s" % '172.16.1.11'
-    child = pexpect.spawn (telnet_command) 
-    child.logfile = sys.stdout
-    child.expect ('Username:')
-    child.sendline ('cisco')
-    child.expect ('Password:')
-    child.sendline ('cisco')
-    child.expect ('#')
-    child.sendline ('crypto key generate dsa')
-    index = child.expect (['[yes/no]','1024]'])
-    if index == 0:
-        child.sendline ('yes')
-        child.expect ('1024]')
-        child.sendline ('')
-    elif index == 1:
-        child.sendline ('')
+    username = 'cisco'
+    password = 'cisco'
+    
+    network_devices = ['172.16.1.11']
+    
+    for network_device in network_devices:
+        telnet_command = "telnet %s" % network_device
+        child = pexpect.spawn (telnet_command) 
+        child.logfile = sys.stdout
+        child.expect ('Username:')
+        child.sendline (username)
+        child.expect ('Password:')
+        child.sendline (password)
+        child.expect ('#')
+        child.sendline ('crypto key generate dsa')
+        index = child.expect (['[yes/no]','1024]'])
+        if index == 0:
+            child.sendline ('yes')
+            child.expect ('1024]')
+            child.sendline ('')
+            child.sendline ('')
+        elif index == 1:
+            child.sendline ('')
+            child.sendline ('')
         
 if __name__ == '__main__':
 
