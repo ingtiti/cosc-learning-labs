@@ -31,6 +31,10 @@ PEXPECT LICENSE
     ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+    This script will use telnet to login to a Cisco XRv device and set the cryptographic keys 
+    to support SSH connectivity. This version of the script uses the arguments encoded in the
+    script itself.
+    
     To test for whether the crypto key is set, and whether the netconf agent is running, we can
     use this command:
     
@@ -56,29 +60,33 @@ from __future__ import absolute_import
 import pexpect
 import sys
 
-def test_netconf_agent ():
+def add_crypto_key (devices=[], username = 'cisco', password = 'cisco'):
     
-    username = 'cisco'
-    password = 'cisco'
-    
-    network_devices = ['172.16.1.11']
+    if len(devices) != 0:
+        network_devices = devices
+    else:
+        network_devices = ['172.16.1.11']    
     
     for network_device in network_devices:
-        ssh_command = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 830 {user}@{host} -s netconf".format(user=username, host=network_device)
-        child = pexpect.spawn (ssh_command) 
+        telnet_command = "telnet %s" % network_device
+        child = pexpect.spawn (telnet_command) 
         child.logfile = sys.stdout
-        index = child.expect (['no hostkey alg', 'password:'])
+        child.expect ('Username:')
+        child.sendline (username)
+        child.expect ('Password:')
+        child.sendline (password)
+        child.expect ('#')
+        child.sendline ('crypto key generate dsa')
+        index = child.expect (['[yes/no]','1024]'])
         if index == 0:
-            print("No SSH connection was possible, the crypto key has probably not been set.")
-            exit
-        if index == 1:
-            child.sendline (password)
-        index = child.expect ('<hello*')
-        if index == 0:
-            print('Netconf agent enabled')
-        else:
-            print('Netconf agent *NOT* enabled')        
-
+            child.sendline ('yes')
+            child.expect ('1024]')
+            child.sendline ('')
+            child.sendline ('')
+        elif index == 1:
+            child.sendline ('')
+            child.sendline ('')
+        
 if __name__ == '__main__':
 
-    test_netconf_agent ()
+    add_crypto_key ()
