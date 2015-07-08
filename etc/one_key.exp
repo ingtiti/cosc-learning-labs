@@ -1,0 +1,61 @@
+#!/usr/bin/expect -f
+#
+#   Niklas Montin, 20140522 for odl automation
+#
+set force_conservative 0
+# set to 1 to force conservative mode even if
+# script wasn't run conservatively originally
+
+#
+proc login {user pass} {
+    expect {
+        "Username:" {
+            send "$user\r"
+            expect "*assword:"
+            send "$pass\r"
+            expect "*#"
+            send -- "crypto key generate dsa\r"
+            expect {
+                "*1024]" {
+                    send -- "\r"
+                    send -- "\r"
+                    expect "*#"
+                    send_user "New key set\r"
+                    send_user " \n\r"
+                }
+                "*yes/no]:" {
+                    send -- "no\r"
+                    send_user "Crypto key was set\r"
+                    send_user " \n\r"
+                }
+            }
+
+        }
+        "*No route*" {
+            log_user 1
+            send_user " Router is Down\r"
+            send_user " \n\r"
+            exit
+        }
+    }
+}
+
+
+set username cisco
+set password cisco
+set routers { 198.18.1.50 198.18.1.51 198.18.1.52 198.18.1.53 198.18.1.54 198.18.1.55 198.18.1.56 198.18.1.57 }
+
+set timeout 6000
+set fail 0
+log_user 0
+
+set name [lindex $argv 0]
+
+log_user 0
+spawn telnet $name
+login $username $password
+log_user 1
+
+
+
+send_user " \n\r"

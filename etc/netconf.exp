@@ -1,0 +1,29 @@
+#!/usr/bin/expect
+
+#
+#   Giles Heron, 20150623 for ODL automation
+#
+set force_conservative 0
+# set to 1 to force conservative mode even if
+# script wasn't run conservatively originally
+
+spawn ssh xrvr@172.23.29.119  
+expect "password:"
+send "welcome\r"
+expect "#"
+send "show run netconf-yang agent ssh\r"
+expect {
+  "item(s)" { 
+    send "conf t\r"
+    expect "#"
+    send "netconf-yang agent ssh\r"
+    expect "#"
+    send "end\r"
+    expect "cancel\]:"
+    send "yes\r"
+  }
+  "!" {
+  }
+}
+expect "#"
+send "exit\r"
