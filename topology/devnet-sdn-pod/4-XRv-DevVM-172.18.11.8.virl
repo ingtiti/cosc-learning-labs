@@ -739,7 +739,7 @@ router bgp 64496
         <interface id="1" name="GigabitEthernet0/0/0/1"/>
         <interface id="2" name="GigabitEthernet0/0/0/2" ipv4="10.0.0.26" netPrefixLenV4="30"/>
     </node>
-    <node name="Dev-VM" type="SIMPLE" subtype="server" location="60,152" vmImage="odldevvm" vmFlavor="2cpu4gb">
+    <node name="Dev-VM" type="SIMPLE" subtype="server" location="60,152" vmImage="server-odldevvm" vmFlavor="2cpu4gb">
         <extensions>
             <entry key="static_ip" type="String">172.18.11.8</entry>
             <entry key="config" type="String">#cloud-config
