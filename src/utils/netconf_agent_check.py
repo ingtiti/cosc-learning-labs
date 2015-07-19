@@ -61,7 +61,7 @@ def check_for_netconf_agents (devices=[], username = 'cisco', password = 'cisco'
     if len(devices) != 0:
         network_devices = devices
     else:
-        network_devices = ['172.16.1.11']
+        network_devices = ['198.18.1.50', '198.18.1.51', '198.18.1.52', '198.18.1.53', '198.18.1.54', '198.18.1.55', '198.18.1.56', '198.18.1.57']
     
     for network_device in network_devices:
         check_for_netconf_agent(network_device, username, password)
