@@ -88,7 +88,7 @@ def add_crypto_key (devices=[], username = 'cisco', password = 'cisco'):
                 child.sendline ('')
                 child.sendline ('')
         except:
-            print ("Could not connect to %s") % network_device
+            print ("Could not connect to %s" % network_device)
             continue
 if __name__ == '__main__':
 
