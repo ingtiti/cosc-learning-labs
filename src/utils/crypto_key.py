@@ -68,25 +68,28 @@ def add_crypto_key (devices=[], username = 'cisco', password = 'cisco'):
         network_devices = ['172.16.1.11']    
     
     for network_device in network_devices:
-        telnet_command = "telnet %s" % network_device
-        child = pexpect.spawn (telnet_command) 
-        child.logfile = sys.stdout
-        child.expect ('Username:')
-        child.sendline (username)
-        child.expect ('Password:')
-        child.sendline (password)
-        child.expect ('#')
-        child.sendline ('crypto key generate dsa')
-        index = child.expect (['[yes/no]','1024]'])
-        if index == 0:
-            child.sendline ('yes')
-            child.expect ('1024]')
-            child.sendline ('')
-            child.sendline ('')
-        elif index == 1:
-            child.sendline ('')
-            child.sendline ('')
-        
+        try:
+            telnet_command = "telnet %s" % network_device
+            child = pexpect.spawn (telnet_command) 
+            child.logfile = sys.stdout
+            child.expect ('Username:')
+            child.sendline (username)
+            child.expect ('Password:')
+            child.sendline (password)
+            child.expect ('#')
+            child.sendline ('crypto key generate dsa')
+            index = child.expect (['[yes/no]','1024]'])
+            if index == 0:
+                child.sendline ('yes')
+                child.expect ('1024]')
+                child.sendline ('')
+                child.sendline ('')
+            elif index == 1:
+                child.sendline ('')
+                child.sendline ('')
+        except:
+            print ("Could not connect to %s") % network_device
+            continue
 if __name__ == '__main__':
 
     add_crypto_key ()

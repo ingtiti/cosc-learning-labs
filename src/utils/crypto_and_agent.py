@@ -50,7 +50,7 @@ def configure_crypto_and_agent (devices=[], username = 'cisco', password = 'cisc
     if len(devices) != 0:
         network_devices = devices
     else:
-        network_devices = ['172.16.1.11', '172.16.1.12', '172.16.1.13']    
+        network_devices = ['198.18.1.50', '198.18.1.51', '198.18.1.52', '198.18.1.53', '198.18.1.54', '198.18.1.55', '198.18.1.56', '198.18.1.57']    
     
     add_crypto_key(network_devices)
     configure_netconf_agent(network_devices)
