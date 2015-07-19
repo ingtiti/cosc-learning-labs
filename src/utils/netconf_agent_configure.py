@@ -49,22 +49,26 @@ def configure_netconf_agent (devices=[], username = 'cisco', password = 'cisco')
         network_devices = ['172.16.1.11']    
     
     for network_device in network_devices:
-        telnet_command = "telnet %s" % network_device
-        child = pexpect.spawn (telnet_command) 
-        child.logfile = sys.stdout
-        child.expect ('Username:')
-        child.sendline (username)
-        child.expect ('Password:')
-        child.sendline (password)
-        child.expect ('#')
-        child.sendline ('conf t')
-        child.expect ('#')
-        child.sendline ('netconf-yang agent ssh')
-        child.expect ('#')
-        child.sendline ('end')
-        child.expect ('cancel]:')
-        child.sendline ('yes')
-        child.sendline ('')
+        try:
+            telnet_command = "telnet %s" % network_device
+            child = pexpect.spawn (telnet_command) 
+            child.logfile = sys.stdout
+            child.expect ('Username:')
+            child.sendline (username)
+            child.expect ('Password:')
+            child.sendline (password)
+            child.expect ('#')
+            child.sendline ('conf t')
+            child.expect ('#')
+            child.sendline ('netconf-yang agent ssh')
+            child.expect ('#')
+            child.sendline ('end')
+            child.expect ('cancel]:')
+            child.sendline ('yes')
+            child.sendline ('')
+        except:
+            print ("Could not connect to %s" % network_device)
+            continue
         
 if __name__ == '__main__':
 
