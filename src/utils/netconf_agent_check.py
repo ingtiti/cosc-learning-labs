@@ -64,8 +64,11 @@ def check_for_netconf_agents (devices=[], username = 'cisco', password = 'cisco'
         network_devices = ['198.18.1.50', '198.18.1.51', '198.18.1.52', '198.18.1.53', '198.18.1.54', '198.18.1.55', '198.18.1.56', '198.18.1.57']
     
     for network_device in network_devices:
-        check_for_netconf_agent(network_device, username, password)
-
+        try:
+            check_for_netconf_agent(network_device, username, password)
+        except:
+            print ("Problem in checking %s" % network_device)
+            
 def check_for_netconf_agent (device, username = 'cisco', password = 'cisco'):
     
     ssh_command = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 830 {user}@{host} -s netconf".format(user=username, host=device)
