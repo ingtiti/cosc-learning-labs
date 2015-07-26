@@ -5,6 +5,8 @@
 # README file and 2) it's easier to type in the README file than to put a raw
 # string in below ...
 import os
+import platform
+
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
@@ -29,23 +31,45 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 from setuptools import setup
-setup(
-    name='cosc-learning-labs',
-    description='Cisco Open SDN Controller (COSC) Learning Lab',
-    version='1.0',
-    packages=['basics', 'learning_lab', 'settings', ],
-    url='http://github.com/CiscoDevNet/cosc-learning-labs',
-    license='Apache License, Version 2.0',
-    long_description=read('../README.md'),
-    install_requires=[
-        "requests",
-        "ipaddress",
-        "lxml",
-        "logilab-common",
-        "tabulate",
-        "future",
-        "pexpect",
-    ],
-    tests_require=['pytest','testfixtures'],
-    cmdclass = {'test': PyTest},
-)
+
+if platform.system() == 'Windows':
+    setup(
+        name='cosc-learning-labs',
+        description='Cisco Open SDN Controller (COSC) Learning Lab',
+        version='1.0',
+        packages=['basics', 'learning_lab', 'settings', ],
+        url='http://github.com/CiscoDevNet/cosc-learning-labs',
+        license='Apache License, Version 2.0',
+        long_description=read('../README.md'),
+        install_requires=[
+            "requests",
+            "ipaddress",
+            "lxml",
+            "logilab-common",
+            "tabulate",
+            "future",
+        ],
+        tests_require=['pytest','testfixtures'],
+        cmdclass = {'test': PyTest},
+    )
+else:
+        setup(
+        name='cosc-learning-labs',
+        description='Cisco Open SDN Controller (COSC) Learning Lab',
+        version='1.0',
+        packages=['basics', 'learning_lab', 'settings', ],
+        url='http://github.com/CiscoDevNet/cosc-learning-labs',
+        license='Apache License, Version 2.0',
+        long_description=read('../README.md'),
+        install_requires=[
+            "requests",
+            "ipaddress",
+            "lxml",
+            "logilab-common",
+            "tabulate",
+            "future",
+            "pexpect",
+        ],
+        tests_require=['pytest','testfixtures'],
+        cmdclass = {'test': PyTest},
+    )
