@@ -1,6 +1,6 @@
 {
 	"id": "a638e9af-70ec-4db2-2d8d-35f6803c90a0",
-	"name": "ODL/OSC PCEP",
+	"name": "ODL PCEP",
 	"description": "",
 	"order": [
 		"bf6fca19-e168-8249-2f61-0586109d12fb",
@@ -13,13 +13,9 @@
 	],
 	"folders": [],
 	"timestamp": 1430516363129,
-	"synced": false,
 	"owner": "39325",
-	"sharedWithTeam": false,
-	"subscribed": false,
-	"remoteLink": "",
+	"remoteLink": "https://www.getpostman.com/collections/5bea9b89db3dde4795f9",
 	"public": false,
-	"write": true,
 	"requests": [
 		{
 			"id": "080784cc-d9dd-2f7e-1814-dda97b3ddf31",
@@ -34,12 +30,11 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1434566207443,
+			"time": 1441126571748,
 			"name": "Add LSP",
 			"description": "",
 			"collectionId": "a638e9af-70ec-4db2-2d8d-35f6803c90a0",
 			"responses": [],
-			"synced": false,
 			"rawModeData": "{\n    \"input\": {\n        \"node\": \"pcc://192.168.100.1\",\n        \"name\": \"foo\",\n        \"network-topology-ref\": \"/network-topology:network-topology/network-topology:topology[network-topology:topology-id=\\\"pcep-topology\\\"]\",\n        \"arguments\": {\n            \"odl-pcep-ietf-stateful07:lsp\" : {\n                \"delegate\" : \"true\",\n                \"administrative\" : \"true\"\n            },\n            \"endpoints-obj\": {\n                \"ipv4\": {\n                    \"source-ipv4-address\": \"192.168.100.1\",\n                    \"destination-ipv4-address\": \"192.168.100.2\"\n                }\n            },\n            \"ero\" : {\n                \"subobject\" : [\n                    {\n                        \"loose\" : \"false\",\n                        \"ip-prefix\" : {\n                            \"ip-prefix\" : \"192.168.101.2/32\"\n                        }\n                    },\n                    {\n                        \"loose\" : \"false\",\n                        \"ip-prefix\" : {\n                            \"ip-prefix\" : \"192.168.100.2/32\"\n                        }\n                    }\n                ]\n            }\n        }\n    }\n}"
 		},
 		{
@@ -60,7 +55,6 @@
 			"description": "",
 			"collectionId": "a638e9af-70ec-4db2-2d8d-35f6803c90a0",
 			"responses": [],
-			"synced": false,
 			"rawModeData": "<input xmlns=\"urn:opendaylight:params:xml:ns:yang:topology:pcep\">\n    <node>pcc://192.168.100.1</node>\n    <name>foo</name>\n    <arguments>\n        <lsp xmlns=\"urn:opendaylight:params:xml:ns:yang:pcep:ietf:stateful\">\n            <delegate>true</delegate>\n            <administrative>true</administrative>\n        </lsp>\n        <endpoints-obj>\n            <ipv4>\n                <source-ipv4-address>192.168.100.1</source-ipv4-address>\n                <destination-ipv4-address>192.168.100.4</destination-ipv4-address>\n            </ipv4>\n        </endpoints-obj>\n        <ero>\n            <subobject>\n                <loose>false</loose>\n                <ip-prefix><ip-prefix>192.168.101.2/32</ip-prefix></ip-prefix>\n            </subobject>\n            <subobject>\n                <loose>false</loose>\n                <ip-prefix><ip-prefix>192.168.105.2/32</ip-prefix></ip-prefix>\n            </subobject>\n            <subobject>\n                <loose>false</loose>\n                <ip-prefix><ip-prefix>192.168.100.4/32</ip-prefix></ip-prefix>\n            </subobject>\n        </ero>\n    </arguments>\n    <network-topology-ref xmlns:topo=\"urn:TBD:params:xml:ns:yang:network-topology\">/topo:network-topology/topo:topology[topo:topology-id=\"pcep-topology\"]</network-topology-ref>\n</input>"
 		},
 		{
@@ -76,13 +70,12 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1434566238202,
+			"time": 1441126611395,
 			"name": "Add Cisco LSP",
 			"description": "",
 			"collectionId": "a638e9af-70ec-4db2-2d8d-35f6803c90a0",
 			"responses": [],
-			"synced": false,
-			"rawModeData": "{ \"input\" : \n    {\n        \"node\" : \"pcc://192.168.100.1\",\n        \"name\" : \"cisco\",\n        \"arguments\" : {\n                \"lsp\" : {\n                    \"delegate\" : \"true\",\n                    \"administrative\" : \"true\",\n                    \"tlvs\" : {\n                        \"vs-tlv\" : {\n                            \"enterprise-number\" : 9,\n                            \"pcep-cisco-specific:fcid\" : 1\n                        }\n                    }\n                },\n                \"endpoints-obj\" : {\n                    \"ipv4\" : {\n                        \"source-ipv4-address\" : \"192.168.100.1\",\n                        \"destination-ipv4-address\" : \"192.168.100.4\"\n                    }\n                },\n                \"ero\" : {\n                    \"subobject\" : [\n                    {\n                        \"loose\" : \"false\",\n                        \"ip-prefix\" : { \"ip-prefix\" : \"192.168.101.2/32\" }\n                    },\n\t                {\n                        \"loose\" : \"false\",\n\t\t                \"ip-prefix\" : { \"ip-prefix\" : \"192.168.105.2/32\" }\n\t                },\n\t                {\n\t                    \"loose\" : \"false\",\n\t                    \"ip-prefix\" : { \"ip-prefix\" : \"192.168.100.4/32\" }\n\t                }\n                ]\n            }\n        },\n        \"network-topology-ref\" : \"/network-topology:network-topology/network-topology:topology[network-topology:topology-id=\\\"pcep-topology\\\"]\"\n    }\n}"
+			"rawModeData": "{ \"input\" : \n    {\n        \"node\" : \"pcc://192.168.100.1\",\n        \"name\" : \"cisco\",\n        \"arguments\" : {\n                \"lsp\" : {\n                    \"delegate\" : \"true\",\n                    \"administrative\" : \"true\",\n                    \"tlvs\" : {\n                        \"vendor-information-tlv\" : {\n                            \"enterprise-number\" : 9,\n                            \"pcep-cisco-specific-tlv:fcid\" : 1\n                        }\n                    }\n                },\n                \"endpoints-obj\" : {\n                    \"ipv4\" : {\n                        \"source-ipv4-address\" : \"192.168.100.1\",\n                        \"destination-ipv4-address\" : \"192.168.100.4\"\n                    }\n                },\n                \"ero\" : {\n                    \"subobject\" : [\n                    {\n                        \"loose\" : \"false\",\n                        \"ip-prefix\" : { \"ip-prefix\" : \"192.168.101.2/32\" }\n                    },\n\t                {\n                        \"loose\" : \"false\",\n\t\t                \"ip-prefix\" : { \"ip-prefix\" : \"192.168.105.2/32\" }\n\t                },\n\t                {\n\t                    \"loose\" : \"false\",\n\t                    \"ip-prefix\" : { \"ip-prefix\" : \"192.168.100.4/32\" }\n\t                }\n                ]\n            }\n        },\n        \"network-topology-ref\" : \"/network-topology:network-topology/network-topology:topology[network-topology:topology-id=\\\"pcep-topology\\\"]\"\n    }\n}"
 		},
 		{
 			"id": "b716f17b-9738-8c7f-422c-9d8fdfa6a8ac",
@@ -97,12 +90,11 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1434566227610,
-			"name": "Delete LSP",
+			"time": 1441126576449,
+			"name": "Remove LSP",
 			"description": "",
 			"collectionId": "a638e9af-70ec-4db2-2d8d-35f6803c90a0",
 			"responses": [],
-			"synced": false,
 			"rawModeData": "{\n    \"input\" : { \n        \"node\" : \"pcc://192.168.100.1\",\n        \"name\" : \"foo\",\n        \"network-topology-ref\": \"/network-topology:network-topology/network-topology:topology[network-topology:topology-id=\\\"pcep-topology\\\"]\"\n    }\n}    \n"
 		},
 		{
@@ -118,18 +110,17 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1434566219144,
+			"time": 1441126601448,
 			"name": "Update LSP",
 			"description": "",
 			"collectionId": "a638e9af-70ec-4db2-2d8d-35f6803c90a0",
 			"responses": [],
-			"synced": false,
-			"rawModeData": "{\n    \"input\" : {\n        \"node\" : \"pcc://192.168.100.1\",\n        \"name\" : \"foo\",\n        \"network-topology-ref\": \"/network-topology:network-topology/network-topology:topology[network-topology:topology-id=\\\"pcep-topology\\\"]\",\n        \"arguments\": {\n            \"lsp\": {\n                \"administrative\": \"true\",\n                \"delegate\": \"true\"\n            },\n            \"bandwidth\": {\n                \"bandwidth\": \"QvoAAA==\"\n            },\n            \"ero\" : {\n                \"subobject\" : [\n                    {\n                        \"loose\" : \"false\",\n                        \"ip-prefix\" : { \"ip-prefix\" : \"192.168.101.2/32\" }\n                    },\n                    {\n                        \"loose\" : \"false\",\n                        \"ip-prefix\" : { \"ip-prefix\" : \"192.168.105.2/32\" }\n                    },\n                    {\n                        \"loose\" : \"false\",\n                        \"ip-prefix\" : { \"ip-prefix\" : \"192.168.100.4/32\" }\n                    }\n                ]\n            }\n        }\n    }\n}"
+			"rawModeData": "{\n    \"input\" : {\n        \"node\" : \"pcc://192.168.100.1\",\n        \"name\" : \"foo\",\n        \"network-topology-ref\": \"/network-topology:network-topology/network-topology:topology[network-topology:topology-id=\\\"pcep-topology\\\"]\",\n        \"arguments\": {\n            \"pcep-ietf-stateful:lsp\": {\n                \"administrative\": \"true\",\n                \"delegate\": \"true\"\n            },\n            \"ero\" : {\n                \"subobject\" : [\n                    {\n                        \"loose\" : \"false\",\n                        \"ip-prefix\" : { \"ip-prefix\" : \"192.168.99.2/32\" }\n                    },\n                    {\n                        \"loose\" : \"false\",\n                        \"ip-prefix\" : { \"ip-prefix\" : \"192.168.100.2/32\" }\n                    }\n                ]\n            }\n        }\n    }\n}"
 		},
 		{
 			"id": "bf6fca19-e168-8249-2f61-0586109d12fb",
 			"headers": "Accept: application/json\nContent-Type: application/xml\nAuthorization: {{authorization}}\n",
-			"url": "{{oper}}/network-topology:network-topology/topology/pcep-topology",
+			"url": "{{oper}}/{{topo}}/pcep-topology",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -139,12 +130,11 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1434566048363,
+			"time": 1439463682994,
 			"name": "Get PCE-P Topology",
 			"description": "",
 			"collectionId": "a638e9af-70ec-4db2-2d8d-35f6803c90a0",
-			"responses": [],
-			"synced": false
+			"responses": []
 		},
 		{
 			"id": "ce6c3fa0-4f8a-facd-e7f7-7b212dff9f72",
@@ -164,7 +154,6 @@
 			"description": "",
 			"collectionId": "a638e9af-70ec-4db2-2d8d-35f6803c90a0",
 			"responses": [],
-			"synced": false,
 			"rawModeData": "<input>\n    <node>pcc://192.168.100.1</node>\n    <name>cisco</name>\n    <arguments>\n        <lsp xmlns:stateful=\"urn:opendaylight:params:xml:ns:yang:pcep:ietf:stateful\">\n            <delegate>true</delegate>\n            <administrative>true</administrative>\n            <tlvs>\n                <vendor-information-tlv>\n                    <enterprise-number>9</enterprise-number>\n                    <igp-auto-route xmlns:cisco=\"urn:opendaylight:params:xml:ns:yang:pcep:cisco\"/>\n                </vendor-information-tlv>\n            </tlvs>\n        </lsp>\n        <endpoints-obj>\n            <ipv4>\n                <source-ipv4-address>192.168.100.1</source-ipv4-address>\n                <destination-ipv4-address>192.168.100.4</destination-ipv4-address>\n            </ipv4>\n        </endpoints-obj>\n        <ero>\n            <subobject>\n                <loose>false</loose>\n                <ip-prefix><ip-prefix>192.168.101.2/32</ip-prefix></ip-prefix>\n            </subobject>\n            <subobject>\n                <loose>false</loose>\n                <ip-prefix><ip-prefix>192.168.105.2/32</ip-prefix></ip-prefix>\n            </subobject>\n            <subobject>\n                <loose>false</loose>\n                <ip-prefix><ip-prefix>192.168.100.4/32</ip-prefix></ip-prefix>\n            </subobject>\n        </ero>\n    </arguments>\n    <network-topology-ref xmlns:topo=\"urn:TBD:params:xml:ns:yang:network-topology\">/topo:network-topology/topo:topology[topo:topology-id=\"pcep-topology\"]</network-topology-ref>\n</input>"
 		}
 	]
